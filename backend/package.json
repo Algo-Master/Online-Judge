@@ -1,0 +1,28 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Algo-Master/Online-Judge.git"
+  },
+  "author": "Pratham",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Algo-Master/Online-Judge/issues"
+  },
+  "homepage": "https://github.com/Algo-Master/Online-Judge#readme",
+  "description": "",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.4.1",
+    "nodemon": "^3.1.2"
+  }
+}
