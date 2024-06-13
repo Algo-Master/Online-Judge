@@ -1,10 +1,13 @@
 const express = require("express");
 const app = express();
+const cors = require("cors");
 const { DBConnection } = require("./database/db");
 const User = require("./models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
+
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -51,7 +54,7 @@ app.post("/register", async (req, res) => {
     user.password = undefined;
     res
       .status(200)
-      .json({ message: "You have successfully registered!", user });
+      .json({ success: true, message: "You have successfully registered!", user });
   } catch (error) {
     console.log(error);
   }
