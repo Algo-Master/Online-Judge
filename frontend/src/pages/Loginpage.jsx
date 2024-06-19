@@ -1,20 +1,19 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-// import "./compcss/signup.css";
-// import rocket from "../assets/rocket.png";
-const host = import.meta.env.VITE_BACKEND_URL;
+import "../Css/loginpage.css";
+import googleLogo from "../Assets/GoogleLogo.png";
 
-const Login = () => {
-  // console.log(host);
+const Loginpage = () => {
   const navigate = useNavigate();
   const [inputValue, setInputValue] = useState({
     email: "",
     password: "",
   });
+
   const { email, password } = inputValue;
+
   const handleOnChange = (e) => {
     const { name, value } = e.target;
     setInputValue({
@@ -25,52 +24,52 @@ const Login = () => {
 
   const handleError = (err) =>
     toast.error(err, {
-      position: "bottom-left",
+      position: "top-center",
     });
+
   const handleSuccess = (msg) =>
     toast.success(msg, {
-      position: "bottom-left",
+      position: "top-center",
     });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await axios.post(`${host}/login`, {
-        ...inputValue,
-      });
-
+      const { data } = await axios.post(
+        `http://localhost:5000/login`,
+        { ...inputValue },
+        { withCredentials: true }
+      );
       const { success, message } = data;
+
       if (success) {
-        localStorage.setItem("token", data.token);
         handleSuccess(message);
-        localStorage.setItem("useremail", data.userid);
         setTimeout(() => {
-          navigate("/home");
-        }, 1000);
+          navigate("/problemslist");
+        }, 2000);
       } else {
         handleError(message);
       }
     } catch (error) {
-      console.log(error);
+      const errorMessage = error.response?.data || "Something went wrong";
+      handleError(errorMessage);
     }
     setInputValue({
-      ...inputValue,
       email: "",
       password: "",
     });
   };
 
   return (
-    <div className="signupfull">
-      {/* <img src={rocket} className="rocket" /> */}
-      <h1>Online Judge</h1>
-      <div className="form_container1 form_container">
-        <h2>Login Account</h2>
+    <div className="LoginPage">
+      <div className="header">
+        <img src="/Assets/logo.png" alt="Logo" />
+      </div>
+      <div className="content">
+        <h2>Log In</h2>
         <form onSubmit={handleSubmit}>
-          <div>
-            <label className="email" htmlFor="email">
-              Email
-            </label>
+          <div className="boxes">
+            <h5 className="top">Email</h5>
             <input
               type="email"
               name="email"
@@ -78,11 +77,7 @@ const Login = () => {
               placeholder="Enter your email"
               onChange={handleOnChange}
             />
-          </div>
-          <div>
-            <label className="email" htmlFor="password">
-              Password
-            </label>
+            <h5>Password</h5>
             <input
               type="password"
               name="password"
@@ -90,18 +85,24 @@ const Login = () => {
               placeholder="Enter your password"
               onChange={handleOnChange}
             />
+            <button className="loginPg" type="submit">
+              Log In
+            </button>
+            <p className="checking">or</p>
+            <button className="google">
+              <img src={googleLogo} alt="Google Logo" className="google-logo" />
+              Continue with Google
+            </button>
           </div>
-          <button className="sub1" type="submit">
-            Submit
-          </button>
-          <span>
-            Already have an account? <Link to={"/signup"}>Signup</Link>
-          </span>
         </form>
-        <ToastContainer />
+        <p className="last">Don't have an account?</p>
+        <Link to="/register" className="last">
+          Sign up
+        </Link>
       </div>
+      <ToastContainer />
     </div>
   );
 };
 
-export default Login;
+export default Loginpage;
