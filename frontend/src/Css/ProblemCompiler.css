@@ -1,0 +1,153 @@
+
+* {
+    color: white;
+}
+
+a {
+    text-decoration: none;
+}
+
+/* Header */
+.headerComp {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    border-bottom: 1px solid white;
+}
+
+.headerComp img {
+    max-width: 150px;
+    max-height: 150px;
+    cursor: pointer;
+}
+
+.right {
+    display: flex;
+    align-items: center;
+}
+
+.right a {
+    margin-left: 20px;
+}
+
+.right a:first-child {
+    margin-left: 0;
+}
+
+.profileLogo {
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+}
+.cmpBtn{
+    border: none;
+    padding-left: 50px;
+}
+/* Content */
+.contentCompiler {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    padding-top: 0;
+}
+
+h1, h3{
+    padding: 10px;
+    margin: 0;
+}
+
+p{
+    margin: 5px;
+}
+.Comp {
+    min-width: 50%;
+    padding-top: 10px;
+    padding-left: 20px;
+    height: 100%;
+}
+
+.firstTop {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 5px;
+    align-items: center;
+}
+.rightSide{
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    margin-left: 20px;
+}
+
+.actionButtons{
+    width: 100%;
+    height: 31.6px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.runButton, .submitButton {
+    border: none;
+    border-radius: 7px;
+    background-color: #28a745;
+    color: white;
+    cursor: pointer;
+    width: 48%;
+    height: 31.6px;
+}
+
+.runButton:hover, .submitButton:hover {
+    opacity: 0.8;
+}
+
+.firstTop a {
+    margin-right: 20px;
+}
+
+.ProblemDesc {
+    width: 50%;
+    border-right: 1px solid grey;
+}
+/* Dropdown */
+.dropdown select {
+    padding: 5px;
+    font-size: 16px;
+}
+
+.dropdown select:focus {
+    outline: none;
+}
+
+.dropdown select option {
+    font-size: 10px;
+}
+
+/* --- CODE EDITOR ---  */
+
+.codeEditor, .manualTestCaseInput, .outputBox {
+    margin-bottom: 10px;
+}
+
+.codeInput, .manualTestCase, .outputDisplay {
+    width: 100%;
+    padding-bottom: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 7px;
+    font-size: 14px;
+    background-color: #333;
+}
+
+.codeEditor .codeInput {
+    height: calc(100vh - 400px); /* Maximum height for code editor */
+}
+
+.manualTestCase {
+    height: 100px; 
+}
+
+.outputDisplay {
+    height: 100px; 
+    background-color: #444; 
+}

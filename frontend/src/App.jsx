@@ -7,8 +7,8 @@ import Landingpage from "./pages/Landingpage";
 import Loginpage from "./pages/Loginpage";
 import Registrationpage from './pages/Registrationpage';
 import Problemlist from './pages/Problemlist';
-// import AddProblemPage from './pages/AddProblemPage';
-// import CompilerPage from './pages/CompilerPage';
+import AddProblemPage from './pages/AddProblemPage';
+import ProblemCompiler from './pages/ProblemCompiler';
 // import ProfilePage from './pages/ProfilePage';
 import { UserProvider } from "./UserData";
 const App = () => {
@@ -21,9 +21,9 @@ const App = () => {
             <Route path="/login" element={<Loginpage />} />
             <Route path="/register" element={<Registrationpage />} />
             <Route path="/problemslist" element={<Problemlist />} />/
-            {/* <Route path="/problems/add-problem" element={<AddProblemPage />} />
-            <Route path="/problems/:problemId" element={<CompilerPage />} />
-            <Route path="profile/:userId" element={<ProfilePage/>} /> */}
+            <Route path="/problems/add-problem" element={<AddProblemPage />} />
+            <Route path="/problems/:problemId" element={<ProblemCompiler />} />
+            {/* <Route path="profile/:userId" element={<ProfilePage/>} /> */}
           </Routes>
         </UserProvider>
       </Router>

@@ -3,6 +3,7 @@ const app = express();
 const cors = require("cors");
 const { DBConnection } = require("./database/db");
 const User = require("./models/User");
+const Problem = require("./models/Problem");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
@@ -53,6 +54,8 @@ app.post("/register", async (req, res) => {
       lastName,
       email,
       password: hashedpassword,
+      solvedProblems,
+      admin: false
     });
 
     // Generate a token for user and send it
@@ -141,6 +144,39 @@ app.get("/authenticate", async (req, res) => {
     }
     console.error("Error fetching user data:", error);
     res.status(500).json({ error: "Error fetching user data" });
+  }
+});
+
+// ------------------------------------ ADD PROBLEM ------------------------------------
+
+app.post("/problems/add-problem", async (req, res) => {
+  try {
+      const { title, difficulty, description, acceptanceRate, inputFormat, outputFormat, testCases } = req.body;
+
+      if (!title || !difficulty || !description || !acceptanceRate || !inputFormat || !outputFormat) {
+          return res.status(400).send("Please fill all required fields");
+      }
+
+      // Get the highest current problem number and increment it for the new problem
+      const highestProblem = await Problem.findOne().sort('-number').exec();
+      const newProblemNumber = highestProblem ? highestProblem.number + 1 : 1;
+
+      const problem = new Problem({
+          number: newProblemNumber,
+          title,
+          difficulty,
+          description,
+          inputFormat,
+          outputFormat,
+          acceptance_rate: acceptanceRate,
+          testCases,
+      });
+
+      await problem.save();
+      res.status(201).json({ message: 'Problem added successfully', problem });
+  } catch (error) {
+      console.error(error);
+      res.status(500).send("Internal Atlas server error");
   }
 });
 

@@ -89,7 +89,7 @@ const ProblemsPage = () => {
     <div className="split">
       <div className={`dashboard ${isMinimized ? 'minimized' : ''}`}>
         <button className='btnPrb dashMainBtn' onClick={handleDashMainBtnClick}>
-          <img src="/Assets/DashboardLogo.png" alt="Logo" />
+          <img src="../Assets/DashboardLogo.png" alt="Logo" />
           <span>{!isMinimized && 'Dashboard'}</span>
         </button>
         <button className='btnPrb'>

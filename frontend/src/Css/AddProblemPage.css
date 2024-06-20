@@ -1,0 +1,69 @@
+.add-problem-page {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 10px;
+    border-radius: 7px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  form{  
+    display: grid; /*Element will be arranged line by line*/
+  }
+  .add-problem-page label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+  }
+  
+  /*.add-problem-page input, */
+  .add-problem-page textarea {
+    max-width: 600px;
+    height: 100px;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .add-problem-page button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .add-problem-page .submitBtn{
+    background-color: #38b000;
+  }
+  .descTxt{
+    height: 100%;
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  .add-problem-page button:hover {
+    background-color: #3e8e41;
+  }
+  
+  .add-problem-page input, select{
+    margin-left: 10px;
+  }
+  
+  .AddPrbBtn{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  
+  .tc{
+    text-align: left;
+    padding-left: 0;
+  }
+  
+  .inputOutputTxt{
+    width: 100%;
+  }
