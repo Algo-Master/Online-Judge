@@ -1,3 +1,6 @@
+.env
+src/Assets
+
 # Logs
 logs
 *.log

@@ -2,8 +2,8 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import './ProblemsCSS.css';
-import { UserContext } from './UserContext'; // Adjust the path as needed
+import '../Css/problemlist.css';
+import { UserContext } from '../UserData'; // Adjust the path as needed
 
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -14,7 +14,7 @@ const CodingProblems = () => {
   useEffect(() => {
     const fetchProblems = async () => {
       try {
-        const response = await axios.get('https://api.codequest.me/problemslist');
+        const response = await axios.get('http://localhost:5000/problemlist');
         setCodingProblems(response.data);
       } catch (error) {
         console.error('Error fetching problems:', error);
@@ -69,9 +69,9 @@ const ProblemsPage = () => {
 
   const onClickProfileBtn = () => {
     // console.log('User data from context:', user);
-    //     if (user) {
-    //         console.log('User ID:', user.user._id);
-    //     }
+    // if (user) {
+    //     console.log('User ID:', user.user._id);
+    // }
     if (user && user.user._id) { 
       navigate(`/profile/${user.user._id}`); 
     } else {
@@ -110,12 +110,12 @@ const ProblemsPage = () => {
         </button>
         
         {/* Conditional rendering for the Add Problem button */}
-        {user && user.user.Admin && (
+        {/* {user && user.user.Admin && ( */}
           <button className='btnPrb' onClick={() => navigate('/problems/add-problem')}>
             <img src="/Assets/addProblem.png" alt="Logo" />
             <span>{!isMinimized && 'Add Problem'}</span>
           </button>
-        )}
+        {/* )} */}
       </div>
 
       <div className="prbRightSide">
@@ -139,7 +139,7 @@ const ProblemsPage = () => {
           <button className='PrbTagsBtn'>LinkedList</button>
         </div>
 
-        <CodingProblems />
+        {/* <CodingProblems /> */}
       </div>
     </div>
   );
