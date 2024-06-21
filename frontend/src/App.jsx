@@ -8,7 +8,7 @@ import Loginpage from "./pages/Loginpage";
 import Registrationpage from './pages/Registrationpage';
 import Problemlist from './pages/Problemlist';
 import AddProblemPage from './pages/AddProblemPage';
-import ProblemCompiler from './pages/ProblemCompiler';
+import Compilerpage from './pages/Compilerpage';
 // import ProfilePage from './pages/ProfilePage';
 import { UserProvider } from "./UserData";
 const App = () => {
@@ -22,7 +22,7 @@ const App = () => {
             <Route path="/register" element={<Registrationpage />} />
             <Route path="/problemslist" element={<Problemlist />} />/
             <Route path="/problems/add-problem" element={<AddProblemPage />} />
-            <Route path="/problems/:problemId" element={<ProblemCompiler />} />
+            <Route path="/problems/:problemId" element={<Compilerpage />} />
             {/* <Route path="profile/:userId" element={<ProfilePage/>} /> */}
           </Routes>
         </UserProvider>

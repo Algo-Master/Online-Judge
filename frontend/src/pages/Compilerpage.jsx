@@ -3,10 +3,10 @@ import { Link, useParams, useNavigate } from "react-router-dom";
 import axios from 'axios';
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-import '../Css/ProblemCompiler.css';
+import '../Css/Compilerpage.css';
 import { UserContext } from '../UserData';
 
-function CompilerPage() {
+const Compilerpage = () => {
     const user = useContext(UserContext);
     const { problemId } = useParams();
     const navigate = useNavigate();
@@ -26,7 +26,7 @@ function CompilerPage() {
     useEffect(() => {
         const fetchProblem = async () => {
             try {
-                const response = await axios.get(`https://compiler.codequest.me/problems/${problemId}`);
+                const response = await axios.get(`http://localhost:8000/problems/${problemId}`);
                 setProblem(response.data.problem);
                 if (response.data.redirectUrl) {
                     navigate(response.data.redirectUrl);
@@ -202,4 +202,4 @@ function CompilerPage() {
     );
 }
 
-export default CompilerPage;
+export default Compilerpage;

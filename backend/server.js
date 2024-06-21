@@ -54,7 +54,6 @@ app.post("/register", async (req, res) => {
       lastName,
       email,
       password: hashedpassword,
-      solvedProblems,
       admin: false
     });
 
@@ -177,6 +176,18 @@ app.post("/problems/add-problem", async (req, res) => {
   } catch (error) {
       console.error(error);
       res.status(500).send("Internal Atlas server error");
+  }
+});
+
+// ------------------------------------ FETCH PROBLEMS ------------------------------------
+
+app.get("/problemslist", async (req, res) => {
+  try {
+      const problems = await Problem.find({});
+      res.status(200).json(problems);
+  } catch (error) {
+      console.error(error);
+      res.status(500).send("Internal server error");
   }
 });
 

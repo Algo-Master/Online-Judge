@@ -14,7 +14,8 @@ const CodingProblems = () => {
   useEffect(() => {
     const fetchProblems = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/problemlist');
+        const response = await axios.get('http://localhost:5000/problemslist');
+        // console.log(response);
         setCodingProblems(response.data);
       } catch (error) {
         console.error('Error fetching problems:', error);
@@ -61,7 +62,7 @@ const ProblemsPage = () => {
   const [isMinimized, setIsMinimized] = useState(false);
   const navigate = useNavigate();
   const user = useContext(UserContext); // Get the current user information from context
-  // console.log({user});
+  console.log({user});
 
   const handleDashMainBtnClick = () => {
     setIsMinimized(prevState => !prevState);
@@ -110,7 +111,7 @@ const ProblemsPage = () => {
         </button>
         
         {/* Conditional rendering for the Add Problem button */}
-        {/* {user && user.user.Admin && ( */}
+        {/* {user && user.user.admin && ( */}
           <button className='btnPrb' onClick={() => navigate('/problems/add-problem')}>
             <img src="/Assets/addProblem.png" alt="Logo" />
             <span>{!isMinimized && 'Add Problem'}</span>
@@ -139,7 +140,7 @@ const ProblemsPage = () => {
           <button className='PrbTagsBtn'>LinkedList</button>
         </div>
 
-        {/* <CodingProblems /> */}
+        <CodingProblems />
       </div>
     </div>
   );
