@@ -62,7 +62,7 @@ const Problemlist = () => {
   const [isMinimized, setIsMinimized] = useState(false);
   const navigate = useNavigate();
   const user = useContext(UserContext); // Get the current user information from context
-  console.log({user});
+  // console.log({user});
 
   const handleDashMainBtnClick = () => {
     setIsMinimized(prevState => !prevState);

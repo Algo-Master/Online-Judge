@@ -6,6 +6,7 @@ const User = require("./models/User");
 const Problem = require("./models/Problem");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const cookieParser = require("cookie-parser");
 
 const corsOptions = {
   origin: "http://localhost:5173", // Replace with your frontend origin
@@ -15,6 +16,7 @@ const corsOptions = {
   // maxAge: 3600, // How long (in seconds) the options preflight request can be cached
 };
 
+app.use(cookieParser());
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -122,11 +124,11 @@ app.post("/login", async (req, res) => {
 
 // -----------------------FETCH CURRENT USER DATA -----------------------------------------
 
-app.get("/authorize", async (req, res) => {
-  const token = req.cookies?.token;
-  // console.log(req.cookies);
+app.get("/authenticate", async (req, res) => {
+  const token = req.cookies?.token
+  // console.log(token);
   if (!token) {
-    return res.status(401).json({req}).send("Authentication required!");
+    return res.status(401).send("Authentication required!");
   }
   try {
     const decoded = jwt.verify(token, process.env.SECRET_KEY);
