@@ -58,7 +58,7 @@ const CodingProblems = () => {
   );
 };
 
-const ProblemsPage = () => {
+const Problemlist = () => {
   const [isMinimized, setIsMinimized] = useState(false);
   const navigate = useNavigate();
   const user = useContext(UserContext); // Get the current user information from context
@@ -111,12 +111,12 @@ const ProblemsPage = () => {
         </button>
         
         {/* Conditional rendering for the Add Problem button */}
-        {/* {user && user.user.admin && ( */}
+        {user && user.user && user.user.admin && (
           <button className='btnPrb' onClick={() => navigate('/problems/add-problem')}>
             <img src="/Assets/addProblem.png" alt="Logo" />
             <span>{!isMinimized && 'Add Problem'}</span>
           </button>
-        {/* )} */}
+        )}
       </div>
 
       <div className="prbRightSide">
@@ -146,4 +146,4 @@ const ProblemsPage = () => {
   );
 };
 
-export default ProblemsPage;
+export default Problemlist;

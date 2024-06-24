@@ -13,7 +13,7 @@ const UserProvider = ({ children }) => {
     const fetchUser = async () => {
       try {
         // Making a GET request to fetch the authenticated user
-        const response = await axios.get(`http://localhost:5000/authenticate`, {
+        const response = await axios.get(`http://localhost:5000/authorize`, {
           withCredentials: true, // Ensure credentials (cookies) are included
         });
         console.log('User data fetched:', response.data); // Log the response data for debugging

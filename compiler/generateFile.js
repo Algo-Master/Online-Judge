@@ -8,7 +8,7 @@ if (!fs.existsSync(dirCodes)) {
   fs.mkdirSync(dirCodes, { recursive: true });
 }
 
-const generateFile = (language, code) => {
+const generateFile = async (language, code) => {
   // Create the directory for the specific language if it doesn't exist
   const languageDir = path.join(dirCodes, language);
   if (!fs.existsSync(languageDir)) {

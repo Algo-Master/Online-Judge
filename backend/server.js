@@ -122,11 +122,11 @@ app.post("/login", async (req, res) => {
 
 // -----------------------FETCH CURRENT USER DATA -----------------------------------------
 
-app.get("/authenticate", async (req, res) => {
+app.get("/authorize", async (req, res) => {
   const token = req.cookies?.token;
-  console.log("Request recieved and token is: ", token);
+  // console.log(req.cookies);
   if (!token) {
-    return res.status(401).send("Authentication required!");
+    return res.status(401).json({req}).send("Authentication required!");
   }
   try {
     const decoded = jwt.verify(token, process.env.SECRET_KEY);
@@ -145,6 +145,23 @@ app.get("/authenticate", async (req, res) => {
     res.status(500).json({ error: "Error fetching user data" });
   }
 });
+
+// -------------------------------- FETCHING PROBLEM DATA -------------------------------
+
+app.get("/problems/:problemId", async (req, res) => {
+  const { problemId } = req.params;
+  try {
+      const problem = await Problem.findById(problemId);
+      if (!problem) {
+          return res.status(404).json({ error: 'Problem not found' });
+      }
+      res.json({ problem });
+  } catch (error) {
+      console.error('Error fetching problem data:', error);
+      res.status(500).json({ error: 'Error fetching problem data' });
+  }
+});
+
 
 // ------------------------------------ ADD PROBLEM ------------------------------------
 
