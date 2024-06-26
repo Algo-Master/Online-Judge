@@ -51,6 +51,10 @@ const Compilerpage = () => {
             setOutput("Input data is missing !!");
             return;
         }
+        if(!user.user) {
+            toast.error("U need to login to proceed further", { position: "top-center" });
+            return;
+        }
         const payload = {
             language: selectedLanguage,
             code,
@@ -69,6 +73,10 @@ const Compilerpage = () => {
     const handleSubmit = async () => {
         if (!code.trim()) {
             toast.error("Code cannot be empty!", { position: "top-center" });
+            return;
+        }
+        if(!user.user) {
+            toast.error("U need to login to proceed further", { position: "top-center" });
             return;
         }
         const payload = {

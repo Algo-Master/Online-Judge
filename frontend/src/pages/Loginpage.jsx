@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
+import { UserContext } from "../UserData";
 import { ToastContainer, toast } from "react-toastify";
 import "../Css/loginpage.css";
 import googleLogo from "../Assets/GoogleLogo.png";
 
 const Loginpage = () => {
   const navigate = useNavigate();
+  const userdata = useContext(UserContext);
   const [inputValue, setInputValue] = useState({
     email: "",
     password: "",
@@ -40,10 +42,12 @@ const Loginpage = () => {
         { ...inputValue },
         { withCredentials: true }
       );
-      const { success, message } = data;
+      const { success, message, existinguser } = data;
 
       if (success) {
         handleSuccess(message);
+        userdata.setUser(existinguser);
+        
         setTimeout(() => {
           navigate("/problemslist");
         }, 2000);

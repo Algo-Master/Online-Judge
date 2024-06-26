@@ -61,8 +61,8 @@ const CodingProblems = () => {
 const Problemlist = () => {
   const [isMinimized, setIsMinimized] = useState(false);
   const navigate = useNavigate();
-  const user = useContext(UserContext); // Get the current user information from context
-  // console.log({user});
+  const {user} = useContext(UserContext); // Get the current user information from context
+  // console.log(user);
 
   const handleDashMainBtnClick = () => {
     setIsMinimized(prevState => !prevState);
@@ -73,8 +73,8 @@ const Problemlist = () => {
     // if (user) {
     //     console.log('User ID:', user.user._id);
     // }
-    if (user && user.user._id) { 
-      navigate(`/profile/${user.user._id}`); 
+    if (user && user._id) { 
+      navigate(`/profile/${user._id}`); 
     } else {
       console.error('User ID not found');
       toast.error('User ID not found!', {
@@ -111,7 +111,7 @@ const Problemlist = () => {
         </button>
         
         {/* Conditional rendering for the Add Problem button */}
-        {user && user.user && user.user.admin && (
+        {user && user.user_type!="user" && (
           <button className='btnPrb' onClick={() => navigate('/problems/add-problem')}>
             <img src="/Assets/addProblem.png" alt="Logo" />
             <span>{!isMinimized && 'Add Problem'}</span>

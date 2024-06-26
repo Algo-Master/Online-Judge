@@ -56,19 +56,18 @@ app.post("/register", async (req, res) => {
       lastName,
       email,
       password: hashedpassword,
-      admin: false
+      user_type: "user"
     });
 
-    // Generate a token for user and send it
-    const token = jwt.sign({ id: user._id, email }, process.env.SECRET_KEY, {
-      expiresIn: "1h",
-    });
-    user.token = token;
+    // Generate a token for user and send it if required
+    // const token = jwt.sign({ id: user._id, email }, process.env.SECRET_KEY, {
+    //   expiresIn: "1h",
+    // });
+    // user.token = token;
     user.password = undefined;
     res.status(200).json({
       success: true, // Sole change in the code from class.
-      message: "You have successfully registered!",
-      user,
+      message: "You have successfully registered!"
     });
   } catch (error) {
     console.log(error);
@@ -101,7 +100,7 @@ app.post("/login", async (req, res) => {
     const token = jwt.sign({ id: existinguser._id }, process.env.SECRET_KEY, {
       expiresIn: "1h",
     });
-    existinguser.token = token;
+    // existinguser.token = token;
     existinguser.password = undefined;
 
     // Store token in Cookies with options
@@ -115,6 +114,7 @@ app.post("/login", async (req, res) => {
       message: "You have successfully logged in",
       success: true,
       token,
+      existinguser
     });
   } catch (error) {
     console.log(error);

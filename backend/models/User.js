@@ -25,8 +25,8 @@ const userSchema = new mongoose.Schema({
       type:Array,
       default:[],
   },
-  admin:{
-      type:Boolean,
+  user_type:{
+      type:String,
       default:false,
   }
 });

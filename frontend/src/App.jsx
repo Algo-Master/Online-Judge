@@ -3,12 +3,12 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 // dotenv.config();
 import "./App.css";
 
-import Landingpage from "./pages/Landingpage";
-import Loginpage from "./pages/Loginpage";
-import Registrationpage from './pages/Registrationpage';
-import Problemlist from './pages/Problemlist';
-import AddProblemPage from './pages/AddProblemPage';
-import Compilerpage from './pages/Compilerpage';
+import Landingpage from "./Pages/Landingpage";
+import Loginpage from "./Pages/Loginpage";
+import Registrationpage from './Pages/Registrationpage';
+import Problemlist from './Pages/Problemlist';
+import AddProblemPage from './Pages/AddProblemPage';
+import Compilerpage from './Pages/Compilerpage';
 // import ProfilePage from './pages/ProfilePage';
 import { UserProvider } from "./UserData";
 const App = () => {
