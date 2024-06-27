@@ -1,12 +1,14 @@
 // ProblemsPage.js
-import React, { useState, useEffect, useContext } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import '../Css/problemlist.css';
-import { UserContext } from '../UserData'; // Adjust the path as needed
+import React, { useState, useEffect, useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import "../Css/problemlist.css";
+import { UserContext } from "../UserData"; // Adjust the path as needed
+import { Xnav } from "../Components/Navbar";
+import { Xfooter } from "../Components/Footer";
 
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const CodingProblems = () => {
   const [codingProblems, setCodingProblems] = useState([]);
@@ -14,11 +16,11 @@ const CodingProblems = () => {
   useEffect(() => {
     const fetchProblems = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/problemslist');
+        const response = await axios.get("http://localhost:5000/problemslist");
         // console.log(response);
         setCodingProblems(response.data);
       } catch (error) {
-        console.error('Error fetching problems:', error);
+        console.error("Error fetching problems:", error);
       }
     };
 
@@ -26,34 +28,66 @@ const CodingProblems = () => {
   }, []);
 
   return (
-    <div className="list">
-      <ToastContainer />
-      <table>
-        <thead>
-          <tr>
-            <th>NUMBER</th>
-            <th>TITLE</th>
-            <th>DIFFICULTY</th>
-            <th>SOLVED</th>
-            <th>ACCEPTANCE RATE</th>
-          </tr>
-        </thead>
-        <tbody>
-          {codingProblems.map((problem, index) => (
-            <tr key={index}>
-              <td>{index + 1}</td>
-              <td>
-                <div className="prbTitle">
-                  <Link to={`/problems/${problem._id}`}>{problem.title}</Link>
-                </div>
-              </td>
-              <td>{problem.difficulty}</td>
-              <td>{problem.solved ? 'No' : ''}</td>
-              <td>{problem.acceptance_rate}%</td>
+    <div class="table" id="customers_table">
+      <section class="table__header">
+        <h1>Problems List</h1>
+        <div class="input-group">
+          <input type="search" placeholder="Search Data..."></input>
+          <img src="images/search.png" alt=""></img>
+        </div>
+        <div class="export__file">
+          {/* <label for="export-file" class="export__file-btn" title="Export File"></label>
+                <input type="checkbox" id="export-file"></input>
+                <div class="export__file-options">
+                    <label>Export As &nbsp; &#10140;</label>
+                    <label for="export-file" id="toPDF">PDF <img src="images/pdf.png" alt=""></img></label>
+                    <label for="export-file" id="toJSON">JSON <img src="images/json.png" alt=""></img></label>
+                    <label for="export-file" id="toCSV">CSV <img src="images/csv.png" alt=""></img></label>
+                    <label for="export-file" id="toEXCEL">EXCEL <img src="images/excel.png" alt=""></img></label>
+                </div> */}
+        </div>
+      </section>
+      <section class="table__body">
+        <table>
+          <thead>
+            <tr>
+              <th>Id</th>
+              <th>Title</th>
+              <th> Problem Rating</th>
+              <th>Solvers</th>
+              <th>Status</th>
+              <th>Acceptance rate</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {codingProblems.map((problem, index) => (
+              <tr key={index}>
+                <td>
+                  <strong>{index + 1}</strong>
+                </td>
+                <td>
+                  <div className="prbTitle">
+                    <Link to={`/problems/${problem._id}`}>
+                      <strong>{problem.title}</strong>
+                    </Link>
+                  </div>
+                </td>
+                <td>
+                  <strong>{problem.difficulty}</strong>
+                </td>
+                <td>
+                  <p className="status no">
+                    <strong>{problem.solved ? "No" : ""}</strong>
+                  </p>
+                </td>
+                <td>
+                  <strong>{problem.acceptance_rate}%</strong>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </section>
     </div>
   );
 };
@@ -61,11 +95,19 @@ const CodingProblems = () => {
 const Problemlist = () => {
   const [isMinimized, setIsMinimized] = useState(false);
   const navigate = useNavigate();
-  const {user} = useContext(UserContext); // Get the current user information from context
+  const { user } = useContext(UserContext); // Get the current user information from context
   // console.log(user);
 
+  // HANDLE NAVIGATION TO SIGNUP PAGE
+  const handleSignUp = () => navigate("/register");
+
+  // HANDLE NAVIGATION TO LOGIN PAGE
+  const handleLogIn = () => {
+    navigate("/login"); // NAVIGATE TO THE LOGIN PAGE
+  };
+
   const handleDashMainBtnClick = () => {
-    setIsMinimized(prevState => !prevState);
+    setIsMinimized((prevState) => !prevState);
   };
 
   const onClickProfileBtn = () => {
@@ -73,75 +115,44 @@ const Problemlist = () => {
     // if (user) {
     //     console.log('User ID:', user.user._id);
     // }
-    if (user && user._id) { 
-      navigate(`/profile/${user._id}`); 
+    if (user && user._id) {
+      navigate(`/profile/${user._id}`);
     } else {
-      console.error('User ID not found');
-      toast.error('User ID not found!', {
+      console.error("User ID not found");
+      toast.error("User ID not found!", {
         position: "top-center",
       });
       setTimeout(() => {
         navigate(`/login`);
-      }, 2000); 
+      }, 2000);
     }
   };
 
   return (
-    <div className="split">
-      <div className={`dashboard ${isMinimized ? 'minimized' : ''}`}>
-        <button className='btnPrb dashMainBtn' onClick={handleDashMainBtnClick}>
-          <img src="../Assets/DashboardLogo.png" alt="Logo" />
-          <span>{!isMinimized && 'Dashboard'}</span>
-        </button>
-        <button className='btnPrb'>
-          <img src="/Assets/3LineLogo.png" alt="Logo" />
-          <span>{!isMinimized && 'Leaderboard'}</span>
-        </button>
-        <button className='btnPrb'>
-          <img src="/Assets/DiscussionLogo.png" alt="Logo" />
-          <span>{!isMinimized && 'Discussion'}</span>
-        </button>
-        <button className='btnPrb'>
-          <img src="/Assets/ProgressLogo.png" alt="Logo" />
-          <span>{!isMinimized && 'Progress'}</span>
-        </button>
-        <button className='btnPrb' onClick={onClickProfileBtn}>
-          <img src="/Assets/ProfileLogo.png" alt="Logo" />
-          <span>{!isMinimized && 'Profile'}</span>
-        </button>
-        
-        {/* Conditional rendering for the Add Problem button */}
-        {user && user.user_type!="user" && (
-          <button className='btnPrb' onClick={() => navigate('/problems/add-problem')}>
-            <img src="/Assets/addProblem.png" alt="Logo" />
-            <span>{!isMinimized && 'Add Problem'}</span>
-          </button>
-        )}
+    <div>
+      <div className="header">
+        <div className="nalore">
+          <div className="ojname">
+            <span className="ojname1">Algo</span>
+            <span className="ojname2">Hub</span>
+          </div>
+          <div className="button-group">
+            <button className="button">Button 1</button>
+            <button className="button" onClick={handleLogIn}>
+              Sign In
+            </button>
+            <button className="buttonsignup" onClick={handleSignUp}>
+              Sign up
+            </button>
+          </div>
+        </div>
+        <Xnav />
       </div>
 
-      <div className="prbRightSide">
-        <div className="search">
-          <h1>Problems</h1>
-          <input type="text" className="inpPrb" placeholder="Search Problems" />
-        </div>
-
-        <div className="tags">
-          <button className='PrbTagsBtn'>All</button>
-          <button className='PrbTagsBtn'>Easy</button>
-          <button className='PrbTagsBtn'>Medium</button>
-          <button className='PrbTagsBtn'>Hard</button>
-          <button className='PrbTagsBtn'>Binary Search</button>
-          <button className='PrbTagsBtn'>Recursion</button>
-          <button className='PrbTagsBtn'>DP</button>
-          <button className='PrbTagsBtn'>Back Tracking</button>
-          <button className='PrbTagsBtn'>Graph</button>
-          <button className='PrbTagsBtn'>Array</button>
-          <button className='PrbTagsBtn'>String</button>
-          <button className='PrbTagsBtn'>LinkedList</button>
-        </div>
-
+      <div className="body">
         <CodingProblems />
       </div>
+      <Xfooter />
     </div>
   );
 };

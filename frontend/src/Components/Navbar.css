@@ -1,0 +1,13 @@
+.navbar {
+    padding-left: 45px;
+    padding-top: 15px;
+    padding-bottom: 5px;
+    display: flex;
+    color: #ffffff;
+    background-color: transparent;
+}
+
+.navlinks {
+    color: #ffffff;
+    padding-left: 25px;
+}

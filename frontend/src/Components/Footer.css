@@ -1,0 +1,14 @@
+.cf-footer {
+    background-color: #cacaca;
+    height: fit-content;
+    padding-left: 70px;
+    padding-right: 70px;
+    justify-content: center;
+    padding-top: 50px;
+    padding-bottom: 70px;
+}
+
+.pfooter {
+    text-align: center;
+    margin-bottom: 10px;
+}
