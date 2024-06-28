@@ -53,10 +53,11 @@ const CodingProblems = () => {
             <tr>
               <th>Id</th>
               <th>Title</th>
-              <th> Problem Rating</th>
+              <th>Difficulty</th>
+              <th>Problem Rating</th>
               <th>Solvers</th>
               <th>Status</th>
-              <th>Acceptance rate</th>
+              <th>Acceptance</th>
             </tr>
           </thead>
           <tbody>
