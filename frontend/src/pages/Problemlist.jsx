@@ -13,6 +13,16 @@ import "react-toastify/dist/ReactToastify.css";
 const CodingProblems = () => {
   const [codingProblems, setCodingProblems] = useState([]);
 
+  function getStatusClass(difficulty) {
+    if (difficulty === "Easy") {
+      return "status easy";
+    } else if (difficulty === "Medium") {
+      return "status medium";
+    } else {
+      return "status hard";
+    }
+  }
+
   useEffect(() => {
     const fetchProblems = async () => {
       try {
@@ -74,15 +84,29 @@ const CodingProblems = () => {
                   </div>
                 </td>
                 <td>
-                  <strong>{problem.difficulty}</strong>
-                </td>
-                <td>
-                  <p className="status no">
-                    <strong>{problem.solved ? "No" : ""}</strong>
+                  <p className={getStatusClass(problem.difficulty)}>
+                    {problem.difficulty}
                   </p>
                 </td>
                 <td>
-                  <strong>{problem.acceptance_rate}%</strong>
+                  <p>
+                    <strong>{problem.rating}</strong>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <strong>{problem.solvers}</strong>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <strong>No</strong>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    <strong>{problem.acceptance}%</strong>
+                  </p>
                 </td>
               </tr>
             ))}

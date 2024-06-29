@@ -56,7 +56,7 @@ app.post("/register", async (req, res) => {
       lastName,
       email,
       password: hashedpassword,
-      user_type: "user"
+      user_type: "user",
     });
 
     // Generate a token for user and send it if required
@@ -67,7 +67,7 @@ app.post("/register", async (req, res) => {
     user.password = undefined;
     res.status(200).json({
       success: true, // Sole change in the code from class.
-      message: "You have successfully registered!"
+      message: "You have successfully registered!",
     });
   } catch (error) {
     console.log(error);
@@ -114,7 +114,7 @@ app.post("/login", async (req, res) => {
       message: "You have successfully logged in",
       success: true,
       token,
-      existinguser
+      existinguser,
     });
   } catch (error) {
     console.log(error);
@@ -125,7 +125,7 @@ app.post("/login", async (req, res) => {
 // -----------------------FETCH CURRENT USER DATA -----------------------------------------
 
 app.get("/authenticate", async (req, res) => {
-  const token = req.cookies?.token
+  const token = req.cookies?.token;
   // console.log(token);
   if (!token) {
     return res.status(401).send("Authentication required!");
@@ -153,48 +153,78 @@ app.get("/authenticate", async (req, res) => {
 app.get("/problems/:problemId", async (req, res) => {
   const { problemId } = req.params;
   try {
-      const problem = await Problem.findById(problemId);
-      if (!problem) {
-          return res.status(404).json({ error: 'Problem not found' });
-      }
-      res.json({ problem });
+    const problem = await Problem.findById(problemId);
+    if (!problem) {
+      return res.status(404).json({ error: "Problem not found" });
+    }
+    res.json({ problem });
   } catch (error) {
-      console.error('Error fetching problem data:', error);
-      res.status(500).json({ error: 'Error fetching problem data' });
+    console.error("Error fetching problem data:", error);
+    res.status(500).json({ error: "Error fetching problem data" });
   }
 });
-
 
 // ------------------------------------ ADD PROBLEM ------------------------------------
 
 app.post("/problems/add-problem", async (req, res) => {
   try {
-      const { title, difficulty, description, acceptanceRate, inputFormat, outputFormat, testCases } = req.body;
+    const {
+      title,
+      timel,
+      meml,
+      rating,
+      difficulty,
+      statement,
+      inputcriteria,
+      outputcriteria,
+      examples,
+      testcases,
+      notes,
+      solvers,
+      acceptance
+    } = req.body;
 
-      if (!title || !difficulty || !description || !acceptanceRate || !inputFormat || !outputFormat) {
-          return res.status(400).send("Please fill all required fields");
-      }
+    if (
+      !title ||
+      !timel ||
+      !meml ||
+      !rating ||
+      !difficulty ||
+      !statement ||
+      !inputcriteria ||
+      !outputcriteria ||
+      !examples ||
+      !testcases
+    ) {
+      return res.status(400).send("Please fill all required fields");
+    }
 
-      // Get the highest current problem number and increment it for the new problem
-      const highestProblem = await Problem.findOne().sort('-number').exec();
-      const newProblemNumber = highestProblem ? highestProblem.number + 1 : 1;
+    // Get the highest current problem number and increment it for the new problem
+    const highestProblem = await Problem.findOne().sort("-number").exec();
+    const newProblemNumber = highestProblem ? highestProblem.number + 1 : 1;
 
-      const problem = new Problem({
-          number: newProblemNumber,
-          title,
-          difficulty,
-          description,
-          inputFormat,
-          outputFormat,
-          acceptance_rate: acceptanceRate,
-          testCases,
-      });
+    const problem = new Problem({
+      number: newProblemNumber,
+      title,
+      timel,
+      meml,
+      rating,
+      difficulty,
+      statement,
+      inputcriteria,
+      outputcriteria,
+      examples,
+      testcases,
+      notes,
+      solvers,
+      acceptance
+    });
 
-      await problem.save();
-      res.status(201).json({ message: 'Problem added successfully', problem });
+    await problem.save();
+    res.status(201).json({ message: "Problem added successfully", problem });
   } catch (error) {
-      console.error(error);
-      res.status(500).send("Internal Atlas server error");
+    console.error(error);
+    res.status(500).send("Internal Atlas server error");
   }
 });
 
@@ -202,11 +232,11 @@ app.post("/problems/add-problem", async (req, res) => {
 
 app.get("/problemslist", async (req, res) => {
   try {
-      const problems = await Problem.find({});
-      res.status(200).json(problems);
+    const problems = await Problem.find({});
+    res.status(200).json(problems);
   } catch (error) {
-      console.error(error);
-      res.status(500).send("Internal server error");
+    console.error(error);
+    res.status(500).send("Internal server error");
   }
 });
 

@@ -13,6 +13,7 @@ function AddProblemPage() {
     timel: 0,
     meml: 0,
     rating: 0,
+    difficulty: "",
     statement: "",
     inputcriteria: "",
     outputcriteria: "",
@@ -88,12 +89,19 @@ function AddProblemPage() {
   };
 
   const handleSubmit = async (e) => {
-    // console.log(problemData);
-    if(problemData.examples[problemData.examples.length - 1][0] === undefined || problemData.examples[problemData.examples.length - 1][1] === undefined) {
+    console.log(problemData.examples[problemData.examples.length - 1].exinput);
+    if (
+      problemData.examples[problemData.examples.length - 1].exinput === "" ||
+      problemData.examples[problemData.examples.length - 1].exoutput === ""
+    ) {
       toast.error("Fill up the examples", { position: "top-center" });
       return;
     }
-    if(problemData.testcases[problemData.testcases.length - 1][0] === undefined || problemData.testcases[problemData.testcases.length - 1][1] === undefined) {
+    if (
+      problemData.testcases[problemData.testcases.length - 1].testinput ===
+        "" ||
+      problemData.testcases[problemData.testcases.length - 1].testoutput === ""
+    ) {
       toast.error("Fill up the testcases", { position: "top-center" });
       return;
     }
@@ -111,6 +119,7 @@ function AddProblemPage() {
         timel: 0,
         meml: 0,
         rating: 0,
+        difficulty: "",
         statement: "",
         inputcriteria: "",
         outputcriteria: "",
@@ -228,8 +237,13 @@ function AddProblemPage() {
                   type="text"
                   name="exinput"
                   placeholder="Enter your Input for example"
-                  value={problemData.examples[problemData.examples.length - 1].exinput}
-                  onChange={(e) => handleExampleChange(problemData.examples.length - 1, e)}
+                  value={
+                    problemData.examples[problemData.examples.length - 1]
+                      .exinput
+                  }
+                  onChange={(e) =>
+                    handleExampleChange(problemData.examples.length - 1, e)
+                  }
                   required
                 />
               </div>
@@ -240,8 +254,13 @@ function AddProblemPage() {
                   type="text"
                   name="exoutput"
                   placeholder="Enter your Output for example"
-                  value={problemData.examples[problemData.examples.length - 1].exoutput}
-                  onChange={(e) => handleExampleChange(problemData.examples.length - 1, e)}
+                  value={
+                    problemData.examples[problemData.examples.length - 1]
+                      .exoutput
+                  }
+                  onChange={(e) =>
+                    handleExampleChange(problemData.examples.length - 1, e)
+                  }
                   required
                 />
               </div>
@@ -262,8 +281,13 @@ function AddProblemPage() {
                   type="text"
                   name="testinput"
                   placeholder="Enter your Input for testcases"
-                  value={problemData.testcases[problemData.testcases.length - 1].testinput}
-                  onChange={(e) => handleTestCaseChange(problemData.testcases.length - 1, e)}
+                  value={
+                    problemData.testcases[problemData.testcases.length - 1]
+                      .testinput
+                  }
+                  onChange={(e) =>
+                    handleTestCaseChange(problemData.testcases.length - 1, e)
+                  }
                   required
                 />
               </div>
@@ -274,18 +298,23 @@ function AddProblemPage() {
                   type="text"
                   name="testoutput"
                   placeholder="Enter your Output for testcases"
-                  value={problemData.testcases[problemData.testcases.length - 1].testoutput}
-                  onChange={(e) => handleTestCaseChange(problemData.testcases.length - 1, e)}
+                  value={
+                    problemData.testcases[problemData.testcases.length - 1]
+                      .testoutput
+                  }
+                  onChange={(e) =>
+                    handleTestCaseChange(problemData.testcases.length - 1, e)
+                  }
                   required
                 />
               </div>
             </div>
             <div className="problempart">
               <button className="create" onClick={addtestcase}>
-                Create Example
+                Create Testcase
               </button>
               <button className="delete" onClick={removetestcase}>
-                Delete Example
+                Delete Testcase
               </button>
             </div>
             <div className="problempart">
@@ -304,7 +333,7 @@ function AddProblemPage() {
               <div className="problempart">
                 <p className="alignall linespace">Problem Rating</p>
                 <input
-                  className="ioarea smallinput expandable-input"
+                  className="customrating"
                   type="number"
                   name="rating"
                   placeholder="Rating"
@@ -312,10 +341,24 @@ function AddProblemPage() {
                   onChange={(e) => handleChange(e)}
                   required
                 />
+                <p className="linespace">Problem Difficulty</p>
+                <select
+                  name="difficulty"
+                  className="selector"
+                  onChange={(e) => handleChange(e)}
+                >
+                  <option value="Easy">Easy</option>
+                  <option value="Medium">
+                    Medium
+                  </option>
+                  <option value="Hard" selected>Hard</option>
+                </select>
               </div>
             </div>
             <div className="problempart">
-              <button className="addproblem" onClick={handleSubmit}>Add Problem</button>
+              <button className="addproblem" onClick={handleSubmit}>
+                Add Problem
+              </button>
             </div>
             <ToastContainer position="top-center" />
           </section>
