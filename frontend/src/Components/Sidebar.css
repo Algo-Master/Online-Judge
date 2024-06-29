@@ -1,0 +1,37 @@
+/* src/Components/Sidebar.css */
+.sidebar {
+  left: 0;
+  top: 0;
+  width: 175px;
+  background-color: #ffffff;
+  padding-top: 20px;
+  margin-right: 20px;
+  transition: 0.3s;
+  font-size: small;
+}
+
+.sidebar ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.sidebar ul li {
+  padding: 6px;
+  text-align: left;
+}
+
+.sidebar ul li a {
+  color: rgb(0, 0, 0);
+  text-decoration: none;
+  display: block;
+}
+
+.sublist {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease-out;
+}
+
+.sublist.open {
+  max-height: 200px; /* Adjust based on your needs */
+}

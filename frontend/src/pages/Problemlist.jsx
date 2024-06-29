@@ -118,7 +118,6 @@ const CodingProblems = () => {
 };
 
 const Problemlist = () => {
-  const [isMinimized, setIsMinimized] = useState(false);
   const navigate = useNavigate();
   const { user } = useContext(UserContext); // Get the current user information from context
   // console.log(user);
@@ -129,10 +128,6 @@ const Problemlist = () => {
   // HANDLE NAVIGATION TO LOGIN PAGE
   const handleLogIn = () => {
     navigate("/login"); // NAVIGATE TO THE LOGIN PAGE
-  };
-
-  const handleDashMainBtnClick = () => {
-    setIsMinimized((prevState) => !prevState);
   };
 
   const onClickProfileBtn = () => {
