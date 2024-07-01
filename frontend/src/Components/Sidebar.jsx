@@ -27,24 +27,24 @@ const Sidebar = () => {
           </Link>
           <ul className={`sublist ${openSections.section1 ? "open" : ""}`}>
             <li>
-              <a href="#subsection1-1">Subsection 1-1</a>
+              <Link to="algebra/prime_number">Prime Number</Link>
             </li>
             <li>
-              <a href="#subsection1-2">Subsection 1-2</a>
+              <Link to="algebra/linear_congruence_equations">Linear Congruence Equation</Link>
             </li>
           </ul>
         </li>
         <li onClick={() => toggleSection("section2")}>
-          <Link to="dynamic-programming">
+          <Link to="dynamic_programming">
             {/* Link to sub-path for Dynamic Programming */}
             <strong>Dynamic Programming</strong>
           </Link>
           <ul className={`sublist ${openSections.section2 ? "open" : ""}`}>
             <li>
-              <a href="#subsection2-1">Subsection 2-1</a>
+              <Link to="dynamic_programming/bottom-up-dynamic-programming">Bottom-up Dynamic Programming</Link>
             </li>
             <li>
-              <a href="#subsection2-2">Subsection 2-2</a>
+              <Link to="dynamic_programming/speeding-up-fibonacci-with-dynamic-programming-memoization">Speeding up Fibonacci with Dynamic Programming (Memoization)</Link>
             </li>
           </ul>
         </li>

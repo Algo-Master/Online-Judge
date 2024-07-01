@@ -47,9 +47,9 @@ const Loginpage = () => {
       if (success) {
         handleSuccess(message);
         userdata.setUser(existinguser);
-        
+
         setTimeout(() => {
-          navigate("/problemslist");
+          navigate("/");
         }, 2000);
       } else {
         handleError(message);
@@ -65,46 +65,48 @@ const Loginpage = () => {
   };
 
   return (
-    <div className="LoginPage">
-      <div className="header">
-        <img src="/Assets/logo.png" alt="Logo" />
-      </div>
-      <div className="content">
-        <h2>Log In</h2>
-        <form onSubmit={handleSubmit}>
-          <div className="boxes">
-            <h5 className="top">Email</h5>
-            <input
-              type="email"
-              name="email"
-              value={email}
-              placeholder="Enter your email"
-              onChange={handleOnChange}
-            />
-            <h5>Password</h5>
-            <input
-              type="password"
-              name="password"
-              value={password}
-              placeholder="Enter your password"
-              onChange={handleOnChange}
-            />
-            <button className="loginPg" type="submit">
-              Log In
-            </button>
-            <p className="checking">or</p>
-            <button className="google">
-              <img src={googleLogo} alt="Google Logo" className="google-logo" />
-              Continue with Google
-            </button>
+    <div className="loginpage">
+      <div className="loginslip">
+        <div className="logindescrip">
+          <div className="lrname">
+            <span className="lrname1">Algo</span>
+            <span className="lrname2">Hub</span>
           </div>
-        </form>
-        <p className="last">Don't have an account?</p>
-        <Link to="/register" className="last">
-          Sign up
-        </Link>
+          <div className="lrhead">
+            <h2>Sign in</h2>
+          </div>
+        </div>
+        <div className="lrcontent">
+          <input
+            className="lrinputs"
+            type="email"
+            name="email"
+            value={email}
+            placeholder="Username or Email Address*"
+            onChange={handleOnChange}
+          />
+          <input
+            className="lrinputs topspace"
+            type="password"
+            name="password"
+            value={password}
+            placeholder="Password*"
+            onChange={handleOnChange}
+          />
+          <button className="lrbutton">Continue</button>
+        </div>
+        <div className="lr-seperator">
+          <span className="line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+          <span className="or-text">OR</span>
+          <span className="line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        </div>
+        <div className="other-options">
+          <button className="google-signin">
+          <img src={googleLogo} alt="Google Logo" className="google-logo" />
+              Continue with Google
+          </button>
+        </div>
       </div>
-      <ToastContainer />
     </div>
   );
 };

@@ -8,9 +8,17 @@ import { UserContext } from "../UserData"; // Adjust the path as needed
 import { Xnav } from "../Components/Navbar";
 import { Xfooter } from "../Components/Footer";
 
-import Graphs from "./Edu_contents/Graphs";
-import BFS from "./Edu_contents/BFS"
-import DFS from "./Edu_contents/DFS"
+import Algebra from "./Algebra_Contents/Algebra";
+import Prime_Number from "./Algebra_Contents/Prime_Number";
+import Linear_Congruence_Equation from "./Algebra_Contents/Linear_Congruence_Equation";
+
+import Dynamic_Programming from "./Dynamic_Programming_Contents/Dynamic_Programming";
+import Bottom_Up_Dynamic_Programming from "./Dynamic_Programming_Contents/Bottom_Up_Dynamic_Programming";
+import Speeding_up_Fibonacci_with_Dynamic_Programming_Memoization from "./Dynamic_Programming_Contents/Speeding_up_Fibonacci_with_Dynamic_Programming_Memoization";
+
+import Graph from "./Graph_Contents/Graph";
+import BFS from "./Graph_Contents/BFS"
+import DFS from "./Graph_Contents/DFS"
 
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -66,15 +74,20 @@ const Educational = () => {
         </div>
         <Xnav />
       </div>
-
       <div className="edubody">
         <Sidebar />
         <div className="content">
           <Routes>
             {/* Using Routes for nested paths */}
-            <Route path="graphs" element={<Graphs />} /> {/* Default content */}
+            <Route path="algebra" element={<Algebra />} /> {/* Default content */}
+            <Route path="algebra/prime_number" element={<Prime_Number />} />
+            <Route path="algebra/linear_congruence_equations" element={<Linear_Congruence_Equation />} />
+            <Route path="dynamic_programming" element={<Dynamic_Programming />} /> {/*Default content */}
+            <Route path="dynamic_programming/bottom-up-dynamic-programming" element={<Bottom_Up_Dynamic_Programming />} />
+            <Route path="dynamic_programming/speeding-up-fibonacci-with-dynamic-programming-memoization" element={<Speeding_up_Fibonacci_with_Dynamic_Programming_Memoization />} />
+            <Route path="graphs" element={<Graph />} /> {/* Default content */}
             <Route path="graphs/bfs" element={<BFS />} />
-            <Route path="grs[hs/dfs" element={<DFS />} />
+            <Route path="graphs/dfs" element={<DFS />} />
             {/* <Route path=":subPath" element={<ContentArea />} />{" "} */}
             {/* Dynamic content */}
           </Routes>

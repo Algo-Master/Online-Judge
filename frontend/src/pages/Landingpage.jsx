@@ -1,11 +1,12 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Xnav } from "../Components/Navbar";
 import { Xfooter } from "../Components/Footer";
 import "../Css/landingpage.css";
 
 function Landingpage() {
   const navigate = useNavigate(); // GET THE NAVIGATION FUNCTION
+  const location = useLocation(); // Getting the path for Landing Page for optional render.
 
   // HANDLE NAVIGATION TO SIGNUP PAGE
   const handleSignUp = () => navigate("/register");
@@ -33,6 +34,12 @@ function Landingpage() {
             </button>
           </div>
         </div>
+        {location.pathname === "/" && (
+          <div className="slogan_container">
+            <h1>Master Algorithms, Ace Challenges</h1>
+            <p className="slogan_descrip">AlgoHub: The Ultimate Destination to Unlock the Elegance of Algorithms and Excel in Coding Challenges</p>
+          </div>
+        )}
         <Xnav />
       </div>
       <div className="body">
@@ -40,7 +47,7 @@ function Landingpage() {
           <h2>Changelog</h2>
           <ul>
             <li>
-            <p>June 26, 2024: CSS modifications are being adjusted</p>
+              <p>June 26, 2024: CSS modifications are being adjusted</p>
             </li>
           </ul>
         </div>
