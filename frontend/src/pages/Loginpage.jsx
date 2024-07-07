@@ -5,6 +5,7 @@ import { UserContext } from "../UserData";
 import { ToastContainer, toast } from "react-toastify";
 import "../Css/loginpage.css";
 import googleLogo from "../Assets/GoogleLogo.png";
+import githubLogo from "../Assets/GitHubLogo.png";
 
 const Loginpage = () => {
   const navigate = useNavigate();
@@ -37,6 +38,7 @@ const Loginpage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      console.log("Button Pressed");
       const { data } = await axios.post(
         `http://localhost:5000/login`,
         { ...inputValue },
@@ -46,7 +48,9 @@ const Loginpage = () => {
 
       if (success) {
         handleSuccess(message);
-        userdata.setUser(existinguser);
+        // userdata.setUser(existinguser);
+        // userdata.setIsAuthenticated(true);
+        // console.log(userdata.user, userdata.isAuthenticated);
 
         setTimeout(() => {
           navigate("/");
@@ -93,18 +97,42 @@ const Loginpage = () => {
             placeholder="Password*"
             onChange={handleOnChange}
           />
-          <button className="lrbutton">Continue</button>
+          <button className="lrbutton" onClick={(e) => handleSubmit(e)}>
+            Continue
+          </button>
         </div>
         <div className="lr-seperator">
-          <span className="line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+          <span className="line">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          </span>
           <span className="or-text">OR</span>
-          <span className="line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+          <span className="line">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          </span>
         </div>
         <div className="other-options">
           <button className="google-signin">
-          <img src={googleLogo} alt="Google Logo" className="google-logo" />
-              Continue with Google
+            <img src={googleLogo} alt="Google Logo" className="google-logo" />
+            Continue with Google
           </button>
+          <button className="google-signin lower-space">
+            <img
+              src={githubLogo}
+              alt="GitHub Logo"
+              className="github-logo google-logo"
+            />
+            Continue with GitHub
+          </button>
+        </div>
+      </div>
+      <div className="loginslip upper-space lower-space">
+        <div className="logintoreg">
+          <p>
+            Don't have an account?{" "}
+            <Link className="logintoreglink" to="/register">
+              Sign Up
+            </Link>
+          </p>
         </div>
       </div>
     </div>

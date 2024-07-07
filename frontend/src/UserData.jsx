@@ -8,6 +8,7 @@ const UserContext = createContext();
 // UserProvider component that will wrap around parts of your app that need access to the user data
 const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -17,6 +18,7 @@ const UserProvider = ({ children }) => {
           withCredentials: true, // Ensure credentials (cookies) are included
         });
         console.log('User data fetched:', response.data); // Log the response data for debugging
+        setIsAuthenticated(true);
         setUser(response.data.user); // Update the user state with fetched user data
       } catch (error) {
         console.error('Error fetching user:', error.response ? error.response.data : error.message);
@@ -30,7 +32,7 @@ const UserProvider = ({ children }) => {
 
   // Provide the user data and a way to update it (setUser) to any components that need it
   return (
-    <UserContext.Provider value={{ user, setUser }}>
+    <UserContext.Provider value={{ user, setUser, isAuthenticated, setIsAuthenticated}}>
       {children}
     </UserContext.Provider>
   );
