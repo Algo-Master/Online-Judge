@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import { UserContext } from "../UserData";
@@ -9,7 +9,7 @@ import githubLogo from "../Assets/GitHubLogo.png";
 
 const Loginpage = () => {
   const navigate = useNavigate();
-  const userdata = useContext(UserContext);
+  const { user, setUser, isAuthenticated, setIsAuthenticated } = useContext(UserContext);
   const [inputValue, setInputValue] = useState({
     email: "",
     password: "",
@@ -48,13 +48,13 @@ const Loginpage = () => {
 
       if (success) {
         handleSuccess(message);
-        // userdata.setUser(existinguser);
-        // userdata.setIsAuthenticated(true);
-        // console.log(userdata.user, userdata.isAuthenticated);
+        console.log(user);
+        setUser(existinguser);
+        setIsAuthenticated(true);
 
         setTimeout(() => {
           navigate("/");
-        }, 2000);
+        }, 1000);
       } else {
         handleError(message);
       }
@@ -67,6 +67,12 @@ const Loginpage = () => {
       password: "",
     });
   };
+
+  // useEffect(() => {
+  //   if (user) {
+  //     console.log("User state updated:", user);
+  //   }
+  // }, [user]);
 
   return (
     <div className="loginpage">
@@ -135,6 +141,7 @@ const Loginpage = () => {
           </p>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };

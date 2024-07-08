@@ -1,6 +1,6 @@
 // UserContext.js
-import React, { createContext, useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { createContext, useState, useEffect } from "react";
+import axios from "axios";
 
 // Create the UserContext which is a central storage for a specific type of data in your React application
 const UserContext = createContext();
@@ -17,11 +17,14 @@ const UserProvider = ({ children }) => {
         const response = await axios.get(`http://localhost:5000/authenticate`, {
           withCredentials: true, // Ensure credentials (cookies) are included
         });
-        console.log('User data fetched:', response.data); // Log the response data for debugging
+        console.log("User data fetched:", response.data); // Log the response data for debugging
         setIsAuthenticated(true);
         setUser(response.data.user); // Update the user state with fetched user data
       } catch (error) {
-        console.error('Error fetching user:', error.response ? error.response.data : error.message);
+        console.error(
+          "Error fetching user:",
+          error.response ? error.response.data : error.message
+        );
         // You can add additional error handling here (e.g., setting user to null, showing an error message)
       }
     };
@@ -32,7 +35,9 @@ const UserProvider = ({ children }) => {
 
   // Provide the user data and a way to update it (setUser) to any components that need it
   return (
-    <UserContext.Provider value={{ user, setUser, isAuthenticated, setIsAuthenticated}}>
+    <UserContext.Provider
+      value={{ user, setUser, isAuthenticated, setIsAuthenticated }}
+    >
       {children}
     </UserContext.Provider>
   );

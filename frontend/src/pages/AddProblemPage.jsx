@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
-import { Xnav } from "../Components/Navbar";
+import { Xheader } from "../Components/Header";
 import { Xfooter } from "../Components/Footer";
 import "react-toastify/dist/ReactToastify.css";
 import "../Css/AddProblemPage.css";
@@ -25,14 +25,6 @@ function AddProblemPage() {
   });
 
   const navigate = useNavigate(); // GET THE NAVIGATION FUNCTION
-
-  // HANDLE NAVIGATION TO SIGNUP PAGE
-  const handleSignUp = () => navigate("/register");
-
-  // HANDLE NAVIGATION TO LOGIN PAGE
-  const handleLogIn = () => {
-    navigate("/login"); // NAVIGATE TO THE LOGIN PAGE
-  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -109,7 +101,9 @@ function AddProblemPage() {
     try {
       const response = await axios.post(
         "http://localhost:5000/problems/add-problem",
-        problemData
+        problemData, {
+          withCredentials: true, // Ensure credentials (cookies) are included
+        }
       );
       toast.success("Problem added successfully", { position: "top-center" });
       console.log("Problem added:", response.data);
@@ -137,24 +131,7 @@ function AddProblemPage() {
 
   return (
     <div>
-      <div className="header">
-        <div className="nalore">
-          <div className="ojname">
-            <span className="ojname1">Algo</span>
-            <span className="ojname2">Hub</span>
-          </div>
-          <div className="button-group">
-            <button className="button">Button 1</button>
-            <button className="button" onClick={handleLogIn}>
-              Sign In
-            </button>
-            <button className="buttonsignup" onClick={handleSignUp}>
-              Sign up
-            </button>
-          </div>
-        </div>
-        <Xnav />
-      </div>
+      <Xheader />
       <div className="body">
         <div className="table" id="customers_table">
           <section className="table__header">

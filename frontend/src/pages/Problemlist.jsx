@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../Css/problemlist.css";
 import { UserContext } from "../UserData"; // Adjust the path as needed
-import { Xnav } from "../Components/Navbar";
+import { Xheader } from "../Components/Header";
 import { Xfooter } from "../Components/Footer";
 
 import { toast, ToastContainer } from "react-toastify";
@@ -122,14 +122,6 @@ const Problemlist = () => {
   const { user } = useContext(UserContext); // Get the current user information from context
   // console.log(user);
 
-  // HANDLE NAVIGATION TO SIGNUP PAGE
-  const handleSignUp = () => navigate("/register");
-
-  // HANDLE NAVIGATION TO LOGIN PAGE
-  const handleLogIn = () => {
-    navigate("/login"); // NAVIGATE TO THE LOGIN PAGE
-  };
-
   const onClickProfileBtn = () => {
     // console.log('User data from context:', user);
     // if (user) {
@@ -150,24 +142,7 @@ const Problemlist = () => {
 
   return (
     <div>
-      <div className="header">
-        <div className="nalore">
-          <div className="ojname">
-            <span className="ojname1">Algo</span>
-            <span className="ojname2">Hub</span>
-          </div>
-          <div className="button-group">
-            <button className="button">Button 1</button>
-            <button className="button" onClick={handleLogIn}>
-              Sign In
-            </button>
-            <button className="buttonsignup" onClick={handleSignUp}>
-              Sign up
-            </button>
-          </div>
-        </div>
-        <Xnav />
-      </div>
+      <Xheader />
 
       <div className="body">
         <CodingProblems />

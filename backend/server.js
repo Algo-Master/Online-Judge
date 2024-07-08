@@ -35,9 +35,7 @@ app.post("/register", async (req, res) => {
 
     // Check all the data exists or not
     if (!(firstName && lastName && email && password)) {
-      return res
-        .status(400)
-        .json({ success: false, message: "Please enter all the credentials" });
+      return res.status(400).send("Please enter all the credentials");
     }
 
     //Add validations to phone number and email if u want
@@ -52,7 +50,7 @@ app.post("/register", async (req, res) => {
     const hashedpassword = await bcrypt.hash(password, 10);
 
     // Store the user in Database
-    const user = await User.create({
+    await User.create({
       firstName,
       lastName,
       email,
@@ -65,13 +63,14 @@ app.post("/register", async (req, res) => {
     //   expiresIn: "1h",
     // });
     // user.token = token;
-    user.password = undefined;
+    // user.password = undefined;
     res.status(200).json({
       success: true, // Sole change in the code from class.
       message: "You have successfully registered!",
     });
   } catch (error) {
     console.log(error);
+    res.status(500).send("Internal server error");
   }
 });
 
@@ -123,7 +122,7 @@ app.post("/login", async (req, res) => {
     });
   } catch (error) {
     console.log(error);
-    res.send("Login Problem but request recieved");
+    res.status(500).send("Internal server error");
   }
 });
 
@@ -138,19 +137,16 @@ app.get("/authenticate", async (req, res) => {
   const verified = authenticate(token);
   switch (verified) {
     case 0:
-      return res
-        .status(400)
-        .json({ success: false, error: "Token has been tampered with" });
+      return res.status(400).send("Token has been tampered with");
       break;
     case 2:
-      return res
-        .status(401)
-        .json({ success: false, error: "Token expired. Please log in again." });
+      return res.status(401).send("Token expired. Please log in again.");
       break;
     // ... more cases
     default:
-      const user = await User.findById(decoded.id).select("-password"); // Exclude password
-      res.json({ success: true, user });
+      const decrypted = jwt.verify(token, process.env.SECRET_KEY);
+      const user = await User.findById(decrypted.id).select("-password"); // Exclude password
+      res.status(200).json({ success: true, user });
   }
 });
 
@@ -161,18 +157,35 @@ app.get("/problems/:problemId", async (req, res) => {
   try {
     const problem = await Problem.findById(problemId);
     if (!problem) {
-      return res.status(404).json({ error: "Problem not found" });
+      return res.status(400).send("Problem not found");
     }
-    res.json({ problem });
+    res.status(200).json({ success: true, problem });
   } catch (error) {
     console.error("Error fetching problem data:", error);
-    res.status(500).json({ error: "Error fetching problem data" });
+    res.status(500).send("Error fetching problem data");
   }
 });
 
 // ------------------------------------ ADD PROBLEM ------------------------------------
 
 app.post("/problems/add-problem", async (req, res) => {
+  const token = req.cookies?.token;
+  // console.log(token);
+  if (!token) {
+    return res.status(401).send("Authentication required!");
+  }
+  const verified = authorize(token, "problem_setter");
+  switch (verified) {
+    case 0:
+      return res.status(400).send("You are Unauthorized to add problems or else Token has been tampered with");
+      break;
+    case 2:
+      return res.status(401).send("Token expired. Please log in again.");
+      break;
+    default:
+      console.log("User is authorized");
+  }
+
   try {
     const {
       title,
@@ -227,7 +240,9 @@ app.post("/problems/add-problem", async (req, res) => {
     });
 
     await problem.save();
-    res.status(201).json({ message: "Problem added successfully", problem });
+    res
+      .status(201)
+      .json({ success: true, message: "Problem added successfully" });
   } catch (error) {
     console.error(error);
     res.status(500).send("Internal Atlas server error");

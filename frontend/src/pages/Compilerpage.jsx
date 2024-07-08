@@ -4,7 +4,7 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../Css/Compilerpage.css";
-import { Xnav } from "../Components/Navbar";
+import { Xheader } from "../Components/Header";
 import { Xfooter } from "../Components/Footer";
 import { UserContext } from "../UserData";
 
@@ -24,14 +24,6 @@ const Compilerpage = () => {
     }`);
   const [manualTestCase, setManualTestCase] = useState("");
   const [output, setOutput] = useState("");
-
-  // HANDLE NAVIGATION TO SIGNUP PAGE
-  const handleSignUp = () => navigate("/register");
-
-  // HANDLE NAVIGATION TO LOGIN PAGE
-  const handleLogIn = () => {
-    navigate("/login"); // NAVIGATE TO THE LOGIN PAGE
-  };
 
   useEffect(() => {
     const fetchProblem = async () => {
@@ -140,24 +132,7 @@ const Compilerpage = () => {
 
   return (
     <div>
-      <div className="header">
-        <div className="nalore">
-          <div className="ojname">
-            <span className="ojname1">Algo</span>
-            <span className="ojname2">Hub</span>
-          </div>
-          <div className="button-group">
-            <button className="button">Button 1</button>
-            <button className="button" onClick={handleLogIn}>
-              Sign In
-            </button>
-            <button className="buttonsignup" onClick={handleSignUp}>
-              Sign up
-            </button>
-          </div>
-        </div>
-        <Xnav />
-      </div>
+      <Xheader />
 
       {/* CONTENT */}
       <div className="contentCompiler">
