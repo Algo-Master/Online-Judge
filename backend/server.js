@@ -6,6 +6,7 @@ const User = require("./models/User");
 const Problem = require("./models/Problem");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const { authenticate, authorize } = require("./auth");
 const cookieParser = require("cookie-parser");
 
 const corsOptions = {
@@ -56,7 +57,7 @@ app.post("/register", async (req, res) => {
       lastName,
       email,
       password: hashedpassword,
-      user_type: "user",
+      role: "user",
     });
 
     // Generate a token for user and send it if required
@@ -97,9 +98,13 @@ app.post("/login", async (req, res) => {
     }
 
     // Generate a token for user and send it
-    const token = jwt.sign({ id: existinguser._id }, process.env.SECRET_KEY, {
-      expiresIn: "1h",
-    });
+    const token = jwt.sign(
+      { id: existinguser._id, role: existinguser.role },
+      process.env.SECRET_KEY,
+      {
+        expiresIn: "1h",
+      }
+    );
     // existinguser.token = token;
     existinguser.password = undefined;
 
@@ -130,21 +135,22 @@ app.get("/authenticate", async (req, res) => {
   if (!token) {
     return res.status(401).send("Authentication required!");
   }
-  try {
-    const decoded = jwt.verify(token, process.env.SECRET_KEY);
-    const user = await User.findById(decoded.id).select("-password"); // Exclude password
-    if (!user) {
-      return res.status(404).json({ error: "User not found" });
-    }
-    res.json({ success: true, user });
-  } catch (error) {
-    if (error instanceof jwt.TokenExpiredError) {
+  const verified = authenticate(token);
+  switch (verified) {
+    case 0:
+      return res
+        .status(400)
+        .json({ success: false, error: "Token has been tampered with" });
+      break;
+    case 2:
       return res
         .status(401)
-        .json({ error: "Token expired. Please log in again." });
-    }
-    console.error("Error fetching user data:", error);
-    res.status(500).json({ error: "Error fetching user data" });
+        .json({ success: false, error: "Token expired. Please log in again." });
+      break;
+    // ... more cases
+    default:
+      const user = await User.findById(decoded.id).select("-password"); // Exclude password
+      res.json({ success: true, user });
   }
 });
 
@@ -181,7 +187,7 @@ app.post("/problems/add-problem", async (req, res) => {
       testcases,
       notes,
       solvers,
-      acceptance
+      acceptance,
     } = req.body;
 
     if (
@@ -217,7 +223,7 @@ app.post("/problems/add-problem", async (req, res) => {
       testcases,
       notes,
       solvers,
-      acceptance
+      acceptance,
     });
 
     await problem.save();
