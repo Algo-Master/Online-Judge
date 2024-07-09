@@ -124,7 +124,7 @@ function Registrationpage() {
           {showPassword ? <img className="visibilitytoggle" src={eyeclosed} /> : <img className="visibilitytoggle" src={eyeopen} />}
         </span>
       </div>
-      <button className="lrbutton write_small topspace" onClick={(e) => handleSubmit(e)}>
+      <button className="regbutton write_small topspace" onClick={(e) => handleSubmit(e)}>
         Sign up
       </button>
       <div className="lr-seperator">
@@ -136,7 +136,7 @@ function Registrationpage() {
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         </span>
       </div>
-      <div className="other-options">
+      <div className="reg-options">
         <button className="google-signin write_small">
           <img src={googleLogo} alt="Google Logo" className="google-logo" />
           Continue with Google

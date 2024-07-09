@@ -1,0 +1,9 @@
+.nfcontainer {
+    display: grid;
+    justify-content: center;
+}
+
+.nfimage {
+    width: 550px;
+    height: 550px;
+}

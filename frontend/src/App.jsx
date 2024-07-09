@@ -11,6 +11,9 @@ import AddProblemPage from "./Pages/AddProblemPage";
 import Compilerpage from "./Pages/Compilerpage";
 import Educational from "./Pages/Educational";
 // import ProfilePage from './pages/ProfilePage';
+import InProgress from "./InProgress";
+import NotFoundPage from "./NotFoundPage";
+
 const App = () => {
   return (
     <div>
@@ -24,6 +27,10 @@ const App = () => {
           <Route path="/problems/add-problem" element={<AddProblemPage />} />
           <Route path="/problems/:problemId" element={<Compilerpage />} />
           {/* <Route path="profile/:userId" element={<ProfilePage/>} /> */}
+          {/* Experimental feature waiting to be launched */}
+          <Route path="/inprogress" element={<InProgress />} />
+          {/* Catch-all route for 404 Not Found page */}
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Router>
 
