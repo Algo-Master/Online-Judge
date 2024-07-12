@@ -8,6 +8,7 @@
 }
 
 .navlinks {
+    text-decoration: none;
     color: #ffffff;
     padding-left: 25px;
 }

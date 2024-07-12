@@ -16,6 +16,8 @@ export const Xheader = () => {
     navigate("/login"); // NAVIGATE TO THE LOGIN PAGE
   };
 
+  const isProblemPage = /^\/problems\/[a-zA-Z0-9]+$/.test(location.pathname); // Check if the path matches the problem page pattern
+
   return (
     <div className="header">
       <div className="nalore">
@@ -53,7 +55,7 @@ export const Xheader = () => {
           </p>
         </div>
       )}
-      <Xnav />
+      {!isProblemPage && <Xnav />}
     </div>
   );
 };

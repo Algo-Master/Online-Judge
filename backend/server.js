@@ -159,6 +159,7 @@ app.get("/problems/:problemId", async (req, res) => {
     if (!problem) {
       return res.status(400).send("Problem not found");
     }
+    problem.testcases = undefined;
     res.status(200).json({ success: true, problem });
   } catch (error) {
     console.error("Error fetching problem data:", error);

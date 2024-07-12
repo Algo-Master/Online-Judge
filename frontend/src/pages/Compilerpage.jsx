@@ -1,29 +1,46 @@
-import React, { useState, useEffect, useContext } from "react";
-import { Link, useParams, useNavigate } from "react-router-dom";
+import React, {
+  useState,
+  useEffect,
+  useContext,
+  useRef,
+  useLayoutEffect,
+} from "react";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import "../Css/Compilerpage.css";
 import { Xheader } from "../Components/Header";
+import Dropdown from "../Components/Dropdown";
 import { Xfooter } from "../Components/Footer";
 import { UserContext } from "../UserData";
+import Editor from "@monaco-editor/react";
+import { dracula, monokai, solarizedLight, vsDark, github, kimbieDark, tomorrowNight } from 'monaco-themes';
+import { ThreeCircles } from "react-loader-spinner";
+import "../Css/Compilerpage.css";
 
 const Compilerpage = () => {
   const user = useContext(UserContext);
   const { problemId } = useParams();
   const navigate = useNavigate();
   const [problem, setProblem] = useState(null);
-  const [selectedLanguage, setSelectedLanguage] = useState("cpp");
+  const [selectedLanguage, setSelectedLanguage] = useState("C++");
+  const [selectedTheme, setSelectedTheme] = useState("solarized");
   const [code, setCode] = useState(`
-    #include <bits/stdc++.h> 
-    using namespace std;
+#include <bits/stdc++.h> 
+using namespace std;
 
-    int main() {
-        cout << "Hello World!";
-        return 0;  
-    }`);
+int main() {
+    cout << "Hello World!";
+    return 0;
+}`);
   const [manualTestCase, setManualTestCase] = useState("");
   const [output, setOutput] = useState("");
+  const [problemWidth, setProblemWidth] = useState("50%");
+  const [activeComponent, setActiveComponent] = useState("description");
+  const underlineRef = useRef(null);
+  const descriptionButtonRef = useRef(null);
+  const submissionButtonRef = useRef(null);
+  const [scrollbarVisible, setScrollbarVisible] = useState(false);
+  const scrollbarTimeoutRef = useRef(null);
 
   useEffect(() => {
     const fetchProblem = async () => {
@@ -46,8 +63,8 @@ const Compilerpage = () => {
     fetchProblem();
   }, [problemId, navigate]);
 
-  const handleLanguageChange = (e) => {
-    setSelectedLanguage(e.target.value);
+  const handleDesSubToggle = (component) => {
+    setActiveComponent(component);
   };
 
   const handleRun = async () => {
@@ -56,7 +73,7 @@ const Compilerpage = () => {
       return;
     }
     if (!user.user) {
-      toast.error("U need to login to proceed further", {
+      toast.error("You need to login to proceed further", {
         position: "top-center",
       });
       return;
@@ -68,7 +85,6 @@ const Compilerpage = () => {
     };
     try {
       const { data } = await axios.post("http://localhost:8000/run", payload);
-      // console.log(data.output);
       setOutput(data.output);
     } catch (error) {
       console.log(error.response);
@@ -82,7 +98,7 @@ const Compilerpage = () => {
       return;
     }
     if (!user.user) {
-      toast.error("U need to login to proceed further", {
+      toast.error("You need to login to proceed further", {
         position: "top-center",
       });
       return;
@@ -117,118 +133,251 @@ const Compilerpage = () => {
     }
   };
 
-  const onClickProfileBtn = () => {
-    console.log("User data from context:", user);
-    if (user) {
-      console.log("User ID:", user.user._id);
-    }
-    if (user && user.user._id) {
-      navigate(`/profile/${user.user._id}`);
-    } else {
-      console.error("User ID not found Comp");
-      toast.error("User ID not found!", { position: "top-center" });
-    }
+  const resizerRef = useRef(null);
+
+  useEffect(() => {
+    const resizer = resizerRef.current;
+    let startX;
+    let startWidth;
+
+    const onMouseMove = (e) => {
+      const newWidth = startWidth + (e.clientX - startX);
+      setProblemWidth(`${newWidth}px`);
+    };
+
+    const onMouseUp = () => {
+      document.removeEventListener("mousemove", onMouseMove);
+      document.removeEventListener("mouseup", onMouseUp);
+    };
+
+    const onMouseDown = (e) => {
+      startX = e.clientX;
+      startWidth = resizer.previousElementSibling.getBoundingClientRect().width;
+      document.addEventListener("mousemove", onMouseMove);
+      document.addEventListener("mouseup", onMouseUp);
+    };
+
+    resizer.addEventListener("mousedown", onMouseDown);
+
+    return () => {
+      resizer.removeEventListener("mousedown", onMouseDown);
+    };
+  }, []);
+
+  useLayoutEffect(() => {
+    const updateUnderlinePosition = () => {
+      const activeButton =
+        activeComponent === "description"
+          ? descriptionButtonRef.current
+          : submissionButtonRef.current;
+      const underline = underlineRef.current;
+      if (activeButton && underline) {
+        underline.style.width = `${activeButton.offsetWidth}px`;
+        underline.style.left = `${activeButton.offsetLeft}px`;
+      }
+    };
+
+    updateUnderlinePosition();
+    window.addEventListener("resize", updateUnderlinePosition);
+
+    return () => {
+      window.removeEventListener("resize", updateUnderlinePosition);
+    };
+  }, [activeComponent]);
+
+  useEffect(() => {
+    const problemdesc = document.querySelector(".problemdesc");
+
+    const handleScroll = () => {
+      setScrollbarVisible(true);
+      clearTimeout(scrollbarTimeoutRef.current);
+      scrollbarTimeoutRef.current = setTimeout(() => {
+        setScrollbarVisible(false);
+      }, 1000); // Adjust the timeout as needed
+    };
+
+    problemdesc.addEventListener("scroll", handleScroll);
+
+    return () => {
+      problemdesc.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  const dropdownLanguage = ["C++", "Java", "Python3"];
+  // const dropdownTheme = ["Solarized", "Monokai", "VS-dark"];
+  const dropdownTheme = ["Solarized", "Monokai", "VS-dark", "Dracula", "Github", "KimbieDark", "TomorrowNight"];
+
+  const languageMapping = {
+    "C++": "cpp",
+    Java: "java",
+    Python3: "python", // Use appropriate theme keys based on Monaco Editor's available themes
+  };
+
+  const handleLanguageSelect = (item) => {
+    console.log(`Language selected: ${item}`);
+    setSelectedLanguage(item);
+  };
+
+  const themeMapping = {
+    Solarized: solarizedLight,
+    Monokai: monokai,
+    "VS-dark": vsDark,
+    Dracula: dracula,
+    Github: github, // Adjust theme based on actual theme from monaco-themes
+    KimbieDark: kimbieDark,
+    TomorrowNight: tomorrowNight,
+  };
+
+  // const themeMapping = {
+  //   // Solarized: "solarized-light",
+  //   // Monokai: "monokai",
+  //   Solarized: "vs",
+  //   Monokai: "hc-black",
+  //   "VS-dark": "vs-dark",
+  // };
+
+  const handleThemeSelect = (item) => {
+    console.log(`Selected Theme: ${item}`);
+    setSelectedTheme(item);
   };
 
   return (
-    <div>
+    <div className="compilerpage">
       <Xheader />
-
-      {/* CONTENT */}
-      <div className="contentCompiler">
-        <div className="ProblemDesc">
-          {problem ? (
-            <div>
-              <h1>{`${problem.number}: ${problem.title}`}</h1>
-              <p>{problem.description}</p>
-              <p>
-                <strong>Input Format:</strong> <br /> {problem.inputFormat}
-              </p>
-              <p>
-                <strong>Output Format:</strong> <br /> {problem.outputFormat}
-              </p>
-              {/* {problem.testCases.slice(0, 2).map((testCase, index) => (
-                                <div key={index}>
-                                    <h3>{`Test Case ${index + 1}`}</h3>
-                                    <p><strong>Input:</strong> {testCase.input}</p>
-                                    <p><strong>Output:</strong> {testCase.output}</p>
-                                    {testCase.explanation && testCase.explanation.trim() !== '' && (
-                                        <p><strong>Explanation:</strong> <br /> {testCase.explanation}</p>
-                                    )}
-                                </div>
-                            ))} */}
-              <p>{`Acceptance Rate : ${problem.acceptance_rate} %`}</p>
-            </div>
-          ) : (
-            <p>Loading problem...</p>
-          )}
+      <div className="compcontent">
+        <div
+          className={`problemdesc ${
+            scrollbarVisible ? "scrollbar-visible" : ""
+          }`}
+          style={{ width: problemWidth }}
+        >
+          <div className="dessubtoggle">
+            <button
+              ref={descriptionButtonRef}
+              className={
+                activeComponent === "description" ? "active" : "inactive"
+              }
+              id="nestedpage"
+              onClick={() => handleDesSubToggle("description")}
+            >
+              Description
+            </button>
+            <div style={{ width: 75 }}></div>
+            <button
+              ref={submissionButtonRef}
+              className={
+                activeComponent === "submission" ? "active" : "inactive"
+              }
+              id="nestedpage"
+              onClick={() => handleDesSubToggle("submission")}
+            >
+              Submission
+            </button>
+            <div className="underline" ref={underlineRef}></div>
+          </div>
+          <div className="seperation"></div>
+          {activeComponent === "description" &&
+            (problem ? (
+              <DescriptionComponent problem={problem} />
+            ) : (
+              <div className="centered-container">
+                <ThreeCircles color="blue" radius="9" height="40" width="40" />
+              </div>
+            ))}
+          {activeComponent === "submission" && <SubmissionComponent />}
         </div>
-        <div className="Comp">
-          <div className="firstTop">
-            <div className="actionButtons">
-              <button className="runButton" onClick={handleRun}>
-                Run
-              </button>
-              <button className="submitButton" onClick={handleSubmit}>
-                Submit
-              </button>
-            </div>
-            <div className="rightSide">
-              <div className="editorial">
-                <Link to="/">Editorials</Link>
-              </div>
-              <div className="dropdown">
-                <select
-                  id="languageSelect"
-                  value={selectedLanguage}
-                  onChange={handleLanguageChange}
-                >
-                  <option value="js">JavaScript</option>
-                  <option value="py">Python</option>
-                  <option value="java">Java</option>
-                  <option value="cpp">C++</option>
-                  <option value="cs">C#</option>
-                  <option value="rb">Ruby</option>
-                  <option value="go">Go</option>
-                  <option value="swift">Swift</option>
-                  <option value="kt">Kotlin</option>
-                </select>
-              </div>
-            </div>
+        <div className="resizer" ref={resizerRef}></div>
+        <div
+          className="codeactivity"
+          style={{ width: `calc(100% - ${problemWidth})` }}
+        >
+          <div className="selector_panel">
+            <p className="com01">Code</p>
+            <div style={{ width: 25 }} />
+            <Dropdown
+              items={dropdownLanguage}
+              onSelect={(item) => handleLanguageSelect(item)}
+              defaultItem={"C++"}
+            />
+            <div style={{ width: 25 }} />
+            <Dropdown
+              items={dropdownTheme}
+              onSelect={(item) => handleThemeSelect(item)}
+              defaultItem={"Solarized"}
+            />
           </div>
-          {/* Code Editor */}
-          <div className="codeEditor">
-            <textarea
-              className="codeInput"
+          <div className="editor-container">
+            <Editor
+              language={languageMapping[selectedLanguage]}
+              theme={themeMapping[selectedTheme]}
+              className="MonacoEditor"
               value={code}
-              onChange={(e) => setCode(e.target.value)}
-              placeholder="Write your code here..."
-            />
-          </div>
-          {/* Input Box */}
-          <div className="manualTestCaseInput">
-            <textarea
-              className="manualTestCase"
-              value={manualTestCase}
-              onChange={(e) => setManualTestCase(e.target.value)}
-              placeholder="Enter your test cases here..."
-            />
-          </div>
-          {/* Output Box */}
-          <div className="outputBox">
-            <textarea
-              className="outputDisplay"
-              value={output}
-              readOnly
-              placeholder="Output will be displayed here..."
+              onChange={(value) => setCode(value)}
+              options={{
+                selectOnLineNumbers: true,
+                lineNumbers: "on",
+              }}
             />
           </div>
         </div>
       </div>
       <Xfooter />
-      <ToastContainer />
     </div>
   );
 };
 
 export default Compilerpage;
+
+const DescriptionComponent = ({ problem }) => {
+  const formatTextWithLineBreaks = (text) => {
+    return text.split("\n").map((line, index) => (
+      <React.Fragment key={index}>
+        {line}
+        <br />
+      </React.Fragment>
+    ));
+  };
+
+  return (
+    <div className="problemdetails">
+      <div className="problemheading">
+        <h2>{problem.title}</h2>
+        <h5>time limit per test: {problem.timel} seconds</h5>
+        <h5>memory limit per test: {problem.meml} megabytes</h5>
+        <h5>input, output: standard</h5>
+      </div>
+      <p>{formatTextWithLineBreaks(problem.statement)}</p>
+      <h3>Input</h3>
+      <p>{formatTextWithLineBreaks(problem.inputcriteria)}</p>
+      <h3>Output</h3>
+      <p>{formatTextWithLineBreaks(problem.outputcriteria)}</p>
+      <h4>Examples</h4>
+      {problem.examples.map((example, index) => (
+        <div key={index}>
+          <table className="example-table">
+            <tbody>
+              <tr>
+                <td>input</td>
+              </tr>
+              <tr>
+                <td>{formatTextWithLineBreaks(example.exinput)}</td>
+              </tr>
+              <tr>
+                <td>output</td>
+              </tr>
+              <tr>
+                <td>{formatTextWithLineBreaks(example.exoutput)}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      ))}
+      <h3>Notes :</h3>
+      <p>{formatTextWithLineBreaks(problem.notes)}</p>
+    </div>
+  );
+};
+
+const SubmissionComponent = () => {
+  return <p>Submission</p>;
+};
