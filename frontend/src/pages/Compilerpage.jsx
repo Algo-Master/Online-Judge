@@ -13,7 +13,15 @@ import Dropdown from "../Components/Dropdown";
 import { Xfooter } from "../Components/Footer";
 import { UserContext } from "../UserData";
 import Editor from "@monaco-editor/react";
-import { dracula, monokai, solarizedLight, vsDark, github, kimbieDark, tomorrowNight } from 'monaco-themes';
+import {
+  dracula,
+  monokai,
+  solarizedLight,
+  vsDark,
+  github,
+  kimbieDark,
+  tomorrowNight,
+} from "monaco-themes";
 import { ThreeCircles } from "react-loader-spinner";
 import "../Css/Compilerpage.css";
 
@@ -36,6 +44,7 @@ int main() {
   const [output, setOutput] = useState("");
   const [problemWidth, setProblemWidth] = useState("50%");
   const [activeComponent, setActiveComponent] = useState("description");
+  const [activeTab, setActiveTab] = useState("input");
   const underlineRef = useRef(null);
   const descriptionButtonRef = useRef(null);
   const submissionButtonRef = useRef(null);
@@ -84,7 +93,9 @@ int main() {
       manualTestCase,
     };
     try {
-      const { data } = await axios.post("http://localhost:8000/run", payload);
+      const { data } = await axios.post("http://localhost:8000/run", payload, {
+        withCredentials: true, // Ensure credentials (cookies) are included
+      });
       setOutput(data.output);
     } catch (error) {
       console.log(error.response);
@@ -205,7 +216,15 @@ int main() {
 
   const dropdownLanguage = ["C++", "Java", "Python3"];
   // const dropdownTheme = ["Solarized", "Monokai", "VS-dark"];
-  const dropdownTheme = ["Solarized", "Monokai", "VS-dark", "Dracula", "Github", "KimbieDark", "TomorrowNight"];
+  const dropdownTheme = [
+    "Solarized",
+    "Monokai",
+    "VS-dark",
+    "Dracula",
+    "Github",
+    "KimbieDark",
+    "TomorrowNight",
+  ];
 
   const languageMapping = {
     "C++": "cpp",
@@ -239,6 +258,10 @@ int main() {
   const handleThemeSelect = (item) => {
     console.log(`Selected Theme: ${item}`);
     setSelectedTheme(item);
+  };
+
+  const handleTabChange = (tab) => {
+    setActiveTab(tab);
   };
 
   return (
@@ -319,9 +342,66 @@ int main() {
               }}
             />
           </div>
+          <div className="ioterminal">
+            <button
+              className={`comiostyle ${
+                activeTab === "input" ? "iotactive" : "iotinactive"
+              }`}
+              onClick={() => handleTabChange("input")}
+            >
+              Input
+            </button>
+            <button
+              className={`comiostyle ${
+                activeTab === "output" ? "iotactive" : "iotinactive"
+              }`}
+              onClick={() => handleTabChange("output")}
+            >
+              Output
+            </button>
+            <button
+              className={`comiostyle ${
+                activeTab === "terminal" ? "iotactive" : "iotinactive"
+              }`}
+              onClick={() => handleTabChange("terminal")}
+            >
+              Terminal
+            </button>
+          </div>
+          {activeTab === "input" && (
+            <textarea
+              className="input-area iotarea"
+              value={manualTestCase}
+              onChange={(e) => setManualTestCase(e.target.value)}
+              placeholder="Enter custom input here..."
+            />
+          )}
+          {activeTab === "output" && (
+            <textarea
+              className="output-area iotarea"
+              value={output}
+              readOnly
+              placeholder="Output will be shown here..."
+            />
+          )}
+          {activeTab === "terminal" && (
+            <div className="terminal-area iotarea">
+              <p>Terminal output will be displayed here.</p>
+              {/* Add your terminal display logic here */}
+            </div>
+          )}
+          <div className="runsub">
+            <button className="run" onClick={handleRun}>
+              Run
+            </button>
+            <button className="submit" onClick={handleSubmit}>
+              Submit
+            </button>
+          </div>
         </div>
       </div>
       <Xfooter />
+      <ToastContainer />
     </div>
   );
 };
