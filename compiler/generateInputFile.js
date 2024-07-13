@@ -1,6 +1,5 @@
 const fs = require("fs");
 const path = require("path");
-const { v4: uuid } = require("uuid");
 
 // Automation to create a new Inputs Folder
 const dirInput = path.join(__dirname, "Inputs");
@@ -10,9 +9,9 @@ if (!fs.existsSync(dirInput)) {
     fs.mkdirSync(dirInput, { recursive: true });
 }
 
-const generateInputFile = async (input) => {
+const generateInputFile = async (input, filePath) => {
     // console.log("Trying to generate the input file");
-    const jobId = uuid(); // generate random jobId i.e file name
+    const jobId = path.basename(filePath).split(".")[0]; // generate jobId i.e input file name
     const inputFileName = `${jobId}.txt`;
     const inputFilePath = path.join(dirInput, inputFileName); // Move the file to the dirInput file path=> But it will not show inside Inputs folder until we write something on that file
     // console.log(inputFilePath);

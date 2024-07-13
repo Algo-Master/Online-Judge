@@ -3,6 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+const backendUrl = import.meta.env.VITE_BACKEND_URL;
 import "../Css/registrationpage.css";
 import googleLogo from "../Assets/GoogleLogo.png";
 import eyeopen from "../Assets/eye.png";
@@ -42,7 +43,7 @@ function Registrationpage() {
     e.preventDefault();
     try {
       const { data } = await axios.post(
-        "http://localhost:5000/register",
+        `${backendUrl}register`,
         { ...inputValue },
         { withCredentials: true }
       );

@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import { UserContext } from "../UserData";
+const backendUrl = import.meta.env.VITE_BACKEND_URL;
 import { ToastContainer, toast } from "react-toastify";
 import "../Css/loginpage.css";
 import googleLogo from "../Assets/GoogleLogo.png";
@@ -9,7 +10,8 @@ import githubLogo from "../Assets/GitHubLogo.png";
 
 const Loginpage = () => {
   const navigate = useNavigate();
-  const { user, setUser, isAuthenticated, setIsAuthenticated } = useContext(UserContext);
+  const { user, setUser, isAuthenticated, setIsAuthenticated } =
+    useContext(UserContext);
   const [inputValue, setInputValue] = useState({
     email: "",
     password: "",
@@ -38,9 +40,8 @@ const Loginpage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      console.log("Button Pressed");
       const { data } = await axios.post(
-        `http://localhost:5000/login`,
+        `${backendUrl}login`,
         { ...inputValue },
         { withCredentials: true }
       );
@@ -48,7 +49,6 @@ const Loginpage = () => {
 
       if (success) {
         handleSuccess(message);
-        console.log(user);
         setUser(existinguser);
         setIsAuthenticated(true);
 

@@ -8,6 +8,8 @@ import React, {
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
+const backendUrl = import.meta.env.VITE_BACKEND_URL;
+const compilerUrl = import.meta.env.VITE_COMPILER_URL;
 import { Xheader } from "../Components/Header";
 import Dropdown from "../Components/Dropdown";
 import { Xfooter } from "../Components/Footer";
@@ -55,7 +57,7 @@ int main() {
     const fetchProblem = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/problems/${problemId}`
+          `${backendUrl}problems/${problemId}`
         );
         setProblem(response.data.problem);
         if (response.data.redirectUrl) {
@@ -93,9 +95,10 @@ int main() {
       manualTestCase,
     };
     try {
-      const { data } = await axios.post("http://localhost:8000/run", payload, {
+      const { data } = await axios.post(`${compilerUrl}run`, payload, {
         withCredentials: true, // Ensure credentials (cookies) are included
       });
+      setActiveTab("output");
       setOutput(data.output);
     } catch (error) {
       console.log(error.response);
@@ -121,10 +124,11 @@ int main() {
     };
     try {
       const { data } = await axios.post(
-        "http://localhost:8000/submit",
+        `${compilerUrl}submit`,
         payload,
         { withCredentials: true }
       );
+      setActiveTab("terminal");
       if (data.success) {
         toast.success(data.verdict, { position: "top-center" });
         setOutput(data.verdict);

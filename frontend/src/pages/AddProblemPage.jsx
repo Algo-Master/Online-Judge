@@ -5,6 +5,7 @@ import { toast, ToastContainer } from "react-toastify";
 import { Xheader } from "../Components/Header";
 import { Xfooter } from "../Components/Footer";
 import "react-toastify/dist/ReactToastify.css";
+const backendUrl = import.meta.env.VITE_BACKEND_URL;
 import "../Css/AddProblemPage.css";
 
 function AddProblemPage() {
@@ -100,7 +101,7 @@ function AddProblemPage() {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:5000/problems/add-problem",
+        `${backendUrl}add-problem`,
         problemData, {
           withCredentials: true, // Ensure credentials (cookies) are included
         }

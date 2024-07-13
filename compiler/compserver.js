@@ -7,7 +7,7 @@ const cors = require("cors");
 
 const corsOptions = {
   origin: "http://localhost:5173", // Replace with your frontend origin
-  // credentials: true, // Include cookies if necessary
+  credentials: true, // Include cookies if necessary
   // allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
   // methods: 'GET, POST, PUT, DELETE, OPTIONS', // Allowed HTTP methods
   // maxAge: 3600, // How long (in seconds) the options preflight request can be cached
@@ -30,7 +30,7 @@ app.get("/", (req, res) => {
 });
 
 app.post("/run", async (req, res) => {
-  const { language = "cpp", code, manualTestCase: input } = req.body;
+  const { language = "C++", code, manualTestCase: input } = req.body;
   if (!code) {
     return res.status(401).json({ success: false, error: "Code not found" }); // success-> use in production grade
   }
@@ -43,7 +43,7 @@ app.post("/run", async (req, res) => {
     //Create a file for CustomInput
     const inputFilePath = await generateInputFile(input);
     const output =
-      language === "cpp"
+      language === "C++"
         ? await executecpp(filePath, inputFilePath)
         : "Sorry we are only accepting C++ solution only for now";
     res.status(200).json({ success: true, filePath, output });
@@ -56,8 +56,8 @@ app.post("/run", async (req, res) => {
 });
 
 app.post("/submit", async (req, res) => {
-  const { lang = "cpp", code, problemId } = req.body;
-  // console.log("Ya we are recieving ur request with lang: ", lang, " code: ", code, " problemId: ", problemId);
+  const { lang = "C++", code, problemId } = req.body;
+  // console.log("Ya so we are recieving ur request with lang: ", lang, " code: ", code, " problemId: ", problemId);
 
   if (!code) {
     console.log("Code not present");
@@ -77,40 +77,40 @@ app.post("/submit", async (req, res) => {
     const filePath = await generateFile(lang, code);
 
     // Iterate through each test case
-    for (const testCase of problem.testCases) {
+    for (const testcase of problem.testcases) {
       // Generate input file for each test case
-      const inputFilePath = await generateInputFile(testCase.inputValue);
+      const inputFilePath = await generateInputFile(testcase.testinput, filePath);
 
       try {
         const output =
-        lang === "cpp"
-        ? await executecpp(filePath, inputFilePath)
-        : "Sorry we are only accepting C++ solution only for now";
+          lang === "C++"
+            ? await executecpp(filePath, inputFilePath)
+            : "Sorry we are only accepting C++ solution only for now";
         // Add similar blocks for other languages as needed
         // console.log("Code Execution is done");
 
         // Trim any extra whitespace from the output and expected output
         const cleanedOutput = output.trim();
-        const expectedOutput = testCase.output.trim();
+        const expectedOutput = testcase.testoutput.trim();
 
         if (cleanedOutput !== expectedOutput) {
-          return res.json({
+          return res.status(200).json({
             success: false,
             verdict: "Wrong Answer",
-            failedTestCase: testCase.input,
+            failedTestCase: testcase.testinput,
           });
         }
       } catch (error) {
-        return res.json({
+        return res.status(200).json({
           success: false,
           error: error.message,
           verdict: error.message,
-          failedTestCase: testCase.input,
+          failedTestCase: testcase.testinput,
         });
       }
     }
 
-    return res.json({
+    return res.status(200).json({
       success: true,
       verdict: "Accepted",
       output: "Accepted",

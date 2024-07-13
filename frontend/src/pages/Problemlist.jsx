@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+const backendUrl = import.meta.env.VITE_BACKEND_URL;
 import "../Css/problemlist.css";
 import { UserContext } from "../UserData"; // Adjust the path as needed
 import { Xheader } from "../Components/Header";
@@ -26,7 +27,7 @@ const CodingProblems = () => {
   useEffect(() => {
     const fetchProblems = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/problemslist");
+        const response = await axios.get(`${backendUrl}problemslist`);
         // console.log(response);
         setCodingProblems(response.data);
       } catch (error) {
@@ -38,14 +39,14 @@ const CodingProblems = () => {
   }, []);
 
   return (
-    <div class="table" id="customers_table">
-      <section class="table__header">
+    <div className="table" id="customers_table">
+      <section className="table__header">
         <h1>Problems List</h1>
-        <div class="input-group">
+        <div className="input-group">
           <input type="search" placeholder="Search Data..."></input>
           <img src="images/search.png" alt=""></img>
         </div>
-        <div class="export__file">
+        <div className="export__file">
           {/* <label for="export-file" class="export__file-btn" title="Export File"></label>
                 <input type="checkbox" id="export-file"></input>
                 <div class="export__file-options">
@@ -57,7 +58,7 @@ const CodingProblems = () => {
                 </div> */}
         </div>
       </section>
-      <section class="table__body">
+      <section className="table__body">
         <table>
           <thead>
             <tr>
