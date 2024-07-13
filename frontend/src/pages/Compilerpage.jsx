@@ -122,7 +122,8 @@ int main() {
     try {
       const { data } = await axios.post(
         "http://localhost:8000/submit",
-        payload
+        payload,
+        { withCredentials: true }
       );
       if (data.success) {
         toast.success(data.verdict, { position: "top-center" });

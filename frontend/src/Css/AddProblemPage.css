@@ -1,0 +1,157 @@
+.table__body {
+  padding: 10px;
+}
+
+.problempart {
+  margin-top: 25px;
+  display: flex;
+}
+
+.alignall {
+  width: 150px; /* Set a fixed width for all <p> elements */
+  margin: 0;
+}
+
+.linespace {
+  margin-left: 25px;
+}
+
+.smallinput {
+  width: 100px;
+}
+
+.expandable-input {
+  background-color: white;
+  border: 1px solid #c9cace; /* Initial gray border */
+  border-radius: 7px;
+  color: black;
+  margin-left: 10px;
+  padding: 5px;
+  font-size: 16px; /* Adjust font size as needed */
+  font-family: "Trebuchet MS";
+  display: inline-block; /* Allow inline expansion */
+  height: 25px;
+  /* min-width: 150px; */
+  /* overflow: hidden; Hide overflowing text */
+  white-space: nowrap; /* Prevent wrapping on single line */
+  transition: width 0.2s ease-in-out; /* Smooth width transition on hover */
+}
+
+.expandable-input:focus,
+.customrating:focus {
+  outline: none; /* Remove default outline on focus */
+  border-color: rgb(
+    29,
+    99,
+    237
+  ); /* Reset border color to original blue on focus */
+}
+
+.destarea {
+  border-radius: 7px;
+  border: 1px solid #c9cace;
+  font-size: 16px; /* Adjust font size as needed */
+  font-family: "Trebuchet MS";
+  min-width: 50%;
+}
+
+.destarea:focus {
+  outline: none; /* Remove default outline on focus */
+  border-color: rgb(
+    29,
+    99,
+    237
+  ); /* Reset border color to original blue on focus */
+}
+
+.ioarea {
+  border-radius: 7px;
+  border: 1px solid #c9cace;
+  font-size: 16px; /* Adjust font size as needed */
+  font-family: "Trebuchet MS";
+  min-width: 325px;
+}
+
+.ioarea:focus {
+  outline: none; /* Remove default outline on focus */
+  border-color: rgb(
+    29,
+    99,
+    237
+  ); /* Reset border color to original blue on focus */
+}
+
+.tablefooterspace {
+  height: 25px;
+}
+
+.create {
+  margin-left: 66%;
+}
+.delete {
+  margin-left: 5%;
+}
+
+.addproblem {
+  width: 200px;
+  margin-left: 40%;
+}
+
+.create,
+.delete,
+.addproblem {
+  background-color: rgb(29, 99, 237);
+  border: none;
+  border-radius: 7px;
+  padding: 10px;
+  color: #ffffff;
+}
+
+.create:hover,
+.delete:hover,
+.addproblem:hover {
+  /* Use colon after selector */
+  background-color: rgba(0, 0, 255, 0.863);
+  transition: 500ms;
+}
+
+.customrating {
+  background-color: white;
+  border: 1px solid #c9cace; /* Initial gray border */
+  border-radius: 7px;
+  color: black;
+  padding: 5px;
+  font-size: 16px; /* Adjust font size as needed */
+  height: 25px;
+  max-width: 20%;
+  font-family: "Trebuchet MS";
+}
+
+.selector {
+  width: 50px;
+  height: 30px;
+  background-color: white;
+  border: 1px solid #c9cace;
+  border-radius: 7px;
+  font-size: 16px; /* Adjust font size as needed */
+  min-width: 10%;
+  /* min-width: 0%; */
+  font-family: "Trebuchet MS";
+  padding: 5px;
+}
+
+.selector option {
+  background-color: #fff;
+  color: #333;
+  padding: 5px 10px;
+}
+
+.selector option:selected {
+  background-color: #ffffff;
+}
+
+.selector:focus,
+.selector:active {
+  background-color: #ffffff;
+  border-color: rgb(29, 99, 237);
+}

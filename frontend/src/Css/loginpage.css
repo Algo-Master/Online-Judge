@@ -1,0 +1,158 @@
+.loginpage {
+  padding: 50px 50px;
+  display: grid;
+  place-items: center;
+  background-color: #f9f9fa;
+  height: 110vh;
+}
+
+.loginslip {
+  display: grid;
+  place-items: center;
+  width: 400px;
+  border: 1px solid #c9cace;
+  border-radius: 7px;
+  background-color: #ffffff;
+}
+
+.logindescrip {
+  display: grid;
+  place-items: center;
+  padding-top: 40px;
+  padding-bottom: 25px;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+.lrname {
+  font-size: xx-large;
+  font-weight: bolder;
+}
+
+.lrname1 {
+  color: rgb(29, 99, 237);
+}
+
+.lrname2 {
+  color: #7fe1ff;
+}
+
+.lrhead h2 {
+  font-size: x-larger;
+  font-weight: 400;
+}
+
+.lrcontent {
+  display: grid;
+  place-items: center;
+}
+
+.lrinputs {
+  width: 275px;
+  padding: 15px;
+  border: 1px solid #c9cace; /* Initial gray border */
+  border-radius: 7px;
+  font-size: medium;
+  font-family: "Trebuchet MS";
+}
+
+.lrinputs:focus {
+  outline: none; /* Remove default outline on focus */
+  border: 2px solid rgb(29, 99, 237);
+}
+
+.topspace {
+  margin-top: 20px;
+}
+
+.lrbutton {
+  margin: 20px;
+  width: 307px;
+  padding: 15px;
+  background-color: rgb(29, 99, 237);
+  border: none;
+  border-radius: 7px;
+  color: #ffffff;
+  font-size: medium;
+  font-family: "Trebuchet MS";
+}
+
+.lrbutton:hover {
+  /* Use colon after selector */
+  cursor: pointer;
+  background-color: rgb(36, 92, 206);
+  transition: 500ms;
+}
+
+.lr-seperator {
+  display: flex; /* Arrange elements horizontally */
+  align-items: center; /* Vertically center elements */
+  margin-bottom: 1em; /* Optional: Add some space below */
+}
+
+.line {
+  width: 100%; /* Make the line span the container width */
+  height: 1px; /* Set the line height */
+  background-color: #c9cace; /* Adjust color as needed */
+  display: inline-block;
+}
+
+.or-text {
+  margin: 0px 10px; /* Add spacing around the "OR" text */
+  color: #333; /* Adjust color as needed */
+  font-size: small;
+  font-weight: 400; /* Optional: Make the text bold */
+}
+
+.other-options {
+  width: 307px;
+}
+
+.google-signin {
+  background-color: transparent;
+  padding: 15px;
+  font-size: medium;
+  width: 307px;
+  border: 1px solid #c9cace; /* Initial gray border */
+  border-radius: 7px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.google-signin:hover {
+  cursor: pointer;
+  background-color: #e4e4e9;
+}
+
+.google-logo {
+  width: 25px;
+  height: 25px;
+  margin-right: 15px;
+  background-color: transparent;
+}
+
+.github-logo {
+  width: 30px;
+  height: 30px;
+}
+
+.lower-space {
+  margin-bottom: 35px;
+}
+
+.upper-space {
+  margin-top: 25px;
+}
+
+.logintoreg {
+  display: flex;
+  padding: 10px;
+}
+
+.logintoreglink {
+  cursor: pointer;
+  font-weight: 500;
+  color: rgb(29, 99, 237);
+  text-decoration: underline;
+}

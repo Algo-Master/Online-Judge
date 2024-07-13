@@ -1,0 +1,13 @@
+.edubody {
+  display: flex;
+  min-height: 100vh;
+  margin: 50px 100px;
+  background-color: rgb(255, 255, 255);
+}
+
+.content {
+  /* padding: 20px; */
+  background-color:rgb(255, 255, 255);
+  max-width: 100%;
+  color: black;
+}
