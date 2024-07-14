@@ -15,9 +15,29 @@ const generateFile = async (language, code) => {
     fs.mkdirSync(languageDir, { recursive: true });
   }
 
+  let extension; // Declare `extension` outside the switch for wider scope
+
+  switch (language) {
+    case "C++":
+      extension = "cpp";
+      break;
+    case "Java":
+      extension = "java";
+      break;
+    case "Python3":
+      extension = "py";
+      break;
+    case "JavaScript":
+      extension = "js";
+      break;
+    // Add more cases for other languages as needed
+    default:
+      extension = "unknown"; // Handle unknown languages gracefully
+  }
+
   // Generate a unique filename with the language as extension
   const jobId = uuid();
-  const filename = `${jobId}.${language}`;
+  const filename = `${jobId}.${extension}`;
   const filePath = path.join(languageDir, filename);
 
   // Write the code to the file

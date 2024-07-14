@@ -1,7 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 
-// Automation to create a new Inputs Folder
+// Create a new Inputs Folder
 const dirInput = path.join(__dirname, "Inputs");
 
 // Now check whether the path exists or not; if not, create that filepath
@@ -10,7 +10,6 @@ if (!fs.existsSync(dirInput)) {
 }
 
 const generateInputFile = async (input, filePath) => {
-    // console.log("Trying to generate the input file");
     const jobId = path.basename(filePath).split(".")[0]; // generate jobId i.e input file name
     const inputFileName = `${jobId}.txt`;
     const inputFilePath = path.join(dirInput, inputFileName); // Move the file to the dirInput file path=> But it will not show inside Inputs folder until we write something on that file

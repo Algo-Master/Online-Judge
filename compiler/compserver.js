@@ -41,7 +41,7 @@ app.post("/run", async (req, res) => {
     // Create a file using {lang, code}
     const filePath = await generateFile(language, code);
     //Create a file for CustomInput
-    const inputFilePath = await generateInputFile(input);
+    const inputFilePath = await generateInputFile(input, filePath);
     const output =
       language === "C++"
         ? await executecpp(filePath, inputFilePath)
@@ -69,7 +69,7 @@ app.post("/submit", async (req, res) => {
     const problem = await Problem.findById(problemId);
     if (!problem) {
       return res
-        .status(404)
+        .status(400)
         .json({ success: false, error: "Problem not found" });
     }
 
@@ -88,16 +88,17 @@ app.post("/submit", async (req, res) => {
             : "Sorry we are only accepting C++ solution only for now";
         // Add similar blocks for other languages as needed
         // console.log("Code Execution is done");
-
+        
         // Trim any extra whitespace from the output and expected output
         const cleanedOutput = output.trim();
         const expectedOutput = testcase.testoutput.trim();
 
-        if (cleanedOutput !== expectedOutput) {
+        if (cleanedOutput != expectedOutput) {
           return res.status(200).json({
             success: false,
             verdict: "Wrong Answer",
-            failedTestCase: testcase.testinput,
+            // failedTestCase: testcase.testinput,
+            failedTestCase: expectedOutput,
           });
         }
       } catch (error) {
