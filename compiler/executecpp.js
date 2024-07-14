@@ -8,25 +8,26 @@ if (!fs.existsSync(outputPath)) {
   fs.mkdirSync(outputPath, { recursive: true });
 }
 
+// executecpp.js
 const executecpp = (filePath, inputFilePath) => {
-  // console.log("Hey i am gonna execute now, filepath: ", filePath, ".   inputfilepath: ", inputFilePath);
   const jobId = path.basename(filePath).split(".")[0];
   const outputFilename = `${jobId}.exe`;
   const outPath = path.join(outputPath, outputFilename);
 
   return new Promise((resolve, reject) => {
-    // Concatenating the commands by using &&, basically 3 different commands are running!!
     exec(
       `g++ ${filePath} -o ${outPath} && cd ${outputPath} && .\\${outputFilename} < ${inputFilePath}`,
       (error, stdout, stderr) => {
         if (error) reject(error);
         else if (stderr) reject(stderr);
-        else resolve(stdout);
+        else {
+          // Normalize line endings to '\n'
+          const normalizedOutput = stdout.replace(/\r\n/g, '\n').trim();
+          resolve(normalizedOutput);
+        }
       }
     );
   });
-
-  // return outPath;
 };
 
 module.exports = { executecpp };

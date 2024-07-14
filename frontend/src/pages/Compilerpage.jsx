@@ -44,6 +44,7 @@ int main() {
 }`);
   const [manualTestCase, setManualTestCase] = useState("");
   const [output, setOutput] = useState("");
+  const [terminal, setTerminal] = useState("");
   const [problemWidth, setProblemWidth] = useState("50%");
   const [activeComponent, setActiveComponent] = useState("description");
   const [activeTab, setActiveTab] = useState("input");
@@ -131,10 +132,10 @@ int main() {
       setActiveTab("terminal");
       if (data.success) {
         toast.success(data.verdict, { position: "top-center" });
-        setOutput(data.verdict);
+        setTerminal("Solution Accepted");
       } else {
         toast.error(data.verdict, { position: "top-center" });
-        setOutput(
+        setTerminal(
           `Verdict: ${data.verdict}\nFailed Test Case: ${JSON.stringify(
             data.failedTestCase
           )}`
@@ -390,10 +391,12 @@ int main() {
             />
           )}
           {activeTab === "terminal" && (
-            <div className="terminal-area iotarea">
-              <p>Terminal output will be displayed here.</p>
-              {/* Add your terminal display logic here */}
-            </div>
+            <textarea
+              className="terminal-area iotarea"
+              value={terminal}
+              readOnly
+              placeholder="Terminal output will be displayed here."
+            />
           )}
           <div className="runsub">
             <button className="run" onClick={handleRun}>

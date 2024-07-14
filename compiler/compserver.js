@@ -55,17 +55,16 @@ app.post("/run", async (req, res) => {
   }
 });
 
+// compilerServer.js
 app.post("/submit", async (req, res) => {
   const { lang = "C++", code, problemId } = req.body;
-  // console.log("Ya so we are recieving ur request with lang: ", lang, " code: ", code, " problemId: ", problemId);
 
   if (!code) {
     console.log("Code not present");
-    return res.status(401).json({ success: false, error: "Code not found" }); // success-> use in production grade
+    return res.status(401).json({ success: false, error: "Code not found" });
   }
 
   try {
-    // Fetch problem and its test cases
     const problem = await Problem.findById(problemId);
     if (!problem) {
       return res
@@ -73,12 +72,9 @@ app.post("/submit", async (req, res) => {
         .json({ success: false, error: "Problem not found" });
     }
 
-    // Generate code file
     const filePath = await generateFile(lang, code);
 
-    // Iterate through each test case
     for (const testcase of problem.testcases) {
-      // Generate input file for each test case
       const inputFilePath = await generateInputFile(testcase.testinput, filePath);
 
       try {
@@ -86,18 +82,15 @@ app.post("/submit", async (req, res) => {
           lang === "C++"
             ? await executecpp(filePath, inputFilePath)
             : "Sorry we are only accepting C++ solution only for now";
-        // Add similar blocks for other languages as needed
-        // console.log("Code Execution is done");
-        
-        // Trim any extra whitespace from the output and expected output
-        const cleanedOutput = output.trim();
-        const expectedOutput = testcase.testoutput.trim();
 
-        if (cleanedOutput != expectedOutput) {
+        // Normalize expected output
+        const cleanedOutput = output.trim();
+        const expectedOutput = testcase.testoutput.replace(/\r\n/g, '\n').trim();
+
+        if (cleanedOutput !== expectedOutput) {
           return res.status(200).json({
             success: false,
             verdict: "Wrong Answer",
-            // failedTestCase: testcase.testinput,
             failedTestCase: expectedOutput,
           });
         }
@@ -120,6 +113,7 @@ app.post("/submit", async (req, res) => {
     return res.status(500).json({ success: false, error: error.message });
   }
 });
+
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => {
