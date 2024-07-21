@@ -307,6 +307,7 @@
   border-radius: 20px;
   font-size: 14px;
   font-weight: 600;
+  cursor: pointer;
 }
 
 .run:hover {
@@ -327,6 +328,7 @@
   border-radius: 20px;
   font-size: 14px;
   font-weight: 600;
+  cursor: pointer;
 }
 
 .submit:hover {

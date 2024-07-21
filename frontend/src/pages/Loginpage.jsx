@@ -2,11 +2,13 @@ import React, { useState, useContext, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import { UserContext } from "../UserData";
-const backendUrl = import.meta.env.VITE_BACKEND_URL;
+import { GoogleLogin } from "@react-oauth/google";
 import { ToastContainer, toast } from "react-toastify";
 import "../Css/loginpage.css";
 import googleLogo from "../Assets/GoogleLogo.png";
 import githubLogo from "../Assets/GitHubLogo.png";
+
+const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
 const Loginpage = () => {
   const navigate = useNavigate();
@@ -66,6 +68,31 @@ const Loginpage = () => {
       email: "",
       password: "",
     });
+  };
+
+  const handleGoogleSuccess = async (response) => {
+    try {
+      const decoded = jwt_decode(response.credential);
+      const { data } = await axios.post(`${backendUrl}google-login`, {
+        token: response.credential,
+      });
+      const { jwt } = data;
+      localStorage.setItem("token", jwt);
+
+      // Fetch user data and set it in context
+      const userData = await axios.get(`${backendUrl}authenticate`, {
+        headers: { Authorization: `Bearer ${jwt}` },
+      });
+      setUser(userData.data.user);
+      setIsAuthenticated(true);
+      navigate("/");
+    } catch (error) {
+      console.error("Google login failed", error);
+    }
+  };
+
+  const handleGoogleFailure = (response) => {
+    console.error("Google login failed", response);
   };
 
   // useEffect(() => {
@@ -129,6 +156,11 @@ const Loginpage = () => {
             />
             Continue with GitHub
           </button>
+          {/* <GoogleLogin
+            onSuccess={handleGoogleSuccess}
+            onError={handleGoogleFailure}
+            cookiePolicy={"single_host_origin"}
+          /> */}
         </div>
       </div>
       <div className="loginslip upper-space lower-space">

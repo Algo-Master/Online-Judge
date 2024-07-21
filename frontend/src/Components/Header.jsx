@@ -1,19 +1,52 @@
 import { Xnav } from "./Navbar";
+import axios from "axios";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../UserData";
 import features from "../Assets/icons8-three-dots-50.png";
+import { ToastContainer, toast } from "react-toastify";
 import "./Header.css";
+
+const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
 export const Xheader = () => {
   const navigate = useNavigate(); // GET THE NAVIGATION FUNCTION
-  const { user, isAuthenticated } = useContext(UserContext);
+  const { user, setUser, isAuthenticated, setIsAuthenticated } =
+    useContext(UserContext);
   // HANDLE NAVIGATION TO SIGNUP PAGE
   const handleSignUp = () => navigate("/register");
 
   // HANDLE NAVIGATION TO LOGIN PAGE
   const handleLogIn = () => {
     navigate("/login"); // NAVIGATE TO THE LOGIN PAGE
+  };
+
+  const handleError = (err) =>
+    toast.error(err, {
+      position: "top-center",
+    });
+
+  const handleSuccess = (msg) =>
+    toast.success(msg, {
+      position: "top-center",
+    });
+
+  const handleLogOut = async () => {
+    try {
+      const { data } = await axios.post(`${backendUrl}logout`, {}, { withCredentials: true });
+      const { success, message } = data;
+
+      if (success) {
+        handleSuccess(message);
+        setUser(null);
+        setIsAuthenticated(false);
+      } else {
+        handleError(message);
+      }
+    } catch (error) {
+      const errorMessage = error.response?.data || "Something went wrong";
+      handleError(errorMessage);
+    }
   };
 
   const isProblemPage = /^\/problems\/[a-zA-Z0-9]+$/.test(location.pathname); // Check if the path matches the problem page pattern
@@ -31,8 +64,12 @@ export const Xheader = () => {
           </button>
           {isAuthenticated ? (
             <>
-              <button className="profilebutton">{user.firstName.slice(0,1)}</button>
-              <button className="button">Sign Out</button>
+              <button className="profilebutton">
+                {user.firstName.slice(0, 1)}
+              </button>
+              <button className="button" onClick={handleLogOut}>
+                Sign Out
+              </button>
             </>
           ) : (
             <>
@@ -56,6 +93,7 @@ export const Xheader = () => {
         </div>
       )}
       {!isProblemPage && <Xnav />}
+      <ToastContainer />
     </div>
   );
 };

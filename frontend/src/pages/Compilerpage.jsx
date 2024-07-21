@@ -80,8 +80,9 @@ int main() {
   };
 
   const handleRun = async () => {
+    setActiveTab("output");
     if (!code.trim() || !manualTestCase.trim()) {
-      setOutput("Input data is missing !!");
+      setOutput("Input data is missing ftend!!");
       return;
     }
     if (!user.user) {
@@ -99,7 +100,6 @@ int main() {
       const { data } = await axios.post(`${compilerUrl}run`, payload, {
         withCredentials: true, // Ensure credentials (cookies) are included
       });
-      setActiveTab("output");
       setOutput(data.output);
     } catch (error) {
       console.log(error.response);
@@ -108,6 +108,7 @@ int main() {
   };
 
   const handleSubmit = async () => {
+    setActiveTab("terminal");
     if (!code.trim()) {
       toast.error("Code cannot be empty!", { position: "top-center" });
       return;
@@ -129,7 +130,6 @@ int main() {
         payload,
         { withCredentials: true }
       );
-      setActiveTab("terminal");
       if (data.success) {
         toast.success(data.verdict, { position: "top-center" });
         setTerminal("Solution Accepted");

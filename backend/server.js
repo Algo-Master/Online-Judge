@@ -8,6 +8,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { authenticate, authorize } = require("./auth");
 const cookieParser = require("cookie-parser");
+const { OAuth2Client } = require("google-auth-library");
 
 const corsOptions = {
   origin: "http://localhost:5173", // Replace with your frontend origin
@@ -23,6 +24,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 DBConnection();
+
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+// const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
 
 app.get("/", (req, res) => {
   res.send("Hello World!!");
@@ -101,6 +105,7 @@ app.post("/login", async (req, res) => {
       { id: existinguser._id, role: existinguser.role },
       process.env.SECRET_KEY,
       {
+        algorithm: "HS256",
         expiresIn: "1h",
       }
     );
@@ -126,7 +131,53 @@ app.post("/login", async (req, res) => {
   }
 });
 
-// -----------------------FETCH CURRENT USER DATA -----------------------------------------
+// ----------------------- GOOGLE LOGIN -----------------------------------------
+
+app.post("/google-login", async (req, res) => {
+  const { token } = req.body;
+
+  try {
+    const ticket = await client.verifyIdToken({
+      idToken: token,
+      audience: process.env.GOOGLE_CLIENT_ID,
+    });
+    const payload = ticket.getPayload();
+
+    let user = await User.findOne({ email: payload.email });
+    if (!user) {
+      user = await User.create({
+        firstName: payload.given_name,
+        lastName: payload.family_name,
+        email: payload.email,
+        password: null, // Google authenticated users don't need a password
+        role: "user",
+      });
+    }
+
+    const jwtToken = jwt.sign(
+      { id: user._id, role: user.role },
+      process.env.SECRET_KEY,
+      {
+        algorithm: "HS256",
+        expiresIn: "1h",
+      }
+    );
+
+    res.status(200).json({ jwt: jwtToken });
+  } catch (error) {
+    console.error(error);
+    res.status(401).json({ error: "Invalid Google token" });
+  }
+});
+
+// ----------------------- LOGOUT -----------------------------------------
+
+app.post("/logout", (req, res) => {
+  res.clearCookie('token');
+  res.status(200).json({ success: true, message: "Successfully logged out" });
+});
+
+// ----------------------- FETCH CURRENT USER DATA -----------------------------------------
 
 app.get("/authenticate", async (req, res) => {
   const token = req.cookies?.token;
@@ -178,7 +229,11 @@ app.post("/problems/add-problem", async (req, res) => {
   const verified = authorize(token, "problem_setter");
   switch (verified) {
     case 0:
-      return res.status(400).send("You are Unauthorized to add problems or else Token has been tampered with");
+      return res
+        .status(400)
+        .send(
+          "You are Unauthorized to add problems or else Token has been tampered with"
+        );
       break;
     case 2:
       return res.status(401).send("Token expired. Please log in again.");
