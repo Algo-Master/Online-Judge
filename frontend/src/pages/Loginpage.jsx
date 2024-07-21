@@ -2,13 +2,14 @@ import React, { useState, useContext, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import { UserContext } from "../UserData";
-import { GoogleLogin } from "@react-oauth/google";
+import { useGoogleLogin, GoogleLogin } from "@react-oauth/google";
 import { ToastContainer, toast } from "react-toastify";
 import "../Css/loginpage.css";
 import googleLogo from "../Assets/GoogleLogo.png";
 import githubLogo from "../Assets/GitHubLogo.png";
 
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
+const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID
 
 const Loginpage = () => {
   const navigate = useNavigate();
@@ -70,22 +71,20 @@ const Loginpage = () => {
     });
   };
 
-  const handleGoogleSuccess = async (response) => {
+  const handleGoogleSuccess = async (tokenResponse) => {
     try {
-      const decoded = jwt_decode(response.credential);
+      console.log(tokenResponse);
       const { data } = await axios.post(`${backendUrl}google-login`, {
-        token: response.credential,
+        token: tokenResponse.access_token,
       });
-      const { jwt } = data;
-      localStorage.setItem("token", jwt);
+      // const { jwt } = data;
+      // localStorage.setItem("token", jwt);
 
-      // Fetch user data and set it in context
-      const userData = await axios.get(`${backendUrl}authenticate`, {
-        headers: { Authorization: `Bearer ${jwt}` },
-      });
-      setUser(userData.data.user);
-      setIsAuthenticated(true);
-      navigate("/");
+      // setUser();
+      // setIsAuthenticated(true);
+      setTimeout(() => {
+        navigate("/");
+      }, 1000);
     } catch (error) {
       console.error("Google login failed", error);
     }
@@ -94,6 +93,14 @@ const Loginpage = () => {
   const handleGoogleFailure = (response) => {
     console.error("Google login failed", response);
   };
+
+  const googleLogin = useGoogleLogin({
+    onSuccess: handleGoogleSuccess,
+    onError: handleGoogleFailure,
+    scope: "openid profile email",
+    flow: "implicit",
+    responseType: "id_token", // Use id_token response type to get ID token directly
+  });
 
   // useEffect(() => {
   //   if (user) {
@@ -144,7 +151,7 @@ const Loginpage = () => {
           </span>
         </div>
         <div className="other-options">
-          <button className="google-signin">
+          <button className="google-signin" onClick={() => googleLogin()}>
             <img src={googleLogo} alt="Google Logo" className="google-logo" />
             Continue with Google
           </button>
@@ -156,11 +163,6 @@ const Loginpage = () => {
             />
             Continue with GitHub
           </button>
-          {/* <GoogleLogin
-            onSuccess={handleGoogleSuccess}
-            onError={handleGoogleFailure}
-            cookiePolicy={"single_host_origin"}
-          /> */}
         </div>
       </div>
       <div className="loginslip upper-space lower-space">
@@ -172,6 +174,15 @@ const Loginpage = () => {
             </Link>
           </p>
         </div>
+        <GoogleLogin
+          clientId={GOOGLE_CLIENT_ID}
+          onSuccess={(credentialResponse) => {
+            console.log(credentialResponse);
+          }}
+          onError={() => {
+            console.log("Login Failed");
+          }}
+        />
       </div>
       <ToastContainer />
     </div>

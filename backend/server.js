@@ -142,6 +142,7 @@ app.post("/google-login", async (req, res) => {
       audience: process.env.GOOGLE_CLIENT_ID,
     });
     const payload = ticket.getPayload();
+    // console.log(payload);
 
     let user = await User.findOne({ email: payload.email });
     if (!user) {
