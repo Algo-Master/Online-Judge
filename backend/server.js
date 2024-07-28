@@ -153,27 +153,21 @@ app.post("/google-login", async (req, res) => {
     const data = await response.json();
     console.log(data);
 
-    const existinguser = await User.findOne({ email: data.email });
+    let existinguser = await User.findOne({ email: data.email });
 
     if (!existinguser) {
 
       existinguser = await User.create({
         firstName: data.given_name,
-        lastName: data.family_name,
+        lastName: data.family_name || "",
         email: data.email,
         password: "null", // Google authenticated users don't need a password
         role: "user",
       });
     }
 
-    // Store token in Cookies with options
-    const options = {
-      expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
-      httpOnly: true, // only manipulated by ur server not by frontend/client
-    };
-
-    // Send the DATA
-    const jwtToken = jwt.sign(
+    // Generate a token for user and send it
+    const token = jwt.sign(
       { id: existinguser._id, role: existinguser.role },
       process.env.SECRET_KEY,
       {
@@ -182,7 +176,16 @@ app.post("/google-login", async (req, res) => {
       }
     );
 
-    res.status(200).cookie("token", jwtToken, options).json({
+    existinguser.password = undefined;
+
+    // Store token in Cookies with options
+    const options = {
+      expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
+      httpOnly: true, // only manipulated by ur server not by frontend/client
+    };
+
+    // Send the data
+    res.status(200).cookie("token", token, options).json({
       message: "You have successfully logged in",
       success: true,
       existinguser,

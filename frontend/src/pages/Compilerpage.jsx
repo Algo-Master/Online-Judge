@@ -57,9 +57,7 @@ int main() {
   useEffect(() => {
     const fetchProblem = async () => {
       try {
-        const response = await axios.get(
-          `${backendUrl}problems/${problemId}`
-        );
+        const response = await axios.get(`${backendUrl}problems/${problemId}`);
         setProblem(response.data.problem);
         if (response.data.redirectUrl) {
           navigate(response.data.redirectUrl);
@@ -125,11 +123,9 @@ int main() {
       problemId,
     };
     try {
-      const { data } = await axios.post(
-        `${compilerUrl}submit`,
-        payload,
-        { withCredentials: true }
-      );
+      const { data } = await axios.post(`${compilerUrl}submit`, payload, {
+        withCredentials: true,
+      });
       if (data.success) {
         toast.success(data.verdict, { position: "top-center" });
         setTerminal("Solution Accepted");
@@ -235,12 +231,30 @@ int main() {
   const languageMapping = {
     "C++": "cpp",
     Java: "java",
-    Python3: "python", // Use appropriate theme keys based on Monaco Editor's available themes
+    Python3: "python", // Using appropriate theme keys based on Monaco Editor's available themes
+  };
+
+  const templatecodeMapping = {
+    "C++": `
+#include <bits/stdc++.h> 
+using namespace std;
+
+int main() {
+    cout << "Hello World!";
+    return 0;
+}`,
+    Java: `class HelloWorld {
+    public static void main(String[] args) {
+        System.out.println("Hello World!");
+    }
+}`,
+    Python3: `print("Hello World!")`,
   };
 
   const handleLanguageSelect = (item) => {
     console.log(`Language selected: ${item}`);
     setSelectedLanguage(item);
+    setCode(templatecodeMapping[item])
   };
 
   const themeMapping = {

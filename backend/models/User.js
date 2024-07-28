@@ -9,7 +9,6 @@ const userSchema = new mongoose.Schema({
   lastName: {
     type: String,
     default: null,
-    required: true,
   },
   email: {
     type: String,
@@ -21,14 +20,14 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  solvedProblems:{
-      type:Array,
-      default:[],
+  solvedProblems: {
+    type: Array,
+    default: [],
   },
-  role:{
-      type:String,
-      default:false,
-  }
+  role: {
+    type: String,
+    default: false,
+  },
 });
 
 module.exports = mongoose.model("User", userSchema);

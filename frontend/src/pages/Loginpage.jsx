@@ -74,9 +74,13 @@ const Loginpage = () => {
   const handleGoogleSuccess = async (tokenResponse) => {
     try {
       console.log(tokenResponse);
-      const { data } = await axios.post(`${backendUrl}google-login`, {
-        access_token: tokenResponse.access_token,
-      });
+      const { data } = await axios.post(
+        `${backendUrl}google-login`,
+        {
+          access_token: tokenResponse.access_token,
+        },
+        { withCredentials: true }
+      );
 
       const { success, message, existinguser } = data;
 
