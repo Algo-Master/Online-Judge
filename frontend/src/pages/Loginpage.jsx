@@ -9,7 +9,7 @@ import googleLogo from "../Assets/GoogleLogo.png";
 import githubLogo from "../Assets/GitHubLogo.png";
 
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
-const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID
+const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
 const Loginpage = () => {
   const navigate = useNavigate();
@@ -75,16 +75,22 @@ const Loginpage = () => {
     try {
       console.log(tokenResponse);
       const { data } = await axios.post(`${backendUrl}google-login`, {
-        token: tokenResponse.access_token,
+        access_token: tokenResponse.access_token,
       });
-      // const { jwt } = data;
-      // localStorage.setItem("token", jwt);
 
-      // setUser();
-      // setIsAuthenticated(true);
-      setTimeout(() => {
-        navigate("/");
-      }, 1000);
+      const { success, message, existinguser } = data;
+
+      if (success) {
+        handleSuccess(message);
+        setUser(existinguser);
+        setIsAuthenticated(true);
+
+        setTimeout(() => {
+          navigate("/");
+        }, 1000);
+      } else {
+        handleError(message);
+      }
     } catch (error) {
       console.error("Google login failed", error);
     }
@@ -97,9 +103,9 @@ const Loginpage = () => {
   const googleLogin = useGoogleLogin({
     onSuccess: handleGoogleSuccess,
     onError: handleGoogleFailure,
-    scope: "openid profile email",
-    flow: "implicit",
-    responseType: "id_token", // Use id_token response type to get ID token directly
+    // scope: "openid profile email",
+    // flow: "implicit",
+    // responseType: "id_token"
   });
 
   // useEffect(() => {
@@ -174,15 +180,6 @@ const Loginpage = () => {
             </Link>
           </p>
         </div>
-        <GoogleLogin
-          clientId={GOOGLE_CLIENT_ID}
-          onSuccess={(credentialResponse) => {
-            console.log(credentialResponse);
-          }}
-          onError={() => {
-            console.log("Login Failed");
-          }}
-        />
       </div>
       <ToastContainer />
     </div>

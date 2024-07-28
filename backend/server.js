@@ -122,7 +122,6 @@ app.post("/login", async (req, res) => {
     res.status(200).cookie("token", token, options).json({
       message: "You have successfully logged in",
       success: true,
-      token,
       existinguser,
     });
   } catch (error) {
@@ -134,29 +133,48 @@ app.post("/login", async (req, res) => {
 // ----------------------- GOOGLE LOGIN -----------------------------------------
 
 app.post("/google-login", async (req, res) => {
-  const { token } = req.body;
+  const { access_token } = req.body;
 
   try {
-    const ticket = await client.verifyIdToken({
-      idToken: token,
-      audience: process.env.GOOGLE_CLIENT_ID,
-    });
-    const payload = ticket.getPayload();
-    // console.log(payload);
+    const response = await fetch(
+      "https://www.googleapis.com/oauth2/v3/userinfo",
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+      }
+    );
 
-    let user = await User.findOne({ email: payload.email });
-    if (!user) {
-      user = await User.create({
-        firstName: payload.given_name,
-        lastName: payload.family_name,
-        email: payload.email,
-        password: null, // Google authenticated users don't need a password
+    if (!response.ok) {
+      throw new Error(`Error fetching user info: ${response.status}`);
+    }
+
+    const data = await response.json();
+    console.log(data);
+
+    const existinguser = await User.findOne({ email: data.email });
+
+    if (!existinguser) {
+
+      existinguser = await User.create({
+        firstName: data.given_name,
+        lastName: data.family_name,
+        email: data.email,
+        password: "null", // Google authenticated users don't need a password
         role: "user",
       });
     }
 
+    // Store token in Cookies with options
+    const options = {
+      expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
+      httpOnly: true, // only manipulated by ur server not by frontend/client
+    };
+
+    // Send the DATA
     const jwtToken = jwt.sign(
-      { id: user._id, role: user.role },
+      { id: existinguser._id, role: existinguser.role },
       process.env.SECRET_KEY,
       {
         algorithm: "HS256",
@@ -164,7 +182,11 @@ app.post("/google-login", async (req, res) => {
       }
     );
 
-    res.status(200).json({ jwt: jwtToken });
+    res.status(200).cookie("token", jwtToken, options).json({
+      message: "You have successfully logged in",
+      success: true,
+      existinguser,
+    });
   } catch (error) {
     console.error(error);
     res.status(401).json({ error: "Invalid Google token" });
@@ -174,7 +196,7 @@ app.post("/google-login", async (req, res) => {
 // ----------------------- LOGOUT -----------------------------------------
 
 app.post("/logout", (req, res) => {
-  res.clearCookie('token');
+  res.clearCookie("token");
   res.status(200).json({ success: true, message: "Successfully logged out" });
 });
 
