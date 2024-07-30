@@ -291,6 +291,13 @@
   border: 2px solid rgb(29, 99, 237); /* Customize focus color */
 }
 
+.centered-analyser {
+  height: 25%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .runsub {
   display:flex;
   justify-content: space-between;

@@ -13,11 +13,14 @@ const executecpp = (filePath, inputFilePath) => {
   const jobId = path.basename(filePath).split(".")[0];
   const outputFilename = `${jobId}.exe`;
   const outPath = path.join(outputPath, outputFilename);
+  const exedir = path.join(__dirname, `executables`);
+  const executable = path.join(exedir, outputFilename);
 
   return new Promise((resolve, reject) => {
     exec(
       `g++ ${filePath} -o ${outPath} && cd ${outputPath} && .\\${outputFilename} < ${inputFilePath}`,
       (error, stdout, stderr) => {
+        fs.unlinkSync(executable);
         if (error) reject(error);
         else if (stderr) reject(stderr);
         else {
@@ -31,61 +34,56 @@ const executecpp = (filePath, inputFilePath) => {
 };
 
 // executejava.js
-const executejava = (filePath, inputFilePath) => {
-  const jobId = path.basename(filePath).split(".")[0];
+const executejava = (filePath, inputFilePath)=>{
+  // const jobId = path.basename(filePath).split(".")[0];
+  // const outputFilename = `${jobId}.java`;
 
-  return new Promise((resolve, reject) => {
-    exec(
-      `javac ${filePath} -d ${outputPath} && cd ${outputPath}`,
-      (error, stdout, stderr) => {
-        if (error) reject(error);
-        else if (stderr) reject(stderr);
-        else {
-          const className = getClassName(filePath);
-          // Rename the compiled .class file to the UUID
-          const originalClassFile = path.join(outputPath, `${className}.class`);
-          const renamedClassFile = path.join(outputPath, `${jobId}.class`);
-          console.log(className);
-          fs.renameSync(originalClassFile, renamedClassFile);
-          console.log(`java ${jobId} < ${inputFilePath}`);
-
-          exec(`java ${jobId} < ${inputFilePath}`, (execError, execStdout, execStderr) => {
-            if (execError) return reject(execError);
-            if (execStderr) return reject(execStderr);
-            else {
-              console.log(command);
-              const normalizedOutput = execStdout.replace(/\r\n/g, "\n").trim();
-              console.log(normalizedOutput);
-              resolve(normalizedOutput);
-            }
-          });
-        }
-      }
-    );
+  return new Promise((resolve,reject)=>{
+      exec(`javac ${filePath} && java ${filePath} < ${inputFilePath}`,
+      (error,stdout,stderr)=>{
+          if(error){
+              reject(error);
+          }
+          if(stderr){
+              reject(stderr);
+          }
+          resolve(stdout);
+      });
   });
-};
-
-function getClassName(filePath) {
-  try {
-    // Read the file content synchronously
-    const data = fs.readFileSync(filePath, "utf8");
-
-    // Regular expression to match class name
-    const classRegex = /\bclass\s+(\w+)/;
-    const match = data.match(classRegex);
-
-    if (match && match[1]) {
-      console.log("Class name:", match[1]);
-      return match[1];
-    } else {
-      console.log("No class name found");
-      return null;
-    }
-  } catch (err) {
-    console.error("Error reading the file:", err);
-    return null;
-  }
 }
+// const executejava = (filePath, inputFilePath) => {
+//   const jobId = path.basename(filePath).split(".")[0];
+
+//   return new Promise((resolve, reject) => {
+//     exec(
+//       `javac ${filePath} -d ${outputPath} && cd ${outputPath}`,
+//       (error, stdout, stderr) => {
+//         if (error) reject(error);
+//         else if (stderr) reject(stderr);
+//         else {
+//           const className = getClassName(filePath);
+//           // Rename the compiled .class file to the UUID
+//           const originalClassFile = path.join(outputPath, `${className}.class`);
+//           const renamedClassFile = path.join(outputPath, `${jobId}.class`);
+//           console.log(className);
+//           fs.renameSync(originalClassFile, renamedClassFile);
+//           console.log(`java ${jobId} < ${inputFilePath}`);
+
+//           exec(`java ${jobId} < ${inputFilePath}`, (execError, execStdout, execStderr) => {
+//             if (execError) return reject(execError);
+//             if (execStderr) return reject(execStderr);
+//             else {
+//               console.log(command);
+//               const normalizedOutput = execStdout.replace(/\r\n/g, "\n").trim();
+//               console.log(normalizedOutput);
+//               resolve(normalizedOutput);
+//             }
+//           });
+//         }
+//       }
+//     );
+//   });
+// };
 
 // executePy.js
 const executePy = (filePath, inputFilePath) => {

@@ -24,7 +24,7 @@ import {
   kimbieDark,
   tomorrowNight,
 } from "monaco-themes";
-import { ThreeCircles } from "react-loader-spinner";
+import { ThreeCircles, Bars } from "react-loader-spinner";
 import "../Css/Compilerpage.css";
 
 const Compilerpage = () => {
@@ -78,6 +78,7 @@ int main() {
   };
 
   const handleRun = async () => {
+    setOutput("");
     setActiveTab("output");
     if (!code.trim() || !manualTestCase.trim()) {
       setOutput("Input data is missing ftend!!");
@@ -106,6 +107,7 @@ int main() {
   };
 
   const handleSubmit = async () => {
+    setTerminal("");
     setActiveTab("terminal");
     if (!code.trim()) {
       toast.error("Code cannot be empty!", { position: "top-center" });
@@ -245,16 +247,16 @@ int main() {
 }`,
     Java: `class HelloWorld {
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        System.out.println("Hello World!!");
     }
 }`,
-    Python3: `print("Hello World!")`,
+    Python3: `print("Hello World!!!")`,
   };
 
   const handleLanguageSelect = (item) => {
     console.log(`Language selected: ${item}`);
     setSelectedLanguage(item);
-    setCode(templatecodeMapping[item])
+    setCode(templatecodeMapping[item]);
   };
 
   const themeMapping = {
@@ -396,22 +398,33 @@ int main() {
               placeholder="Enter custom input here..."
             />
           )}
-          {activeTab === "output" && (
-            <textarea
-              className="output-area iotarea"
-              value={output}
-              readOnly
-              placeholder="Output will be shown here..."
-            />
-          )}
-          {activeTab === "terminal" && (
-            <textarea
-              className="terminal-area iotarea"
-              value={terminal}
-              readOnly
-              placeholder="Terminal output will be displayed here."
-            />
-          )}
+          {activeTab === "output" &&
+            (output != "" ? (
+              <textarea
+                className="output-area iotarea"
+                value={output}
+                readOnly
+                placeholder="Output will be shown here..."
+              />
+            ) : (
+              <div className="centered-analyser">
+                <Bars color="blue" radius="9" height="40" width="40" />
+              </div>
+            ))}
+          {activeTab === "terminal" && 
+            (terminal != "" ? (
+              <textarea
+                className="terminal-area iotarea"
+                value={terminal}
+                readOnly
+                placeholder="Terminal output will be displayed here..."
+              />
+            ) : (
+              <div className="centered-analyser">
+                <Bars color="blue" radius="9" height="40" width="40" />
+              </div>
+            ))
+          }
           <div className="runsub">
             <button className="run" onClick={handleRun}>
               Run
