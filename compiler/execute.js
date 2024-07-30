@@ -21,6 +21,7 @@ const executecpp = (filePath, inputFilePath) => {
       `g++ ${filePath} -o ${outPath} && cd ${outputPath} && .\\${outputFilename} < ${inputFilePath}`,
       (error, stdout, stderr) => {
         fs.unlinkSync(executable);
+        fs.unlinkSync(inputFilePath);
         if (error) reject(error);
         else if (stderr) reject(stderr);
         else {
@@ -34,63 +35,31 @@ const executecpp = (filePath, inputFilePath) => {
 };
 
 // executejava.js
-const executejava = (filePath, inputFilePath)=>{
+const executejava = (filePath, inputFilePath) => {
   // const jobId = path.basename(filePath).split(".")[0];
   // const outputFilename = `${jobId}.java`;
 
-  return new Promise((resolve,reject)=>{
-      exec(`javac ${filePath} && java ${filePath} < ${inputFilePath}`,
-      (error,stdout,stderr)=>{
-          if(error){
-              reject(error);
-          }
-          if(stderr){
-              reject(stderr);
-          }
-          resolve(stdout);
-      });
+  return new Promise((resolve, reject) => {
+    exec(`java ${filePath} < ${inputFilePath}`, (error, stdout, stderr) => {
+      fs.unlinkSync(inputFilePath);
+      if (error) {
+        reject(error);
+      }
+      if (stderr) {
+        reject(stderr);
+      }
+      resolve(stdout);
+    });
   });
-}
-// const executejava = (filePath, inputFilePath) => {
-//   const jobId = path.basename(filePath).split(".")[0];
-
-//   return new Promise((resolve, reject) => {
-//     exec(
-//       `javac ${filePath} -d ${outputPath} && cd ${outputPath}`,
-//       (error, stdout, stderr) => {
-//         if (error) reject(error);
-//         else if (stderr) reject(stderr);
-//         else {
-//           const className = getClassName(filePath);
-//           // Rename the compiled .class file to the UUID
-//           const originalClassFile = path.join(outputPath, `${className}.class`);
-//           const renamedClassFile = path.join(outputPath, `${jobId}.class`);
-//           console.log(className);
-//           fs.renameSync(originalClassFile, renamedClassFile);
-//           console.log(`java ${jobId} < ${inputFilePath}`);
-
-//           exec(`java ${jobId} < ${inputFilePath}`, (execError, execStdout, execStderr) => {
-//             if (execError) return reject(execError);
-//             if (execStderr) return reject(execStderr);
-//             else {
-//               console.log(command);
-//               const normalizedOutput = execStdout.replace(/\r\n/g, "\n").trim();
-//               console.log(normalizedOutput);
-//               resolve(normalizedOutput);
-//             }
-//           });
-//         }
-//       }
-//     );
-//   });
-// };
+};
 
 // executePy.js
 const executePy = (filePath, inputFilePath) => {
   console.log(`python ${filePath} < ${inputFilePath}`);
-  
+
   return new Promise((resolve, reject) => {
     exec(`python ${filePath} < ${inputFilePath}`, (error, stdout, stderr) => {
+      fs.unlinkSync(inputFilePath);
       if (error) reject(error);
       else if (stderr) reject(stderr);
       else {

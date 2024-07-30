@@ -6,6 +6,7 @@ const { generateInputFile } = require("./generateInputFile");
 const { authenticate } = require("./auth");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
+const fs = require("fs");
 
 const corsOptions = {
   origin: "http://localhost:5173", // Replace with your frontend origin
@@ -76,14 +77,12 @@ app.post("/run", async (req, res) => {
           .status(400)
           .json({ success: false, error: "Unsupported language" });
     }
-    fs.unlinkSync(inputFilePath);
     res.status(200).json({ success: true, filePath, output });
   } catch (error) {
     console.log("Error generating and executing file");
-    fs.unlinkSync(inputFilePath);
     res
-      .status(500)
-      .json({ success: false, message: "Error generating and executing file" });
+      .status(200)
+      .json({ success: false, message: error });
   }
 });
 
