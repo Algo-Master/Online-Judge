@@ -102,7 +102,7 @@ int main() {
       setOutput(data.output);
     } catch (error) {
       console.log(error.response);
-      setOutput("Error occurred while running the code.");
+      setOutput(JSON.stringify(error.response.data.message));
     }
   };
 
@@ -141,10 +141,12 @@ int main() {
       }
     } catch (error) {
       console.error("Error during submission:", error);
-      const errorMessage =
-        error.response?.data?.error || "An unexpected error occurred";
-      toast.error(errorMessage, { position: "top-center" });
-      setOutput(`Error: ${errorMessage}`);
+      // const errorMessage =
+      //   error.response?.data?.error || "An unexpected error occurred";
+      // toast.error(errorMessage, { position: "top-center" });
+      // setOutput(`Error: ${errorMessage}`);
+      console.log(error.response);
+      setOutput(JSON.stringify(error.response.data.message));
     }
   };
 

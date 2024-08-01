@@ -30,7 +30,7 @@ const { generateFile } = require("./generateFile");
 const { executecpp, executejava, executePy } = require("./execute");
 
 app.get("/", (req, res) => {
-  res.end("Hello World!!");
+  res.json({ OS: "Running on Ubuntu Linus", compilers: "g++, JAVA 21, python3"});
 });
 
 app.post("/run", async (req, res) => {
@@ -79,9 +79,9 @@ app.post("/run", async (req, res) => {
     }
     res.status(200).json({ success: true, filePath, output });
   } catch (error) {
-    console.log("Error generating and executing file");
+    console.log("Error generating and executing file: ", error);
     res
-      .status(200)
+      .status(400)
       .json({ success: false, message: error });
   }
 });
