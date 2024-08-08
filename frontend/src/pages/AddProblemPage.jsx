@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import { Xheader } from "../Components/Header";
 import { Xfooter } from "../Components/Footer";
+import Dropdown from "../Components/Dropdown";
 import "react-toastify/dist/ReactToastify.css";
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 import "../Css/AddProblemPage.css";
@@ -32,6 +33,14 @@ function AddProblemPage() {
     setProblemData({
       ...problemData,
       [name]: value,
+    });
+  };
+
+  const handleDifficulty = (item) => {
+    const diff = item; // Assuming difficulty is a property of the item object
+    setProblemData({
+      ...problemData,
+      difficulty: diff, // Update difficulty property
     });
   };
 
@@ -102,7 +111,8 @@ function AddProblemPage() {
     try {
       const response = await axios.post(
         `${backendUrl}add-problem`,
-        problemData, {
+        problemData,
+        {
           withCredentials: true, // Ensure credentials (cookies) are included
         }
       );
@@ -129,6 +139,8 @@ function AddProblemPage() {
       console.error("Error adding problem:", error.message);
     }
   };
+
+  const dropdownDifficulty = ["Easy", "Medium", "Hard"];
 
   return (
     <div>
@@ -319,18 +331,12 @@ function AddProblemPage() {
                   onChange={(e) => handleChange(e)}
                   required
                 />
-                <p className="linespace">Problem Difficulty</p>
-                <select
-                  name="difficulty"
-                  className="selector"
-                  onChange={(e) => handleChange(e)}
-                >
-                  <option value="Easy">Easy</option>
-                  <option value="Medium">
-                    Medium
-                  </option>
-                  <option value="Hard" selected>Hard</option>
-                </select>
+                <p className="diffwidth alignall">Difficulty</p>
+                <Dropdown
+                  items={dropdownDifficulty}
+                  onSelect={handleDifficulty}
+                  defaultItem={"Easy"}
+                />
               </div>
             </div>
             <div className="problempart">

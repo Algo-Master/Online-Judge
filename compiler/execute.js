@@ -11,15 +11,16 @@ if (!fs.existsSync(outputPath)) {
 // executecpp.js
 const executecpp = (filePath, inputFilePath) => {
   const jobId = path.basename(filePath).split(".")[0];
-  const outputFilename = `${jobId}.out`;
+  const outputFilename = `${jobId}.exe`;
+  // const outputFilename = `${jobId}.out`;
   const outPath = path.join(outputPath, outputFilename);
   const exedir = path.join(__dirname, `executables`);
   const executable = path.join(exedir, outputFilename);
 
   return new Promise((resolve, reject) => {
     exec(
-      // `g++ ${filePath} -o ${outPath} && cd ${outputPath} && .\\${outputFilename} < ${inputFilePath}`,
-      `g++ ${filePath} -o ${outPath} && cd ${outputPath} && ./${jobId}.out < ${inputFilePath}`,
+      `g++ ${filePath} -o ${outPath} && cd ${outputPath} && .\\${outputFilename} < ${inputFilePath}`,
+      // `g++ ${filePath} -o ${outPath} && cd ${outputPath} && ./${jobId}.out < ${inputFilePath}`,
       (error, stdout, stderr) => {
         fs.unlinkSync(executable);
         fs.unlinkSync(inputFilePath);

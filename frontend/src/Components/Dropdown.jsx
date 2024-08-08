@@ -7,10 +7,6 @@ const Dropdown = ({ items, onSelect, defaultItem }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState(defaultItem);
 
-  useEffect(() => {
-    setSelectedItem(defaultItem);
-  }, [defaultItem]);
-
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };

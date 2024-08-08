@@ -1,6 +1,66 @@
-.table__body {
-  padding: 10px;
+
+/* Table Designs */
+
+.table.table {
+  width: 82vw;
+  height: fit-content;
+  min-height: 95vh;
+  background-color: rgba(202, 202, 202, 0.333);
+
+  backdrop-filter: blur(7px);
+  box-shadow: 0 .4rem .8rem #0005;
+  border-radius: .8rem;
+  margin-top: 25px;
+
+  overflow: hidden;
 }
+
+.table__header {
+  width: 100%;
+  height: 10%;
+  background-color: rgba(33, 184, 253, 0.397);
+  padding: .8rem 1rem;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.table__body {
+  width: 95%;
+  padding: 15px;
+  max-height: calc(89% - 1.6rem);
+  background-color: #fffb;
+
+  margin: .8rem auto;
+  border-radius: .6rem;
+
+  overflow: auto;
+  overflow: overlay;
+}
+
+.status {
+  padding: .4rem 10px;
+  border-radius: 2rem;
+  text-align: center;
+}
+
+.status.easy {
+  background-color: #86e49d;
+  color: #006b21;
+}
+
+.status.medium {
+  background-color: #f8ff95;
+  color: #dad60b;
+}
+
+.status.hard {
+  background-color: #d893a3;
+  color: #b30021;
+}
+
+/* Original Add Problem Designs */
 
 .problempart {
   margin-top: 25px;
@@ -127,8 +187,15 @@
   font-family: "Trebuchet MS";
 }
 
-.selector {
+.diffwidth {
+  /* padding-left: 25px; */
   width: 50px;
+  margin-left: 25px;
+  margin-right: 35px;
+}
+
+.selector {
+  width: 90px;
   height: 30px;
   background-color: white;
   border: 1px solid #c9cace;
