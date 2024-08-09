@@ -1,0 +1,139 @@
+.table-title {
+  margin-top: 30px;
+  margin-left: 25px;
+  font-family: "Open Sans";
+  font-weight: bold;
+  color: #555;
+}
+
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+  margin: 20px auto;
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-shadow: 0 3px 7px rgba(0, 0, 0, 0.1);
+}
+
+.admob-table {
+  width: 100%;
+  /* border-collapse: separate; Allows spacing between cells */
+  /* border-spacing: 2px 0; Adds space between cells horizontally */
+  border-collapse: collapse;
+  font-family: "Open Sans";
+  color: #333;
+}
+
+.admob-table th {
+  background-color: #ffffff;
+  color: #555;
+  font-weight: 500;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  padding: 10px 20px;
+  /* To create spacing */
+  border-right: 5px solid transparent;
+}
+
+.admob-table th:nth-child(1),
+.admob-table th:nth-child(2) {
+  border-bottom: 3px solid #0F9D58;
+}
+
+.admob-table th:nth-child(3),
+.admob-table th:nth-child(4),
+.admob-table th:nth-child(5),
+.admob-table th:nth-child(6),
+.admob-table th:nth-child(7),
+.admob-table th:nth-child(8) {
+  border-bottom: 3px solid #ff5722;
+}
+
+/* Regular cell borders to maintain structure */
+.admob-table th,
+.admob-table td {
+  padding: 10px 20px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.admob-table tr:hover {
+  background-color: #fdfdfd;
+}
+
+.admob-table td {
+  padding: 10px 25px;
+  font-size: 14px;
+}
+
+.admob-table th:nth-child(7),
+  .admob-table td:nth-child(7) {
+  text-align: right;
+  font-weight: bold;
+  color: #333;
+}
+
+.admob-table td:nth-child(8) {
+  font-weight: bold;
+  color: #4285F4;
+}
+
+.problemLink {
+  color: #1f34f7;
+  text-decoration: none;
+}
+
+.problemLink:hover {
+  color: rgb(145, 0, 150);
+  text-decoration: underline;
+}
+
+.status {
+  padding: .3rem;
+  border-radius: 0.5rem;
+  text-align: center;
+}
+
+.status.easy {
+  background-color: #86e49d;
+  color: #0F9D58;
+}
+
+.status.medium {
+  background-color: #f8ff95;
+  color: #dad60b;
+}
+
+.status.hard {
+  background-color: #d893a3;
+  color: #b30021;
+}
+
+.pagination {
+  display: flex;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding-right: 10px;
+  justify-content: flex-end;
+}
+
+.pagination button {
+  background-color: #4285F4;
+  color: white;
+  border: none;
+  margin: 0px 5px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.pagination button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.lftrgtsize {
+  height: 24px;
+  width: 24px;
+}

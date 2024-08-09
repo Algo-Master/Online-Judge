@@ -8,11 +8,18 @@ import { UserContext } from "../UserData"; // Adjust the path as needed
 import { Xheader } from "../Components/Header";
 import { Xfooter } from "../Components/Footer";
 
+import left_arrow from "../Assets/left-arrow.png";
+import right_arrow from "../Assets/right-arrow.png";
+import double_left_arrow from "../Assets/double-left-arrow.png";
+import double_right_arrow from "../Assets/double-right-arrow.png";
+
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const CodingProblems = () => {
   const [codingProblems, setCodingProblems] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const rowsPerPage = 15;
 
   function getStatusClass(difficulty) {
     if (difficulty === "Easy") {
@@ -38,73 +45,88 @@ const CodingProblems = () => {
     fetchProblems();
   }, []);
 
-  // Checking for if git is configured for Fine Grained RepoScoped PAT!!
+  const indexOfLastProblem = currentPage * rowsPerPage;
+  const indexOfFirstProblem = indexOfLastProblem - rowsPerPage;
+  const currentProblems = codingProblems.slice(
+    indexOfFirstProblem,
+    indexOfLastProblem
+  );
+
+  const totalPages = Math.ceil(codingProblems.length / rowsPerPage);
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const handlePrevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
 
   return (
-    <div className="table" id="customers_table">
-      <section className="table__header">
-        <h1>Problems List</h1>
-        <div className="input-group">
-          <input type="search" placeholder="Search Data..."></input>
-          <img src="images/search.png" alt=""></img>
-        </div>
-      </section>
-      <section className="table__body">
-        <table>
+    <div>
+      <p className="table-title">Problem Queue</p>
+      <div className="table-container">
+        <table className="admob-table">
           <thead>
             <tr>
               <th>Id</th>
               <th>Title</th>
               <th>Difficulty</th>
-              <th>Problem Rating</th>
+              <th>Rating</th>
               <th>Solvers</th>
               <th>Status</th>
               <th>Acceptance</th>
+              <th>Author</th>
             </tr>
           </thead>
           <tbody>
-            {codingProblems.map((problem, index) => (
+            {currentProblems.map((problem, index) => (
               <tr key={index}>
+                <td>{indexOfFirstProblem + index + 1}</td>
                 <td>
-                  <strong>{index + 1}</strong>
-                </td>
-                <td>
-                  <div className="prbTitle">
-                    <Link to={`/problems/${problem._id}`}>
+                  <div>
+                    <Link
+                      to={`/problems/${problem._id}`}
+                      className="problemLink"
+                    >
                       <strong>{problem.title}</strong>
                     </Link>
                   </div>
                 </td>
-                <td>
-                  <p className={getStatusClass(problem.difficulty)}>
-                    {problem.difficulty}
-                  </p>
+                <td className={getStatusClass(problem.difficulty)}>
+                  {problem.difficulty}
                 </td>
-                <td>
-                  <p>
-                    <strong>{problem.rating}</strong>
-                  </p>
-                </td>
-                <td>
-                  <p>
-                    <strong>{problem.solvers}</strong>
-                  </p>
-                </td>
-                <td>
-                  <p>
-                    <strong>No</strong>
-                  </p>
-                </td>
-                <td>
-                  <p>
-                    <strong>{problem.acceptance}%</strong>
-                  </p>
-                </td>
+                <td>{problem.rating}</td>
+                <td>{problem.solvers}</td>
+                <td>No</td>
+                <td>{problem.acceptance}%</td>
+                <td>rimo07</td>
               </tr>
             ))}
           </tbody>
         </table>
-      </section>
+        <div className="pagination">
+          <button>
+            <img className="lftrgtsize" src={double_left_arrow} />
+          </button>
+          <button onClick={handlePrevPage} disabled={currentPage === 1}>
+            <img className="lftrgtsize" src={left_arrow} />
+          </button>
+          <button
+            onClick={handleNextPage}
+            disabled={currentPage === totalPages}
+          >
+            <img className="lftrgtsize" src={right_arrow} />
+          </button>
+          <button>
+            <img className="lftrgtsize" src={double_right_arrow} />
+          </button>
+        </div>
+      </div>
     </div>
   );
 };
