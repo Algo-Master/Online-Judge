@@ -15,7 +15,7 @@ function AddProblemPage() {
     timel: 0,
     meml: 0,
     rating: 0,
-    difficulty: "",
+    difficulty: "Easy",
     statement: "",
     inputcriteria: "",
     outputcriteria: "",
@@ -110,7 +110,7 @@ function AddProblemPage() {
     e.preventDefault();
     try {
       const response = await axios.post(
-        `${backendUrl}add-problem`,
+        `${backendUrl}problems/add-problem`,
         problemData,
         {
           withCredentials: true, // Ensure credentials (cookies) are included
@@ -124,7 +124,7 @@ function AddProblemPage() {
         timel: 0,
         meml: 0,
         rating: 0,
-        difficulty: "",
+        difficulty: "Easy",
         statement: "",
         inputcriteria: "",
         outputcriteria: "",
@@ -344,7 +344,7 @@ function AddProblemPage() {
                 Add Problem
               </button>
             </div>
-            <ToastContainer position="top-center" />
+            {/* <ToastContainer position="top-center" /> */}
           </section>
         </div>
       </div>

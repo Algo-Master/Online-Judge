@@ -247,6 +247,7 @@ app.get("/problems/:problemId", async (req, res) => {
 // ------------------------------------ ADD PROBLEM ------------------------------------
 
 app.post("/problems/add-problem", async (req, res) => {
+  console.log("Add Problem Request recieved");
   const token = req.cookies?.token;
   // console.log(token);
   if (!token) {
@@ -255,6 +256,7 @@ app.post("/problems/add-problem", async (req, res) => {
   const verified = authorize(token, "problem_setter");
   switch (verified) {
     case 0:
+      console.log("User is not a problem_setter");
       return res
         .status(400)
         .send(
@@ -297,6 +299,7 @@ app.post("/problems/add-problem", async (req, res) => {
       !examples ||
       !testcases
     ) {
+      console.log(req.body);
       return res.status(400).send("Please fill all required fields");
     }
 
