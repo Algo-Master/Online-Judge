@@ -19,7 +19,7 @@ import "react-toastify/dist/ReactToastify.css";
 const CodingProblems = () => {
   const [codingProblems, setCodingProblems] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const rowsPerPage = 15;
+  const [rowsPerPage, setRowsPerPage] = useState(1);
 
   function getStatusClass(difficulty) {
     if (difficulty === "Easy") {
@@ -54,17 +54,29 @@ const CodingProblems = () => {
 
   const totalPages = Math.ceil(codingProblems.length / rowsPerPage);
 
-  const handleNextPage = () => {
-    if (currentPage < totalPages) {
-      setCurrentPage(currentPage + 1);
+  const handleStartPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(1);
     }
-  };
+  }
 
   const handlePrevPage = () => {
     if (currentPage > 1) {
       setCurrentPage(currentPage - 1);
     }
   };
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const handleLastPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(totalPages);
+    }
+  }
 
   return (
     <div>
@@ -110,7 +122,10 @@ const CodingProblems = () => {
           </tbody>
         </table>
         <div className="pagination">
-          <button>
+          <button
+            onClick={handleStartPage}
+            disabled={currentPage === 1}
+          >
             <img className="lftrgtsize" src={double_left_arrow} />
           </button>
           <button onClick={handlePrevPage} disabled={currentPage === 1}>
@@ -122,7 +137,10 @@ const CodingProblems = () => {
           >
             <img className="lftrgtsize" src={right_arrow} />
           </button>
-          <button>
+          <button
+            onClick={handleLastPage}
+            disabled={currentPage === totalPages}
+          >
             <img className="lftrgtsize" src={double_right_arrow} />
           </button>
         </div>
