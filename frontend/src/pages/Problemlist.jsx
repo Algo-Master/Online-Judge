@@ -13,13 +13,13 @@ import right_arrow from "../Assets/right-arrow.png";
 import double_left_arrow from "../Assets/double-left-arrow.png";
 import double_right_arrow from "../Assets/double-right-arrow.png";
 
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const CodingProblems = () => {
   const [codingProblems, setCodingProblems] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [rowsPerPage, setRowsPerPage] = useState(1);
+  const [rowsPerPage, setRowsPerPage] = useState(3);
 
   function getStatusClass(difficulty) {
     if (difficulty === "Easy") {
@@ -58,7 +58,7 @@ const CodingProblems = () => {
     if (currentPage > 1) {
       setCurrentPage(1);
     }
-  }
+  };
 
   const handlePrevPage = () => {
     if (currentPage > 1) {
@@ -76,7 +76,7 @@ const CodingProblems = () => {
     if (currentPage < totalPages) {
       setCurrentPage(totalPages);
     }
-  }
+  };
 
   return (
     <div>
@@ -122,10 +122,7 @@ const CodingProblems = () => {
           </tbody>
         </table>
         <div className="pagination">
-          <button
-            onClick={handleStartPage}
-            disabled={currentPage === 1}
-          >
+          <button onClick={handleStartPage} disabled={currentPage === 1}>
             <img className="lftrgtsize" src={double_left_arrow} />
           </button>
           <button onClick={handlePrevPage} disabled={currentPage === 1}>
