@@ -1,0 +1,7 @@
+Changes to be made on Priority basis given below:
+
+1> Blacklist a token if already generated earlier due to token piracy/leaks.
+
+2> Specific Toast for each type of request right or wrong.
+
+3> Customize the run and submit endpoints of the compiler.
