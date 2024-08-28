@@ -25,9 +25,6 @@ app.use(express.urlencoded({ extended: true }));
 
 DBConnection();
 
-const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
-// const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
-
 app.get("/", (req, res) => {
   res.send("Hello World!!");
 });
@@ -136,7 +133,7 @@ app.post("/google-login", async (req, res) => {
   const { access_token } = req.body;
 
   try {
-    const response = await fetch(
+    const response = await fetch(-
       "https://www.googleapis.com/oauth2/v3/userinfo",
       {
         method: "GET",

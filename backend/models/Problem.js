@@ -1,6 +1,10 @@
 // models/Problem.js
 const mongoose = require("mongoose");
 
+/* Need to implement Solvers and Acceptance sections
+  So basically we need to maintain data like how many submissions has been recieved (One of Each User)
+  and data of how many of them were correct!! Tyhe acceptance value shall be automatically be shown in the UI*/
+
 const problemSchema = new mongoose.Schema({
   number: {
     type: Number,
