@@ -26,7 +26,7 @@ app.use(express.urlencoded({ extended: true }));
 DBConnection();
 
 app.get("/", (req, res) => {
-  res.send("Hello World!!");
+  res.send("Hi folks, this is the AlgoHub Backend Server!! Hope u enjoy our platform and learn interesting Algorithms");
 });
 
 app.post("/register", async (req, res) => {
