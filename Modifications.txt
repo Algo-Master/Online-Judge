@@ -5,3 +5,5 @@ Changes to be made on Priority basis given below:
 2> Specific Toast for each type of request right or wrong.
 
 3> Customize the run and submit endpoints of the compiler.
+
+4> Monaco Editor Themes not working
