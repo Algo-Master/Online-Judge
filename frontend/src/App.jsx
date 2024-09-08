@@ -3,16 +3,16 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 // dotenv.config();
 import "./App.css";
 
-import Landingpage from "./Pages/Landingpage";
-import Loginpage from "./Pages/Loginpage";
-import Registrationpage from "./Pages/Registrationpage";
-import Problemlist from "./Pages/Problemlist";
-import AddProblemPage from "./Pages/AddProblemPage";
-import Compilerpage from "./Pages/Compilerpage";
-import Educational from "./Pages/Educational";
-// import ProfilePage from './pages/ProfilePage';
-import InProgress from "./InProgress";
-import NotFoundPage from "./NotFoundPage";
+import Landingpage from "./Pages/Landingpage.jsx";
+import Loginpage from "./Pages/Loginpage.jsx";
+import Registrationpage from "./Pages/Registrationpage.jsx";
+import Problemlist from "./Pages/Problemlist.jsx";
+import AddProblemPage from "./Pages/AddProblemPage.jsx";
+import Compilerpage from "./Pages/Compilerpage.jsx";
+import Educational from "./Pages/Educational.jsx";
+// import ProfilePage from "./pages/ProfilePage.jsx";
+import InProgress from "./InProgress.jsx";
+import NotFoundPage from "./NotFoundPage.jsx";
 
 const App = () => {
   return (

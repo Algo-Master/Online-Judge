@@ -4,9 +4,9 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 import "../Css/problemlist.css";
-import { UserContext } from "../UserData"; // Adjust the path as needed
-import { Xheader } from "../Components/Header";
-import { Xfooter } from "../Components/Footer";
+import { UserContext } from "../UserData.jsx"; // Adjust the path as needed
+import { Xheader } from "../Components/Header.jsx";
+import { Xfooter } from "../Components/Footer.jsx";
 
 import left_arrow from "../Assets/left-arrow.png";
 import right_arrow from "../Assets/right-arrow.png";

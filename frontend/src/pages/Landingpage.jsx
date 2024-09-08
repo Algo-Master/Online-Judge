@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { Xheader } from "../Components/Header";
-import { Xfooter } from "../Components/Footer";
+import { Xheader } from "../Components/Header.jsx";
+import { Xfooter } from "../Components/Footer.jsx";
 import "../Css/landingpage.css";
 
 const Landingpage = () => {

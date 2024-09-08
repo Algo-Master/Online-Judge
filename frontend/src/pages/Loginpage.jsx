@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
-import { UserContext } from "../UserData";
+import { UserContext } from "../UserData.jsx";
 import { useGoogleLogin, GoogleLogin } from "@react-oauth/google";
 import { ToastContainer, toast } from "react-toastify";
 import "../Css/loginpage.css";

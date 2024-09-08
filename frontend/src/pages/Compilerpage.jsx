@@ -10,10 +10,10 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 const compilerUrl = import.meta.env.VITE_COMPILER_URL;
-import { Xheader } from "../Components/Header";
-import Dropdown from "../Components/Dropdown";
-import { Xfooter } from "../Components/Footer";
-import { UserContext } from "../UserData";
+import { Xheader } from "../Components/Header.jsx";
+import Dropdown from "../Components/Dropdown.jsx";
+import { Xfooter } from "../Components/Footer.jsx";
+import { UserContext } from "../UserData.jsx";
 import Editor from "@monaco-editor/react";
 import {
   dracula,

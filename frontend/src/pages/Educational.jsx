@@ -2,23 +2,23 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import axios from "axios";
-import Sidebar from "../Components/Sidebar";
+import Sidebar from "../Components/Sidebar.jsx";
 import "../Css/educational.css";
-import { UserContext } from "../UserData"; // Adjust the path as needed
-import { Xheader } from "../Components/Header";
-import { Xfooter } from "../Components/Footer";
+import { UserContext } from "../UserData.jsx"; // Adjust the path as needed
+import { Xheader } from "../Components/Header.jsx";
+import { Xfooter } from "../Components/Footer.jsx";
 
-import Algebra from "./Algebra_Contents/Algebra";
-import Prime_Number from "./Algebra_Contents/Prime_Number";
-import Linear_Congruence_Equation from "./Algebra_Contents/Linear_Congruence_Equation";
+import Algebra from "./Algebra_Contents/Algebra.jsx";
+import Prime_Number from "./Algebra_Contents/Prime_Number.jsx";
+import Linear_Congruence_Equation from "./Algebra_Contents/Linear_Congruence_Equation.jsx";
 
-import Dynamic_Programming from "./Dynamic_Programming_Contents/Dynamic_Programming";
-import Bottom_Up_Dynamic_Programming from "./Dynamic_Programming_Contents/Bottom_Up_Dynamic_Programming";
-import Speeding_up_Fibonacci_with_Dynamic_Programming_Memoization from "./Dynamic_Programming_Contents/Speeding_up_Fibonacci_with_Dynamic_Programming_Memoization";
+import Dynamic_Programming from "./Dynamic_Programming_Contents/Dynamic_Programming.jsx";
+import Bottom_Up_Dynamic_Programming from "./Dynamic_Programming_Contents/Bottom_Up_Dynamic_Programming.jsx";
+import Speeding_up_Fibonacci_with_Dynamic_Programming_Memoization from "./Dynamic_Programming_Contents/Speeding_up_Fibonacci_with_Dynamic_Programming_Memoization.jsx";
 
-import Graph from "./Graph_Contents/Graph";
-import BFS from "./Graph_Contents/BFS";
-import DFS from "./Graph_Contents/DFS";
+import Graph from "./Graph_Contents/Graph.jsx";
+import BFS from "./Graph_Contents/BFS.jsx";
+import DFS from "./Graph_Contents/DFS.jsx";
 
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
