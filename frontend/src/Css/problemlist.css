@@ -120,8 +120,9 @@
 }
 
 .pagination button {
-  background-color: #4285F4;
-  color: white;
+  /* background-color: #4285F4; */
+  color: #ffffff;
+  filter: brightness(1.5);
   border: none;
   margin: 0px 5px;
   border-radius: 3px;
@@ -129,8 +130,13 @@
 }
 
 .pagination button:disabled {
-  background-color: #ccc;
+  /* background-color: #ccc; */
   cursor: not-allowed;
+}
+
+.pagination button:disabled img {
+  filter: brightness(0.7); /* Lighter shade for disabled state */
+  opacity: 0.5; /* Optional: adds more subtlety */
 }
 
 .lftrgtsize {

@@ -19,7 +19,7 @@ import "react-toastify/dist/ReactToastify.css";
 const CodingProblems = () => {
   const [codingProblems, setCodingProblems] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [rowsPerPage, setRowsPerPage] = useState(3);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
   function getStatusClass(difficulty) {
     if (difficulty === "Easy") {

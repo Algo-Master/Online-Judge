@@ -1,7 +1,4 @@
 .env
-# src/Assets
-# src/Css
-
 # Logs
 logs
 *.log
