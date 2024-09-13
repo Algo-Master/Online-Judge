@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 // dotenv.config();
 import "./App.css";
 
-import Landingpage from "./Pages/Landingpage.jsx";
+// import Landingpage from "./Pages/Landingpage.jsx";
 import Loginpage from "./Pages/Loginpage.jsx";
 import Registrationpage from "./Pages/Registrationpage.jsx";
 import Problemlist from "./Pages/Problemlist.jsx";
