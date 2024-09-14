@@ -14,11 +14,12 @@ const corsOptions = {
   origin: "https://algohub7.vercel.app", // Replace with your frontend origin
   credentials: true, // Include cookies if necessary
   // allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
-  // methods: 'GET, POST, PUT, DELETE, OPTIONS', // Allowed HTTP methods
+  methods: 'GET, POST, PUT, DELETE, OPTIONS', // Allowed HTTP methods
   // maxAge: 3600, // How long (in seconds) the options preflight request can be cached
 };
 
 app.use(cookieParser());
+app.options('*', cors(corsOptions)); // Allow preflight requests for all routes
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
