@@ -11,8 +11,8 @@ const cookieParser = require("cookie-parser");
 const { OAuth2Client } = require("google-auth-library");
 
 const corsOptions = {
-  origin: "https://algohub7.vercel.app", // Replace with your frontend origin
-  // origin: "http://localhost:5173",
+  // origin: "https://algohub7.vercel.app", // Replace with your frontend origin
+  origin: "http://localhost:5173",
   credentials: true, // Include cookies if necessary
   // allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
   methods: "GET, POST, PUT, DELETE, OPTIONS", // Allowed HTTP methods
@@ -120,6 +120,8 @@ app.post("/login", async (req, res) => {
     const options = {
       expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
       httpOnly: true, // only manipulated by ur server not by frontend/client
+      secure: true, // Ensure cookies are sent over HTTPS only
+      sameSite: "None", // Allow cookies to be sent with cross-origin requests
     };
 
     // Send the data
@@ -167,7 +169,7 @@ app.post("/google-login", async (req, res) => {
         password: "null", // Google authenticated users don't need a password
         role: "user",
         username: "defaultNoName",
-        picture: data.picture
+        picture: data.picture,
       });
     }
 
@@ -183,7 +185,7 @@ app.post("/google-login", async (req, res) => {
         expiresIn: "1h",
       }
     );
-    if(token) console.log(`Token generated with value: ${token}`);
+    if (token) console.log(`Token generated with value: ${token}`);
 
     existinguser.password = undefined;
 
@@ -191,6 +193,8 @@ app.post("/google-login", async (req, res) => {
     const options = {
       expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
       httpOnly: true, // only manipulated by ur server not by frontend/client
+      secure: true, // Ensure cookies are sent over HTTPS only
+      sameSite: "None", // Allow cookies to be sent with cross-origin requests
     };
 
     // Send the data

@@ -1,6 +1,9 @@
 Changes to be made on Priority basis given below:
-To change from the local mode to deployed_production mode, 
-just change the env in frontend and the cors in backend server
+
+To change from the local mode to deployed_production mode:
+a|Change the env in frontend.
+b|cors in backend server
+c|comment out the secure and samesite options for sending tokens in the normal and google login.
 
 1> Blacklist a token if already generated earlier due to token piracy/leaks.
 
