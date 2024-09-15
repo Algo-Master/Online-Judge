@@ -183,6 +183,7 @@ app.post("/google-login", async (req, res) => {
         expiresIn: "1h",
       }
     );
+    if(token) console.log(`Token generated with value: ${token}`);
 
     existinguser.password = undefined;
 
