@@ -12,14 +12,15 @@ const { OAuth2Client } = require("google-auth-library");
 
 const corsOptions = {
   origin: "https://algohub7.vercel.app", // Replace with your frontend origin
+  // origin: "http://localhost:5173",
   credentials: true, // Include cookies if necessary
   // allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
-  methods: 'GET, POST, PUT, DELETE, OPTIONS', // Allowed HTTP methods
+  methods: "GET, POST, PUT, DELETE, OPTIONS", // Allowed HTTP methods
   // maxAge: 3600, // How long (in seconds) the options preflight request can be cached
 };
 
 app.use(cookieParser());
-app.options('*', cors(corsOptions)); // Allow preflight requests for all routes
+app.options("*", cors(corsOptions)); // Allow preflight requests for all routes
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -27,8 +28,12 @@ app.use(express.urlencoded({ extended: true }));
 DBConnection();
 
 app.get("/", (req, res) => {
-  res.send("Hi folks, this is the AlgoHub Backend Server!! Hope u enjoy our platform and learn interesting Algorithms");
+  res.send(
+    "Hi folks, this is the AlgoHub Backend Server!! Hope u enjoy our platform and learn interesting Algorithms"
+  );
 });
+
+// ----------------------- REGISTER -----------------------------------------
 
 app.post("/register", async (req, res) => {
   try {
@@ -58,6 +63,7 @@ app.post("/register", async (req, res) => {
       email,
       password: hashedpassword,
       role: "user",
+      username: "defaultNoName",
     });
 
     // Generate a token for user and send it if required
@@ -154,15 +160,19 @@ app.post("/google-login", async (req, res) => {
     let existinguser = await User.findOne({ email: data.email });
 
     if (!existinguser) {
-
       existinguser = await User.create({
         firstName: data.given_name,
         lastName: data.family_name || "",
         email: data.email,
         password: "null", // Google authenticated users don't need a password
         role: "user",
+        username: "defaultNoName",
+        picture: data.picture
       });
     }
+
+    // Add the picture property to the existinguser object
+    existinguser = { ...existinguser.toObject(), picture: data.picture };
 
     // Generate a token for user and send it
     const token = jwt.sign(
@@ -201,7 +211,7 @@ app.post("/logout", (req, res) => {
   res.status(200).json({ success: true, message: "Successfully logged out" });
 });
 
-// ----------------------- FETCH CURRENT USER DATA -----------------------------------------
+// ----------------------- (AUTHENTICATE) FETCH CURRENT USER DATA -----------------------------------------
 
 app.get("/authenticate", async (req, res) => {
   const token = req.cookies?.token;
@@ -213,10 +223,8 @@ app.get("/authenticate", async (req, res) => {
   switch (verified) {
     case 0:
       return res.status(400).send("Token has been tampered with");
-      break;
     case 2:
       return res.status(401).send("Token expired. Please log in again.");
-      break;
     // ... more cases
     default:
       const decrypted = jwt.verify(token, process.env.SECRET_KEY);
@@ -301,6 +309,16 @@ app.post("/problems/add-problem", async (req, res) => {
       return res.status(400).send("Please fill all required fields");
     }
 
+    // Extract user ID from token payload
+    const id = jwt.verify(token, process.env.SECRET_KEY).id;
+
+    // Query the User collection to get the username
+    const user = await User.findById(id);
+    if (!user) {
+      return res.status(404).send("User not found");
+    }
+    const username = user.username;
+
     // Get the highest current problem number and increment it for the new problem
     const highestProblem = await Problem.findOne().sort("-number").exec();
     const newProblemNumber = highestProblem ? highestProblem.number + 1 : 1;
@@ -320,6 +338,7 @@ app.post("/problems/add-problem", async (req, res) => {
       notes,
       solvers,
       acceptance,
+      setter: username,
     });
 
     await problem.save();
@@ -348,3 +367,17 @@ const port = process.env.PORT;
 app.listen(port, () => {
   console.log(`Server is listening on the Port ${port}!!`);
 });
+
+async function updatedocuments() {
+  try {
+    // Update all problems to have a default setter if they don't already have one
+    const result = await User.updateMany(
+      { picture: { $exists: false } },
+      { $set: { picture: null } });
+    console.log(`${result.modifiedCount} users were updated.`);
+  } catch (error) {
+    console.error("Error updating Users:", error);
+  }
+}
+
+updatedocuments();

@@ -1,4 +1,6 @@
 Changes to be made on Priority basis given below:
+To change from the local mode to deployed_production mode, 
+just change the env in frontend and the cors in backend server
 
 1> Blacklist a token if already generated earlier due to token piracy/leaks.
 

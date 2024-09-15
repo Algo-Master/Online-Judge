@@ -63,6 +63,10 @@ const problemSchema = new mongoose.Schema({
     default: null,
     required: true,
   },
+  setter: {
+    type: String,
+    required: true,
+  }
 });
 
 module.exports = mongoose.model("Problem", problemSchema);

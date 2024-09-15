@@ -116,7 +116,7 @@ const CodingProblems = () => {
                 <td>{problem.solvers}</td>
                 <td>No</td>
                 <td>{problem.acceptance}%</td>
-                <td>rimo07</td>
+                <td>{problem.setter}</td>
               </tr>
             ))}
           </tbody>

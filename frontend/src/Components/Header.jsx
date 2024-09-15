@@ -33,7 +33,11 @@ export const Xheader = () => {
 
   const handleLogOut = async () => {
     try {
-      const { data } = await axios.post(`${backendUrl}logout`, {}, { withCredentials: true });
+      const { data } = await axios.post(
+        `${backendUrl}logout`,
+        {},
+        { withCredentials: true }
+      );
       const { success, message } = data;
 
       if (success) {
@@ -65,7 +69,15 @@ export const Xheader = () => {
           {isAuthenticated ? (
             <>
               <button className="profilebutton">
-                {user.firstName.slice(0, 1)}
+                {user.picture ? (
+                  <img
+                    src={user.picture}
+                    alt="Profile"
+                    className="profile-img"
+                  />
+                ) : (
+                  <div className="first_letter">{user.firstName.slice(0, 1)}</div>
+                )}
               </button>
               <button className="button" onClick={handleLogOut}>
                 Sign Out

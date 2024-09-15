@@ -1,105 +1,113 @@
 .header {
-    padding: 20px;
-    justify-content: space-between;
-    align-items: center;
-    background-image: linear-gradient(
-      90deg,
-      rgb(28, 144, 237) 0%,
-      rgb(29, 99, 237) 100%
-    );
-  }
-  
-  .nalore {
-    padding-left: 70px;
-    padding-right: 70px;
-    display: flex;
-    height: 25px;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .ojname {
-    font-size: larger;
-    background-color: transparent;
-  }
-  
-  .ojname1 {
-    font-family: "Open sans", sans-serif;
-    font-weight: bold;
-    background-color: transparent;
-    color: #ffffff;
-  }
-  
-  .ojname2 {
-    font-family: "Open sans", sans-serif;
-    font-weight: bold;
-    background-color: transparent;
-    color: #7fe1ff;
-  }
-  
-  .button-group {
-    background-color: transparent;
-    display: flex;
-  }
-  
-  .threedot {
-    width: 15px;
-    height: 15px;
-  }
-  
-  .button {
-    padding: 10px;
-    color: #ffffff;
-    font-weight: bold;
-    background-color: transparent;
-    border-color: transparent;
-    transition: transform 1s;
-    cursor: pointer;
-  }
-  
-  .button:hover {
-    transform: translateY(-3px);
-  }
+  padding: 20px;
+  justify-content: space-between;
+  align-items: center;
+  background-image: linear-gradient(
+    90deg,
+    rgb(28, 144, 237) 0%,
+    rgb(29, 99, 237) 100%
+  );
+}
 
-  .profilebutton {
-    width: 37px;
-    height: 37px;
-    color: #ffffff;
-    font-size: large;
-    /* font-weight: bold; */
-    border-radius: 50%;
-    background-color: #8c00e9;
-    /* border: 2px solid #ffffff; */
-    outline: none;
-    transition: transform 1s;
-    cursor: pointer;
-  }
-  .profilebutton:hover {
-    transform: translateY(-3px);
-  }
-  
-  .buttonsignup {
-    padding: 10px;
-    color: #ffffff;
-    /* border: 2px solid white; */
-    border-color: #ffffff;
-    border-radius: 7px;
-    font-weight: bold;
-    background-color: transparent;
-    transition: transform 1s;
-    cursor: pointer;
-  }
-  
-  .buttonsignup:hover {
-    transform: translateY(-3px);
-  }
-  
-  .slogan_container {
-    text-align: center;
-    color: #ffffff;
-    padding: 15px 5px;
-  }
-  
-  .slogan_descrip {
-    font-weight: 500;
-  }
+.nalore {
+  padding-left: 70px;
+  padding-right: 70px;
+  display: flex;
+  height: 25px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ojname {
+  font-size: larger;
+  background-color: transparent;
+}
+
+.ojname1 {
+  font-family: "Open sans", sans-serif;
+  font-weight: bold;
+  background-color: transparent;
+  color: #ffffff;
+}
+
+.ojname2 {
+  font-family: "Open sans", sans-serif;
+  font-weight: bold;
+  background-color: transparent;
+  color: #7fe1ff;
+}
+
+.button-group {
+  background-color: transparent;
+  display: flex;
+}
+
+.threedot {
+  width: 15px;
+  height: 15px;
+}
+
+.button {
+  padding: 10px;
+  color: #ffffff;
+  font-weight: bold;
+  background-color: transparent;
+  border-color: transparent;
+  transition: transform 1s;
+  cursor: pointer;
+}
+
+.button:hover {
+  transform: translateY(-3px);
+}
+
+.profilebutton {
+  width: 35px; /* Ensuring the button has a fixed size */
+  height: 35px; /* Ensuring the button has a fixed size */
+  border-radius: 50%;
+  overflow: hidden; /* This will hide anything outside the circle */
+  display: flex;
+  border: 2px solid rgb(45, 8, 252); /* Optional: removes border if any */
+  outline: none; /* Removes focus outline */
+  cursor: pointer; /* Indicates it's clickable */
+  transition: transform 0.3s; /* Smooth transformation on hover */
+  justify-content: center;
+  align-items: center;
+}
+
+.profilebutton:hover {
+  transform: translateY(-3px);
+}
+
+.profilebutton img.profile-img {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.buttonsignup {
+  padding: 10px;
+  color: #ffffff;
+  /* border: 2px solid white; */
+  border-color: #ffffff;
+  border-radius: 7px;
+  font-weight: bold;
+  background-color: transparent;
+  transition: transform 1s;
+  cursor: pointer;
+}
+
+.buttonsignup:hover {
+  transform: translateY(-3px);
+}
+
+.slogan_container {
+  text-align: center;
+  color: #ffffff;
+  padding: 15px 5px;
+}
+
+.slogan_descrip {
+  font-weight: 500;
+}
