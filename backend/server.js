@@ -63,7 +63,7 @@ app.post("/register", async (req, res) => {
       email,
       password: hashedpassword,
       role: "user",
-      username: "defaultNoName",
+      username: null,
     });
 
     // Generate a token for user and send it if required
@@ -166,7 +166,7 @@ app.post("/google-login", async (req, res) => {
         email: data.email,
         password: "null", // Google authenticated users don't need a password
         role: "user",
-        username: "defaultNoName",
+        username: null,
         picture: data.picture
       });
     }
