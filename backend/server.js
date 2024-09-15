@@ -63,7 +63,7 @@ app.post("/register", async (req, res) => {
       email,
       password: hashedpassword,
       role: "user",
-      username: null,
+      username: "defaultNoName",
     });
 
     // Generate a token for user and send it if required
@@ -166,7 +166,7 @@ app.post("/google-login", async (req, res) => {
         email: data.email,
         password: "null", // Google authenticated users don't need a password
         role: "user",
-        username: null,
+        username: "defaultNoName",
         picture: data.picture
       });
     }
@@ -368,16 +368,16 @@ app.listen(port, () => {
   console.log(`Server is listening on the Port ${port}!!`);
 });
 
-async function updatedocuments() {
-  try {
-    // Update all problems to have a default setter if they don't already have one
-    const result = await User.updateMany(
-      { picture: { $exists: false } },
-      { $set: { picture: null } });
-    console.log(`${result.modifiedCount} users were updated.`);
-  } catch (error) {
-    console.error("Error updating Users:", error);
-  }
-}
+// async function updatedocuments() {
+//   try {
+//     // Update all problems to have a default setter if they don't already have one
+//     const result = await User.updateMany(
+//       { picture: { $exists: false } },
+//       { $set: { picture: null } });
+//     console.log(`${result.modifiedCount} users were updated.`);
+//   } catch (error) {
+//     console.error("Error updating Users:", error);
+//   }
+// }
 
-updatedocuments();
+// updatedocuments();
