@@ -247,7 +247,9 @@ int main() {
     cout << "Hello World!";
     return 0;
 }`,
-    Java: `class Solution {
+    Java: `Please remove the public keyword before class
+
+    class Solution {
     public static void main(String[] args) {
         System.out.println("Hello World!!");
     }

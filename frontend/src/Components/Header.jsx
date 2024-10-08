@@ -31,6 +31,10 @@ export const Xheader = () => {
       position: "top-center",
     });
 
+  const redirectProfile = () => {
+    navigate("/profile");
+  };
+
   const handleLogOut = async () => {
     try {
       const { data } = await axios.post(
@@ -76,7 +80,9 @@ export const Xheader = () => {
                     className="profile-img"
                   />
                 ) : (
-                  <div className="first_letter">{user.firstName.slice(0, 1)}</div>
+                  <div className="first_letter">
+                    {user.firstName.slice(0, 1)}
+                  </div>
                 )}
               </button>
               <button className="button" onClick={handleLogOut}>

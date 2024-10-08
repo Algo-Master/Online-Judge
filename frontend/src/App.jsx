@@ -6,6 +6,7 @@ import "./App.css";
 import Landingpage from "./Pages/Landingpage.jsx";
 import Loginpage from "./Pages/Loginpage.jsx";
 import Registrationpage from "./Pages/Registrationpage.jsx";
+import Profilepage from "./Pages/Profilepage";
 import Problemlist from "./Pages/Problemlist.jsx";
 import AddProblemPage from "./Pages/AddProblemPage.jsx";
 import Compilerpage from "./Pages/Compilerpage.jsx";
@@ -22,6 +23,7 @@ const App = () => {
           <Route path="/" element={<Landingpage />} />
           <Route path="/login" element={<Loginpage />} />
           <Route path="/register" element={<Registrationpage />} />
+          <Route path="/profile" element={<Profilepage />} />
           <Route path="/problemslist" element={<Problemlist />} />/
           <Route path="/edu/*" element={<Educational />} />/
           <Route path="/problems/add-problem" element={<AddProblemPage />} />
