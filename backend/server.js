@@ -14,7 +14,7 @@ const corsOptions = {
   origin: "https://algohub7.vercel.app", // Replace with your frontend origin
   // origin: "http://localhost:5173",
   credentials: true, // Include cookies if necessary
-  // allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
   methods: "GET, POST, PUT, DELETE, OPTIONS", // Allowed HTTP methods
   // maxAge: 3600, // How long (in seconds) the options preflight request can be cached
 };
@@ -120,7 +120,7 @@ app.post("/login", async (req, res) => {
     const options = {
       expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
       httpOnly: true, // only manipulated by ur server not by frontend/client
-      secure: true, // Ensure cookies are sent over HTTPS only
+      // secure: true, // Ensure cookies are sent over HTTPS only
       sameSite: "None", // Allow cookies to be sent with cross-origin requests
     };
 
@@ -193,7 +193,7 @@ app.post("/google-login", async (req, res) => {
     const options = {
       expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
       httpOnly: true, // only manipulated by ur server not by frontend/client
-      secure: true, // Ensure cookies are sent over HTTPS only
+      // secure: true, // Ensure cookies are sent over HTTPS only
       sameSite: "None", // Allow cookies to be sent with cross-origin requests
     };
 
