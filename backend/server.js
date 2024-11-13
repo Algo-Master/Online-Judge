@@ -121,7 +121,7 @@ app.post("/login", async (req, res) => {
       expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
       httpOnly: true, // only manipulated by ur server not by frontend/client
       secure: false, // Ensure cookies are sent over HTTPS only
-      // sameSite: "None", // Allow cookies to be sent with cross-origin requests
+      sameSite: "None", // Allow cookies to be sent with cross-origin requests
     };
 
     // Send the data
@@ -194,7 +194,7 @@ app.post("/google-login", async (req, res) => {
       expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
       httpOnly: true, // only manipulated by ur server not by frontend/client
       secure: false, // Ensure cookies are sent over HTTPS only
-      // sameSite: "None", // Allow cookies to be sent with cross-origin requests
+      sameSite: "None", // Allow cookies to be sent with cross-origin requests
     };
 
     // Send the data
