@@ -20,8 +20,8 @@ const corsOptions = {
 };
 
 app.use(cookieParser());
-app.options("*", cors(corsOptions)); // Allow preflight requests for all routes
 app.use(cors(corsOptions));
+app.options("*", cors(corsOptions)); // Allow preflight requests for all routes
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
