@@ -9,11 +9,10 @@ import googleLogo from "../Assets/GoogleLogo.png";
 import githubLogo from "../Assets/GitHubLogo.png";
 
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
-const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
 const Loginpage = () => {
   const navigate = useNavigate();
-  const { user, setUser, isAuthenticated, setIsAuthenticated } =
+  const { setUser, setIsAuthenticated } =
     useContext(UserContext);
   const [inputValue, setInputValue] = useState({
     email: "",
