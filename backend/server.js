@@ -119,9 +119,9 @@ app.post("/login", async (req, res) => {
     // Store token in Cookies with options
     const options = {
       // httpOnly: true, // only manipulated by ur server not by frontend/client
-      expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
-      secure: true, // Ensure that the token is sent over https only
-      sameSite: "None",  // Ensure that cookie can be sent cross-site
+      // expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
+      // secure: true, // Ensure that the token is sent over https only
+      // sameSite: "None",  // Ensure that cookie can be sent cross-site
       domain: ".onrender.com", // Applies to all subdomains under onrender.com
     };
 
