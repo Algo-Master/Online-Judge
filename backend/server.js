@@ -11,7 +11,7 @@ const cookieParser = require("cookie-parser");
 const { OAuth2Client } = require("google-auth-library");
 
 const corsOptions = {
-  origin: "https://algohub-nu.vercel.app", // Replace with your frontend origin
+  origin: ["https://algohub-nu.vercel.app", "https://algohub7.vercel.app"], // Replace with your frontend origin
   // origin: "http://localhost:5173",
   credentials: true, // Include cookies if necessary
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
