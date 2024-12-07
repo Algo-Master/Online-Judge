@@ -212,7 +212,12 @@ app.post("/google-login", async (req, res) => {
 // ----------------------- LOGOUT -----------------------------------------
 
 app.post("/logout", (req, res) => {
-  res.clearCookie("token");
+  res.clearCookie("token", {
+    path: "/",
+    domain: "backendservice-ndqn.onrender.com", // Adjust to match your domain
+    secure: true,
+    sameSite: 'None',
+  });  
   res.status(200).json({ success: true, message: "Successfully logged out" });
 });
 
