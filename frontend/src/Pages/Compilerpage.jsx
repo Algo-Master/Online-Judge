@@ -125,6 +125,7 @@ int main() {
       problemId,
     };
     try {
+      console.log(document.cookie);
       const { data } = await axios.post(`${compilerUrl}submit`, payload, {
         withCredentials: true,
       });
