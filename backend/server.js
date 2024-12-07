@@ -259,16 +259,6 @@ app.get("/problems/:problemId", async (req, res) => {
 
 app.post("/problems/add-problem", async (req, res) => {
   console.log("Add Problem Request recieved");
-  return res.status(400).send({
-    method: req.method,
-    url: req.url,
-    headers: req.headers,
-    body: req.body,
-    query: req.query,
-    params: req.params,
-    cookie: req.cookies,
-    cookiesigned: req.signedCookies
-  });
   const token = req.cookies?.token;
   // console.log(token);
   if (!token) {
