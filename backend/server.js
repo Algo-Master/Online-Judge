@@ -121,7 +121,7 @@ app.post("/login", async (req, res) => {
       expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
       // httpOnly: true, // only manipulated by ur server not by frontend/client
       secure: true, // Ensure cookies are sent over HTTPS only
-      sameSite: "None", // Allow cookies to be sent with cross-origin requests
+      sameSite: 'None', // Allow cookies to be sent with cross-origin requests
     };
 
     // Send the data
@@ -372,17 +372,3 @@ const port = process.env.PORT;
 app.listen(port, () => {
   console.log(`Server is listening on the Port ${port}!!`);
 });
-
-// async function updatedocuments() {
-//   try {
-//     // Update all problems to have a default setter if they don't already have one
-//     const result = await User.updateMany(
-//       { picture: { $exists: false } },
-//       { $set: { picture: null } });
-//     console.log(`${result.modifiedCount} users were updated.`);
-//   } catch (error) {
-//     console.error("Error updating Users:", error);
-//   }
-// }
-
-// updatedocuments();
