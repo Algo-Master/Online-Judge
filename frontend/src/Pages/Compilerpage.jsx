@@ -131,7 +131,10 @@ int main() {
     try {
       console.log(document.cookie);
       const { data } = await axios.post(`${compilerUrl}submit`, payload, {
-        withCredentials: true,
+        // withCredentials: true, // Ensure credentials (cookies) are included
+        headers: {
+          Authorization: `Bearer ${token}`, // Add token to header
+        },
       });
       if (data.success) {
         toast.success(data.verdict, { position: "top-center" });
