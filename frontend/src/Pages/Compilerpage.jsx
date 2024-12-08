@@ -128,6 +128,7 @@ int main() {
       code,
       problemId,
     };
+    const token = localStorage.getItem("token");
     try {
       console.log(document.cookie);
       const { data } = await axios.post(`${compilerUrl}submit`, payload, {
