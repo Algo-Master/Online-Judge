@@ -50,7 +50,6 @@ const Loginpage = () => {
       const { success, message, existinguser } = data;
 
       if (success) {
-        console.log(data.token);
         localStorage.setItem("token", data.token); // Save token to localStorage
         handleSuccess(message);
         setUser(existinguser);
