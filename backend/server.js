@@ -121,8 +121,6 @@ app.post("/login", async (req, res) => {
       httpOnly: true, // Cookie cannot be accessed via JavaScript
       secure: true,   // Cookie is sent only over HTTPS
       sameSite: "None", // Required for cross-site cookie usage
-      domain: ".onrender.com", // Allows sharing cookies across subdomains
-      maxAge: 3600000, // Set cookie expiry time (1 hour in milliseconds)
     };
 
     // Send the data
