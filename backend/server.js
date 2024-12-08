@@ -130,6 +130,8 @@ app.post("/login", async (req, res) => {
       message: "You have successfully logged in",
       success: true,
       existinguser,
+      token, // Return the token in the response (This is a temporary fix to the cookie not found error,
+      //by using the authorization headers to send the token to compiler server)
     });
   } catch (error) {
     console.log(error);

@@ -95,9 +95,13 @@ int main() {
       code,
       manualTestCase,
     };
+    const token = localStorage.getItem("token");
     try {
       const { data } = await axios.post(`${compilerUrl}run`, payload, {
-        withCredentials: true, // Ensure credentials (cookies) are included
+        // withCredentials: true, // Ensure credentials (cookies) are included
+        headers: {
+          Authorization: `Bearer ${token}`, // Add token to header
+        },
       });
       setOutput(data.output);
     } catch (error) {
@@ -146,7 +150,6 @@ int main() {
       //   error.response?.data?.error || "An unexpected error occurred";
       // toast.error(errorMessage, { position: "top-center" });
       // setOutput(`Error: ${errorMessage}`);
-      console.log(error.response);
       setOutput(JSON.stringify(error.response.data.message));
     }
   };
