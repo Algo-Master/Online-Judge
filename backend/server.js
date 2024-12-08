@@ -118,8 +118,9 @@ app.post("/login", async (req, res) => {
 
     // Store token in Cookies with options
     const options = {
-      httpOnly: true, // Cookie cannot be accessed via JavaScript
-      secure: true,   // Cookie is sent only over HTTPS
+      expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
+      // httpOnly: true, // Cookie cannot be accessed via JavaScript
+      secure: true, // Cookie is sent only over HTTPS
       sameSite: "None", // Required for cross-site cookie usage
     };
 
