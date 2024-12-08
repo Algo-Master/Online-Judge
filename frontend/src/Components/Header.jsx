@@ -45,6 +45,8 @@ export const Xheader = () => {
       const { success, message } = data;
 
       if (success) {
+        // Clear the token from local storage
+        localStorage.removeItem("token");
         handleSuccess(message);
         setUser(null);
         setIsAuthenticated(false);
